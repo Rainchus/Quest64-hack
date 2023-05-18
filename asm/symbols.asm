@@ -1,0 +1,1 @@
+.definelabel dma_write, 0x80024260 //a0 rom, a1 ram, a2 size
