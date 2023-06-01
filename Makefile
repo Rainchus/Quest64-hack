@@ -48,8 +48,8 @@ genMain:
 	$(file >> $(OUTPUT_FILE),.open "rom/Quest64.z64", "rom/Quest64.mod.z64", 0 // Open the ROM file)
 	$(file >> $(OUTPUT_FILE),.headersize 0x7FFFF400)
 	$(file >> $(OUTPUT_FILE),.org 0x80410000)
-	$(foreach obj_file,$(SOURCES_ASM),$(file >> $(OUTPUT_FILE),.include "$(obj_file)"))
 	$(foreach obj_file,$(OBJECTS),$(file >> $(OUTPUT_FILE),.importobj "$(obj_file)"))
+	$(foreach obj_file,$(SOURCES_ASM),$(file >> $(OUTPUT_FILE),.include "$(obj_file)"))
 	$(file >> $(OUTPUT_FILE),.close //close file)
 
 # Rule for creating the obj folder

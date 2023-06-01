@@ -3,8 +3,9 @@
 .open "rom/Quest64.z64", "rom/Quest64.mod.z64", 0 // Open the ROM file
 .headersize 0x7FFFF400
 .org 0x80410000
+.importobj "obj/main.o"
 .include "asm/Quest64.asm"
 .include "asm/boot.asm"
+.include "asm/dataPatches.asm"
 .include "asm/symbols.asm"
-.importobj "obj/main.o"
 .close //close file
