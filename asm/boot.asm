@@ -171,7 +171,5 @@ NOP
 JR RA
 NOP
 
-.include "asm/symbols.asm"
-
 //.include "asm/registers.asm"
 //.include "asm/printf.asm"
