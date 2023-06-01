@@ -1,7 +1,7 @@
 //Payload related information
 .definelabel PAYLOAD_START_ROM, 0x1000000
-.definelabel PAYLOAD_START_RAM, 0x80410000
-.definelabel PAYLOAD_SIZE, 0x0006E000
+.definelabel PAYLOAD_START_RAM, 0x80400000
+.definelabel PAYLOAD_SIZE, 0x3F0000
 
 PAYLOAD_START:
 .headersize 0x7FFFF400 //ran once on boot
@@ -23,3 +23,7 @@ ADDIU a0, sp, 0x1A0 //restore from hook
 .org 0x80024FF8
 J mainCFunctionWrapper
 SH t6, 0x005C (sp) //restore from hook
+
+.headersize 0x7F374C40
+.org 0x800C0680
+//.word 0x00000000 //(dont actually patch this, just an example)

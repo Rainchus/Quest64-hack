@@ -1,5 +1,4 @@
 .headersize (PAYLOAD_START_RAM - PAYLOAD_START_ROM)
-.org 0x80410000 //ct1.asm max size of 0x1000, otherwise will overwrite ct1.o
 originalCode:
 JAL cBootMain
 NOP
@@ -171,5 +170,21 @@ NOP
 JR RA
 NOP
 
-//.include "asm/registers.asm"
-//.include "asm/printf.asm"
+bossSpellsDpadRight:
+LUI t0, 0x8009
+LBU t1, 0x2874 (t0)
+BEQZ t1, noDpadRight
+ORI t2, r0, 4
+
+LUI t3, 0x8007
+ORI t3, t3, 0xB2E7
+SB t2, 0x0000 (t3)
+
+LUI t3, 0x8007
+ORI t3, t3, 0xBBD1
+SB t2, 0x0000 (t3) //write to byte 8007BBD1
+SB t2, 0x0004 (t3) //write to byte 8007BBD5
+
+noDpadRight:
+JR RA
+NOP
