@@ -24,6 +24,31 @@ typedef double                  f64;
 #define NULL    (void *)0
 #endif
 
+typedef struct Vec2f {
+               f32 x;
+               f32 y;
+} Vec2f;
+typedef struct Vec2s {
+               s16 x;
+               s16 y;
+} Vec2s;
+typedef struct Vec3f {
+               f32 x;
+               f32 y;
+               f32 z;
+} Vec3f;
+typedef struct Vec3s {
+               s32 x;
+               s32 y;
+               s32 z;
+} Vec3s;
+typedef struct Vec4f {
+               f32 x;
+               f32 y;
+               f32 z;
+               f32 w;
+} Vec4f;
+
 /// Linker symbol address, as in `ld_addrs.h`.
 typedef u8 Addr[];
 
