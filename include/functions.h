@@ -9,18 +9,17 @@ extern s8 gCurrentBGM;
 extern u16 gPlayBGM;
 extern u16 gBGMDelay;
 
-typedef struct unkStruct2 {
-/* 0x00 */ f32 unk_00;
-/* 0x04 */ f32 unk_04;
-/* 0x08 */ u8 unk_08;
-} unkStruct2;
+typedef struct SpiritData {
+    f32 xPos;
+    f32 zPos;
+    u8 id;
+} SpiritData;
 
 typedef struct SpiritTable {
 /* 0x00 */ u16 map;
 /* 0x02 */ u16 subMap;
 /* 0x04 */ u16 spiritCount;
-/* 0x06 */ u16 padding;
-/* 0x08 */ unkStruct2* spiritData;
+/* 0x08 */ SpiritData* spiritData;
 } SpiritTable;
 
 typedef struct unkStruct {
