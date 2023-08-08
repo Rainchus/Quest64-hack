@@ -452,7 +452,7 @@ void func_80012220_Hook(void) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(newSpiritTable); i++) {
-        if ((D_80084EE4 != D_8004C510[i].map) || (gNextSubmap != D_8004C510[i].subMap)) {
+        if ((gCurrentMap != newSpiritTable[i].map) || (gNextSubmap != newSpiritTable[i].subMap)) {
             continue;
         } else {
             break;
@@ -460,8 +460,8 @@ void func_80012220_Hook(void) {
     }
     
     if (i < ARRAY_COUNT(newSpiritTable)) {
-        var_s2_2 = D_8004C510[i].spiritCount;
-        var_s1 = D_8004C510[i].spiritData;
+        var_s2_2 = newSpiritTable[i].spiritCount;
+        var_s1 = newSpiritTable[i].spiritData;
         var_s0 = D_80086A08;
         D_80086A00 = var_s2_2;
         for (; var_s2_2 != 0; var_s2_2--) {

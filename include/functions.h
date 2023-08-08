@@ -38,7 +38,7 @@ typedef struct BGMData {
 void func_8000EE60(f32, f32, f32, s32, Vec3f*);
 s16 func_80012700(u8);
 extern SpiritTable D_8004C510[0x2B];
-extern s32 D_80084EE4;
+extern s32 gCurrentMap;
 extern s32 D_80086A00;
 extern unkStruct D_80086A08[];
 extern Vec3f D_80086AC8;

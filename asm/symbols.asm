@@ -6,7 +6,7 @@
 .definelabel func_8000EE60, 0x8000EE60
 .definelabel func_80012700, 0x80012700
 .definelabel D_8004C510, 0x8004C510
-.definelabel D_80084EE4, 0x80084EE4
+.definelabel gCurrentMap, 0x80084EE4
 .definelabel D_80086A00, 0x80086A00
 .definelabel D_80086A08, 0x80086A08
 .definelabel D_80086AC8, 0x80086AC8
