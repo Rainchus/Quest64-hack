@@ -28,6 +28,35 @@ NOP
 J func_80012220_Hook
 NOP
 
+//ROM 0x3ED4
+.org 0x800032D4 //cant pick up spirit if all stats are 99
+ADDIU a0, r0, 0x0063
+
+//ROM 0x42B0
+.org 0x800036B0 //item drop lock
+B 0x800036C0
+
+//ROM 0x4CCC
+.org 0x800040CC //change death jingle sound
+ADDIU a0, r0, 0x001D
+
+//ROM 0x6018 
+.org 0x80005418 //movement speed patch 2.0 -> 2.75
+LUI at, 0x4030
+
+//ROM 0x8220
+.org 0x80007620 //Gain HP Exp until 999
+SLTI at, t7, 0x03E7
+
+//ROM 0x8264
+.org 0x80007664 //??
+ADDIU t5, r0, 0x03E7
+
+//ROM 0x8274
+.org 0x80007674 //Gain HP Levels until 999
+SLTI at, t4, 0x03E7
+
+
 .org 0x80024FC0
 J mainCFunctionWrapper
 ADDIU a0, sp, 0x1A0 //restore from hook
