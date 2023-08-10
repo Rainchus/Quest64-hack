@@ -53,6 +53,10 @@ NOP
 J func_80020D4C_Hook
 NOP
 
+.org 0x800074A0
+J func_800074A0_Hook
+NOP
+
 //ROM 0x3ED4
 .org 0x800032D4 //cant pick up spirit if all stats are 99
 J newSpiritCap

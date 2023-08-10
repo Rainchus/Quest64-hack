@@ -22,12 +22,12 @@ typedef struct SpiritTable {
 /* 0x08 */ SpiritData* spiritData;
 } SpiritTable;
 
-typedef struct unkStruct {
+typedef struct unkStructOriginal {
 /* 0x00 */ Vec4f pos;
 /* 0x10 */ u16 unk_10;
 /* 0x12 */ s16 unk_12;
 /* 0x14 */ u8 unk_14;
-} unkStruct;
+} unkStructOriginal;
 
 typedef struct BGMData {
     s16 map;
@@ -52,16 +52,80 @@ typedef struct temp4 {
 /* 0x01 */ char unk_01[5];
 } temp4;
 
+typedef struct unkStruct4 {
+    char unk00[4];
+    u16 unk4;
+    u16 unk6;
+    u16 unk8;
+    u16 unkA;
+    u16 unkC;
+    u16 unkE;
+    s32 unk10;
+} unkStruct4;
+
+typedef struct unkStruct3 {
+    char unk00[0x64];
+    unkStruct4* unk64;
+} unkStruct3;
+
+typedef struct ElementLevels {
+    u8 fire;
+    u8 earth;
+    u8 water;
+    u8 wind;
+} ElementLevels;
+
+typedef struct unkStruct2 {
+    char unk_00[0x24];
+    ElementLevels elements;
+    u16 unk28;
+    u16 unk2A;
+    u16 unk2C;
+    u16 unk2E;
+    u8 unk30;
+    u8 unk31;
+    u8 unk32;
+    u8 unk33;
+    u8 unk34;
+} unkStruct2;
+
+typedef struct unkStruct {
+    u16 unk0;
+    char unk_02[6];
+    u16 unk8;
+    char unk_0A[6];
+    unkStruct2* unk10;
+
+    //0x34 is a substruct within this struct
+    //char unk_14[0x50]; //unk size
+} unkStruct;
+
+void func_800268D4(s32 arg0, s8 arg1, s32 arg2);
+
 void func_8000EE60(f32, f32, f32, s32, Vec3f*);
 s16 func_80012700(u8);
 extern SpiritTable D_8004C510[0x2B];
 extern s32 gCurrentMap;
 extern s32 D_80086A00;
-extern unkStruct D_80086A08[];
+extern unkStructOriginal D_80086A08[];
 extern Vec3f D_80086AC8;
 extern s32 gNextSubmap;
 extern u8 bossFlags;
 extern unk20e2cs gTex_HUD_and_Menu;
+extern u16 gBattleState;
+extern u16 gAllowBattles;
+extern f32 D_8007BC10;
+extern f32 D_8007BC14;
+extern f32 D_8007BC18;
+extern f32 D_8007BC1C;
+extern f32 D_8007BA5C;
+extern u32 D_80053D3C[];
+extern u16 D_80053ECC[];
+extern s32 D_8007B2E4;
+extern s32 D_8007BA70;
+void AddItemToInventory(u8);
+void func_800120C0(s32);
+void func_8002E768(s32);
 void func_80020D4C(u16 arg0, s32 arg1, s32 arg2, s32 arg3);
 void func_800210FC(unk20e2cs* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
 void func_80020E2C(unk20e2cs* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);

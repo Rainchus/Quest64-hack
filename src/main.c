@@ -452,7 +452,7 @@ void func_8002684C_Hook(s32 nextMap, s32 nextSubmap, u16 delay) {
 
 void func_80012220_Hook(void) {
     s32 var_s2_2;
-    unkStruct* var_s0;
+    unkStructOriginal* var_s0;
     SpiritData* var_s1;
     s32 i;
 
@@ -608,6 +608,126 @@ void func_80020D4C_Hook(u16 arg0, s32 arg1, s32 arg2, s32 arg3) {
 //         }
 //     }
 // }
+
+void func_800074A0_Hook(unkStruct* arg0, unkStruct3* arg1) {
+    u16 var_a0;
+    ElementLevels* elementsInstance;
+
+    if (!(gBattleState & 1)) {
+        if (gAllowBattles & 1) {
+            D_8007BC10 += D_8007BA5C;
+            if (D_8007BC10 > 200.0) {
+                D_8007BC10 -= 200.0;
+            }
+            D_8007BC18 += D_8007BA5C;
+            if (1000.0 < D_8007BC18) { //D_800710F8 is 1000.0
+                D_8007BC18 -= 1000.0;
+                arg0->unk10->unk2C++;
+            }
+        } else {
+            D_8007BC14 += D_8007BA5C;
+            if (D_8007BC14 > 800.0) {
+                D_8007BC14 -= 800.0;
+            }
+            D_8007BC1C += D_8007BA5C;
+            if (2000.0 < D_8007BC1C) { //D_80071100 is 2000.0
+                D_8007BC1C -= 2000.0;
+                arg0->unk10->unk2C++;
+            }
+        }
+    }
+    if (arg1->unk64->unk6 < 500) {
+        if (arg0->unk10->unk28 >= D_80053ECC[arg0->unk10->unk30]) {
+            arg0->unk10->unk28 = arg0->unk10->unk28 - D_80053ECC[arg0->unk10->unk30];
+            var_a0 = 1;
+            if ((arg1->unk64->unk6 + 1) > 500) {
+                var_a0 = 500 - arg1->unk64->unk6;
+            }
+            arg1->unk64->unk6 += var_a0;
+            arg1->unk64->unk4 += var_a0;
+            if (arg0->unk10->unk30 < 54) {
+                arg0->unk10->unk30++;
+            }
+        }
+    } else {
+        arg0->unk10->unk28 = 0;
+    }
+    if (arg1->unk64->unkA < 500) {
+        if (arg0->unk10->unk2A >= D_80053ECC[arg0->unk10->unk31] * 4) {
+            arg0->unk10->unk2A -= D_80053ECC[arg0->unk10->unk31] * 4;
+            var_a0 = 1;
+            if ((arg1->unk64->unkA + 1) > 500) {
+                var_a0 = (500 - arg1->unk64->unkA);
+            }
+            arg1->unk64->unkA += var_a0;
+            arg1->unk64->unk8 += var_a0;
+            if (arg0->unk10->unk31 < 54) {
+                arg0->unk10->unk31++;
+            }
+        }
+    } else {
+        arg0->unk10->unk2A = 0;
+    }
+    if (arg1->unk64->unkC < 255) {
+        if (arg0->unk10->unk2C >= D_80053ECC[arg0->unk10->unk32]) {
+            arg0->unk10->unk2C -= D_80053ECC[arg0->unk10->unk32];
+            var_a0 = 1;
+            if ((arg1->unk64->unkC + 1) > 255) {
+                var_a0 = (255 - arg1->unk64->unkC);
+            }
+            arg1->unk64->unkC += var_a0;
+            if (arg0->unk10->unk32 < 54) {
+                arg0->unk10->unk32++;
+            }
+        }
+    } else {
+        arg0->unk10->unk2C = 0;
+    }
+    if (arg1->unk64->unkE < 255) {
+        if (arg0->unk10->unk2E >= D_80053ECC[arg0->unk10->unk33] * 2) {
+            arg0->unk10->unk2E -= D_80053ECC[arg0->unk10->unk33] * 2;
+            var_a0 = 1;
+            if ((arg1->unk64->unkE + 1) > 255) {
+                var_a0 = (255 - arg1->unk64->unkE);
+            }
+            arg1->unk64->unkE += var_a0;
+            if (arg0->unk10->unk33 < 54) {
+                arg0->unk10->unk33++;
+            }
+        }
+    } else {
+        arg0->unk10->unk2E = 0;
+    }
+    if (!(D_8007B2E4 & 8)) {
+        if (arg0->unk10->unk34 >= 98) {
+            arg1->unk64->unk10 = 0;
+        } else {
+            if (arg1->unk64->unk10 >= D_80053D3C[arg0->unk10->unk34]) {
+                arg1->unk64->unk10 -= D_80053D3C[arg0->unk10->unk34];
+                if (arg0->unk10->unk34 < 98) {
+                    arg0->unk10->unk34++;
+                }
+                elementsInstance = &arg0->unk10->elements;
+                if ((elementsInstance->fire != 50) || (elementsInstance->earth != 50) ||
+                    (elementsInstance->water != 50) || (elementsInstance->wind != 50)) {
+                    D_8007B2E4 |= 8;
+                    arg0->unk0 = 0;
+                    func_800268D4(0, 1, 0xFF);
+                }
+            }
+        }
+    }
+    if (!(D_8007B2E4 & 0xA) && (D_8007BA70 != 255)) {
+        func_800120C0(D_8007BA70);
+        func_8002E768(1);
+        AddItemToInventory(D_8007BA70);
+        D_8007BA70 = 255;
+        arg0->unk8 |= 2;
+        D_8007B2E4 |= 2;
+        func_800268D4(0, 0x3B, 255);
+    }
+}
+
 
 int cBootMain(void) { //ran once on boot
     return 1;
