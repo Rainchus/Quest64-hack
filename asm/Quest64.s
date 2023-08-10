@@ -112,7 +112,37 @@ SLTI at, a0, 0x0064
 .org 0x80007960 //Element Growth Lock
 ADDIU a0, r0, 0x0063
 
+//ROM 0xC8D8
+.org 0x8000BCD8 //player Max HP >= 1000 set to 1000
+SLTI at, v0, 0x03E8
 
+//ROM 0xC8E4
+.org 0x8000BCD8 //set player max hp to 999
+ADDIU t8, r0, 0x03E7
+
+//ROM 0x1F0AC
+.org 0x8001E4A8 //? HUD related
+ADDIU t8, a1, 0x0000
+
+//ROM 0x202F8
+.org 0x8001F6F8 //Fire cap
+J newFireCap
+NOP
+
+//ROM 0x20338
+.org 0x8001F738 //water cap
+J newWaterCap
+NOP
+
+//ROM 0x20378
+.org 0x8001F778 //wind cap
+J newWindCap
+NOP
+
+//ROM 0x203C0
+.org 0x8001F7C0 //earth cap
+J newEarthCap
+NOP
 
 .org 0x80024FC0
 J mainCFunctionWrapper

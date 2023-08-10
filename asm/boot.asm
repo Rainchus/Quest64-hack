@@ -188,3 +188,24 @@ SB t2, 0x0004 (t3) //write to byte 8007BBD5
 noDpadRight:
 JR RA
 NOP
+
+
+newFireCap:
+LBU a0, 0x0024 (v0)
+J 0x8001F700
+SLTI at, a0, 0x0063
+
+newWaterCap:
+LBU a0, 0x0026 (v0)
+J 0x8001F740
+SLTI at, a0, 0x0063
+
+newWindCap:
+LBU a0, 0x0027 (v0)
+J 0x8001F780
+SLTI at, a0, 0x0063
+
+newEarthCap:
+LBU a0, 0x0025 (v0)
+J 0x8001F7C8
+SLTI at, a0, 0x0063
