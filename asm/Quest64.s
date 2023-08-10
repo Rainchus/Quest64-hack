@@ -85,7 +85,7 @@ SLTI at, t5, 0x03E7
 SLTI at, t2, 0x03E8
 
 //ROM 0x841C
-.org 0x8000781C /AGI Scaling Until
+.org 0x8000781C //AGI Scaling Until
 SLTI at, a2, 0x0018
 
 //ROM 0x8450
