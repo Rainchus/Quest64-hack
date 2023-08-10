@@ -56,6 +56,63 @@ ADDIU t5, r0, 0x03E7
 .org 0x80007674 //Gain HP Levels until 999
 SLTI at, t4, 0x03E7
 
+//ROM 0x82B0
+.org 0x800076B0 //HP Scaling Until
+SLTI at, a3, 0x0026
+
+//ROM 0x82F0
+.org 0x800076F0 //Gain MP Levels Until
+SLTI at, t6, 0x03E7
+
+//ROM 0x832C
+.org 0x8000772C //?
+ADDIU t5, r0, 0x03E7
+
+//ROM 0x833C
+.org 0x8000773C //Gain MP Levels Until
+SLTI at, t4, 0x03E8
+
+//ROM 0x8378
+.org 0x80007778 //MP Scaling Until
+SLTI at, a3, 0x0012
+
+//ROM 0x83AC
+.org 0x800077AC //Gain AGI Exp Until
+SLTI at, t5, 0x03E7
+
+//ROM 0x83F4
+.org 0x800077F4 //Gain AGI Levels Until
+SLTI at, t2, 0x03E8
+
+//ROM 0x841C
+.org 0x8000781C /AGI Scaling Until
+SLTI at, a2, 0x0018
+
+//ROM 0x8450
+.org 0x80007850 //Gain DEF Exp Until
+SLTI at, t9, 0x03E7
+
+//ROM 0x849C
+.org 0x8000789C //Gain DEF Levels Until
+SLTI at, t7, 0x03E8
+
+//ROM 0x84C4
+.org 0x800078C4 //DEF Scaling Until
+SLTI at, a2, 0x0001
+
+//ROM 0x8508
+.org 0x80007908 //Element Cap 1
+SLTI at, a0, 0x0126
+
+//ROM 0x8544
+.org 0x80007944 //Element Cap 2
+SLTI at, a0, 0x0064
+
+//ROM 0x8560
+.org 0x80007960 //Element Growth Lock
+ADDIU a0, r0, 0x0063
+
+
 
 .org 0x80024FC0
 J mainCFunctionWrapper
