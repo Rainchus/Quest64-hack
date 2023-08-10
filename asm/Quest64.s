@@ -30,7 +30,8 @@ NOP
 
 //ROM 0x3ED4
 .org 0x800032D4 //cant pick up spirit if all stats are 99
-ADDIU a0, r0, 0x0063
+J newSpiritCap
+NOP
 
 //ROM 0x42B0
 .org 0x800036B0 //item drop lock
@@ -121,8 +122,8 @@ SLTI at, v0, 0x03E8
 ADDIU t8, r0, 0x03E7
 
 //ROM 0x1F0AC
-.org 0x8001E4A8 //? HUD related
-ADDIU t8, a1, 0x0000
+.org 0x8001E4AC //? HUD related
+ADDIU t6, t5, 0x0000
 
 //ROM 0x202F8
 .org 0x8001F6F8 //Fire cap

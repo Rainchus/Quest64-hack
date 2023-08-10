@@ -2,6 +2,7 @@
 
 extern void bossSpellsDpadRight(void);
 
+
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
 
 // BGMData originalBgmTable[] = {
@@ -482,10 +483,25 @@ void func_80012220_Hook(void) {
     }
 }
 
+s32 elementCapsTable[] = {10, 20, 30, 40, 50, 99, 255};
+s32 gTotalBossesBeatenCount = 0;
+
+void SetCurrentBossesBeaten(void) {
+    int totalBossesBeaten = 0;
+    int i;
+
+    for (i = 0; i < 8; i++) {
+        if ((bossFlags >> i) & 1) {
+            totalBossesBeaten++;
+        }
+    }
+    gTotalBossesBeatenCount = totalBossesBeaten;
+}
+
 int cBootMain(void) { //ran once on boot
     return 1;
 }
 
 void mainCFunction(void) { //ran every frame
-    //bossSpellsDpadRight();
+    SetCurrentBossesBeaten();
 }

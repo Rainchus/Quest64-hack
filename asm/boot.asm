@@ -192,20 +192,54 @@ NOP
 
 newFireCap:
 LBU a0, 0x0024 (v0)
+LI at, gTotalBossesBeatenCount
+LW at, 0x0000 (at)
+LI t0, elementCapsTable
+SLL at, at, 2 //multiply by sizeof s32
+ADDU at, at, t0
+LW a1, 0x0000 (at)
 J 0x8001F700
-SLTI at, a0, 0x0063
+SLT at, a0, a1
 
 newWaterCap:
 LBU a0, 0x0026 (v0)
+LI at, gTotalBossesBeatenCount
+LW at, 0x0000 (at)
+LI t0, elementCapsTable
+SLL at, at, 2 //multiply by sizeof s32
+ADDU at, at, t0
+LW a1, 0x0000 (at)
 J 0x8001F740
-SLTI at, a0, 0x0063
+SLT at, a0, a1
 
 newWindCap:
 LBU a0, 0x0027 (v0)
+LI at, gTotalBossesBeatenCount
+LW at, 0x0000 (at)
+LI t0, elementCapsTable
+SLL at, at, 2 //multiply by sizeof s32
+ADDU at, at, t0
+LW a1, 0x0000 (at)
 J 0x8001F780
-SLTI at, a0, 0x0063
+SLT at, a0, a1
 
 newEarthCap:
 LBU a0, 0x0025 (v0)
+LI at, gTotalBossesBeatenCount
+LW at, 0x0000 (at)
+LI t0, elementCapsTable
+SLL at, at, 2 //multiply by sizeof s32
+ADDU at, at, t0
+LW a1, 0x0000 (at)
 J 0x8001F7C8
-SLTI at, a0, 0x0063
+SLT at, a0, a1
+
+newSpiritCap:
+LI at, gTotalBossesBeatenCount
+LW at, 0x0000 (at)
+LI t4, elementCapsTable
+SLL at, at, 2 //multiply by sizeof s32
+ADDU at, at, t4
+LW a0, 0x0000 (at)
+J 0x800032DC
+ORI t8, v1, 0x0008

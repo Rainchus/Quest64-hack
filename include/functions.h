@@ -43,5 +43,6 @@ extern s32 D_80086A00;
 extern unkStruct D_80086A08[];
 extern Vec3f D_80086AC8;
 extern s32 gNextSubmap;
+extern u8 bossFlags;
 
 #endif

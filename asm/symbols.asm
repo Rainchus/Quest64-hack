@@ -12,3 +12,4 @@
 .definelabel D_80086AC8, 0x80086AC8
 .definelabel gNextSubmap, 0x80084EE8
 .definelabel D_80053B00, 0x80053B00
+.definelabel bossFlags, 0x8007D19F
