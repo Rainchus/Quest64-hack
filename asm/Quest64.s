@@ -105,13 +105,15 @@ SLTI at, a2, 0x0001
 .org 0x80007908 //Element Cap 1
 SLTI at, a0, 0x0126
 
-//ROM 0x8544
-.org 0x80007944 //Element Cap 2
-SLTI at, a0, 0x0064
+//ROM 0x8540
+.org 0x80007940 //Element Cap 2
+J elementLevelUpCap
+NOP
 
-//ROM 0x8560
-.org 0x80007960 //Element Growth Lock
-ADDIU a0, r0, 0x0063
+//ROM 0x855C
+.org 0x8000795C //Element Growth Lock
+J elementGrowthLockCap
+NOP
 
 //ROM 0xC8D8
 .org 0x8000BCD8 //player Max HP >= 1000 set to 1000

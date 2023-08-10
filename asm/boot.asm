@@ -243,3 +243,24 @@ ADDU at, at, t4
 LW a0, 0x0000 (at)
 J 0x800032DC
 ORI t8, v1, 0x0008
+
+elementLevelUpCap:
+LBU a0, 0x0034 (v0)
+LI at, gTotalBossesBeatenCount
+LW at, 0x0000 (at)
+LI t4, elementCapsTable
+SLL at, at, 2 //multiply by sizeof s32
+ADDU at, at, t4
+LW at, 0x0000 (at)
+J 0x80007948
+SLT at, a0, at
+
+elementGrowthLockCap:
+LBU t1, 0x0000 (v1)
+LI at, gTotalBossesBeatenCount
+LW at, 0x0000 (at)
+LI t4, elementCapsTable
+SLL at, at, 2 //multiply by sizeof s32
+ADDU at, at, t4
+J 0x80007964
+LW a0, 0x0000 (at)
