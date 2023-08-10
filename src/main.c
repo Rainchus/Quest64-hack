@@ -507,16 +507,6 @@ typedef struct Vec2Int {
     s32 y;
 } Vec2Int;
 
-
-
-static Vec2Int TextOffset = {-4, 8};
-
-static s32 elementPositions = 0;
-/*
-00000010 FFFFFFF0 00000000 00000000
-00000010 00000010 00000020 00000000
-*/
-
 Vec2Int iconPositionsTriangle[] = {
     {16, -16},
     {0, 0},

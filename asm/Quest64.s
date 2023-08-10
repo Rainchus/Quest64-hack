@@ -128,7 +128,7 @@ SLTI at, a2, 0x0001
 
 //ROM 0x8508
 .org 0x80007908 //Element Cap 1
-SLTI at, a0, 0x0126
+SLTI at, a0, 0x018C
 
 //ROM 0x8540
 .org 0x80007940 //Element Cap 2
