@@ -107,7 +107,7 @@ SLTI at, a0, 0x0126
 
 //ROM 0x8540
 .org 0x80007940 //Element Cap 2
-J elementLevelUpCap
+J elementLevelUpCap2
 NOP
 
 //ROM 0x855C
@@ -146,6 +146,18 @@ NOP
 .org 0x8001F7C0 //earth cap
 J newEarthCap
 NOP
+
+.org 0x8001EC68
+ADDIU a1, r0, 0x001C //move earth element icon
+
+.org 0x8001ECA4
+ADDIU a1, r0, 0x0038 //move water element icon
+
+.org 0x8001ECE0
+ADDIU a1, r0, 0x0054 //move wind element icon
+
+.org 0x8001ED3C
+ADDIU s0, s0, 0x001C //set element text spacing
 
 .org 0x80024FC0
 J mainCFunctionWrapper

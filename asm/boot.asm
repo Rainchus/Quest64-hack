@@ -244,7 +244,7 @@ LW a0, 0x0000 (at)
 J 0x800032DC
 ORI t8, v1, 0x0008
 
-elementLevelUpCap:
+elementLevelUpCap2:
 LBU a0, 0x0034 (v0)
 LI at, gTotalBossesBeatenCount
 LW at, 0x0000 (at)
