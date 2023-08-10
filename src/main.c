@@ -2,6 +2,10 @@
 
 extern void bossSpellsDpadRight(void);
 
+s32 fireElementLevelUpTextXPos[] = {135, 131, 135, 0};
+s32 earthElementLevelUpTextXPos[] = {117, 112, 119, 0};
+s32 waterElementLevelUpTextXPos[] = {135, 131, 117, 0};
+s32 windElementLevelUpTextXPos[] = {153, 150, 153, 0};
 
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
 
@@ -497,6 +501,123 @@ void SetCurrentBossesBeaten(void) {
     }
     gTotalBossesBeatenCount = totalBossesBeaten;
 }
+
+typedef struct Vec2Int {
+    s32 x;
+    s32 y;
+} Vec2Int;
+
+
+
+static Vec2Int TextOffset = {-4, 8};
+
+static s32 elementPositions = 0;
+/*
+00000010 FFFFFFF0 00000000 00000000
+00000010 00000010 00000020 00000000
+*/
+
+Vec2Int iconPositionsTriangle[] = {
+    {16, -16},
+    {0, 0},
+    {16, 16},
+    {32, 0},
+};
+
+Vec2Int iconPositionsVertical[] = {
+    {-4, -42},
+    {-4, -24},
+    {-4, -6},
+    {-4, 12},
+};
+
+Vec2Int iconPositionsOriginal[] = {
+    {6, 6},
+    {28, 6},
+    {50, 6},
+    {72, 6},
+};
+
+extern u16 buttonsHeld;
+
+void func_8001EBDC_Hook(unk1ebdcs* arg0) {
+    s32 i;
+    void* HUDTex;
+
+    HUDTex = &gTex_HUD_and_Menu;
+    func_800210FC(HUDTex, iconPositionsTriangle[0].x - 6 , iconPositionsTriangle[0].y - 6, 0xC, 0xC, 0x20, 0x10, 0x400, 0x400);
+    func_800210FC(HUDTex, iconPositionsTriangle[1].x - 6 , iconPositionsTriangle[1].y - 6, 0xC, 0xC, 0x2C, 0x10, 0x400, 0x400);
+    func_800210FC(HUDTex, iconPositionsTriangle[2].x - 6 , iconPositionsTriangle[2].y - 6, 0xC, 0xC, 0x38, 0x10, 0x400, 0x400);
+    func_800210FC(HUDTex, iconPositionsTriangle[3].x - 6 , iconPositionsTriangle[3].y - 6, 0xC, 0xC, 0x44, 0x10, 0x400, 0x400);
+
+    func_80020E2C(HUDTex, 0x20, 0x1D, 0x80, 0xA);
+    
+    for (i = 0; i < 4; i++) {
+        func_80020D4C(1, iconPositionsTriangle[i].x, iconPositionsTriangle[i].y, arg0->unk24[i]);
+    }
+}
+
+void func_80020D4C_Hook(u16 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    u8 *var_s1;
+    u8 sp48[0xC];
+    s32 var_s2;
+
+    var_s1 = sp48;
+    var_s2 = int_to_str_with_flags(arg3, sp48, arg0);
+    for (;var_s2 != 0; var_s2--, var_s1++) {
+        if (*var_s1 != ' ') {
+            func_80020F8C(arg1, arg2, 8, 0xA, (*var_s1 * 8) + ' ', 0x1D, 0x400, 0x400);
+            arg1 += 7;
+        } else {
+            if (arg0 & 6) {
+                arg1 += 7;
+            }
+        }
+    }
+}
+
+// void func_8001EBDC_Hook_DpadToggle(unk1ebdcs* arg0) {
+//     s32 i;
+//     void* HUDTex;
+
+//     if (buttonsHeld & 0x0800) {
+//         elementPositions = 1;
+//     } else if (buttonsHeld & 0x0400) {
+//         elementPositions = 2;
+//     } else {
+//         elementPositions = 0;
+//     }
+
+//     HUDTex = &gTex_HUD_and_Menu;
+//     if (elementPositions == 1) {
+//         func_800210FC(HUDTex, iconPositionsVertical[0].x - 6 , iconPositionsVertical[0].y - 6, 0xC, 0xC, 0x20, 0x10, 0x400, 0x400);
+//         func_800210FC(HUDTex, iconPositionsVertical[1].x - 6 , iconPositionsVertical[1].y - 6, 0xC, 0xC, 0x2C, 0x10, 0x400, 0x400);
+//         func_800210FC(HUDTex, iconPositionsVertical[2].x - 6 , iconPositionsVertical[2].y - 6, 0xC, 0xC, 0x38, 0x10, 0x400, 0x400);
+//         func_800210FC(HUDTex, iconPositionsVertical[3].x - 6 , iconPositionsVertical[3].y - 6, 0xC, 0xC, 0x44, 0x10, 0x400, 0x400);
+//     } else if (elementPositions == 2) {
+//         func_800210FC(HUDTex, iconPositionsTriangle[0].x - 6 , iconPositionsTriangle[0].y - 6, 0xC, 0xC, 0x20, 0x10, 0x400, 0x400);
+//         func_800210FC(HUDTex, iconPositionsTriangle[1].x - 6 , iconPositionsTriangle[1].y - 6, 0xC, 0xC, 0x2C, 0x10, 0x400, 0x400);
+//         func_800210FC(HUDTex, iconPositionsTriangle[2].x - 6 , iconPositionsTriangle[2].y - 6, 0xC, 0xC, 0x38, 0x10, 0x400, 0x400);
+//         func_800210FC(HUDTex, iconPositionsTriangle[3].x - 6 , iconPositionsTriangle[3].y - 6, 0xC, 0xC, 0x44, 0x10, 0x400, 0x400);
+//     } else {
+//         func_800210FC(HUDTex, iconPositionsOriginal[0].x - 6, iconPositionsOriginal[0].y - 6, 0xC, 0xC, 0x20, 0x10, 0x400, 0x400);
+//         func_800210FC(HUDTex, iconPositionsOriginal[1].x - 6, iconPositionsOriginal[1].y - 6, 0xC, 0xC, 0x2C, 0x10, 0x400, 0x400);
+//         func_800210FC(HUDTex, iconPositionsOriginal[2].x - 6, iconPositionsOriginal[2].y - 6, 0xC, 0xC, 0x38, 0x10, 0x400, 0x400);
+//         func_800210FC(HUDTex, iconPositionsOriginal[3].x - 6, iconPositionsOriginal[3].y - 6, 0xC, 0xC, 0x44, 0x10, 0x400, 0x400);
+//     }
+
+//     func_80020E2C(HUDTex, 0x20, 0x1D, 0x80, 0xA);
+    
+//     for (i = 0; i < 4; i++) {
+//         if (elementPositions == 1) {
+//             func_80020D4C(1, iconPositionsVertical[i].x, iconPositionsVertical[i].y, arg0->unk24[i]);
+//         } else if (elementPositions == 2) {
+//             func_80020D4C(1, iconPositionsTriangle[i].x, iconPositionsTriangle[i].y, arg0->unk24[i]);
+//         } else {
+//             func_80020D4C(1, iconPositionsOriginal[i].x, iconPositionsOriginal[i].y, arg0->unk24[i]);
+//         }
+//     }
+// }
 
 int cBootMain(void) { //ran once on boot
     return 1;

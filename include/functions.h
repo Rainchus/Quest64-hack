@@ -35,6 +35,23 @@ typedef struct BGMData {
     s8 BGM_ID;
 } BGMData;
 
+typedef struct unk1ebdcs {
+    char unk0[0x24];
+    u8 unk24[1]; // some size
+} unk1ebdcs;
+
+typedef struct unk20e2cs {
+    void* unk0;
+    s32 unk4;
+    s32 unk8;
+    s32 unkC;
+} unk20e2cs;
+
+typedef struct temp4 {
+/* 0x00 */ u8 unk_00;
+/* 0x01 */ char unk_01[5];
+} temp4;
+
 void func_8000EE60(f32, f32, f32, s32, Vec3f*);
 s16 func_80012700(u8);
 extern SpiritTable D_8004C510[0x2B];
@@ -44,5 +61,12 @@ extern unkStruct D_80086A08[];
 extern Vec3f D_80086AC8;
 extern s32 gNextSubmap;
 extern u8 bossFlags;
+extern unk20e2cs gTex_HUD_and_Menu;
+void func_80020D4C(u16 arg0, s32 arg1, s32 arg2, s32 arg3);
+void func_800210FC(unk20e2cs* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
+void func_80020E2C(unk20e2cs* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+void func_80020B4C(temp4* arg0, s32 arg1, s32 arg2, u8* arg3);
+void func_80020F8C(s32 ulx, s32 uly, s32 lrx, s32 lry, s32 s, s32 t, s32 dsdx, s32 dtdy);
+s32 int_to_str_with_flags(s32 arg0, u8* arg1, u16 arg2);
 
 #endif

@@ -16,6 +16,23 @@ ADDIU a2, a2, lo(PAYLOAD_SIZE)
 J originalCode
 NOP
 
+.org 0x8001F684 //fire element level up text
+J fireElementLevelUpText
+NOP
+
+.org 0x8001F69C //earth element level up text
+J earthElementLevelUpText
+NOP
+
+.org 0x8001F6B4 //water element level up text
+J waterElementLevelUpText
+NOP
+
+.org 0x8001F6CC //wind element level up text
+J windElementLevelUpText
+NOP
+
+
 .org 0x80012244
 LI v0, NewSpiritTable
 LI a0, 0x80084EE8
@@ -26,6 +43,14 @@ NOP
 
 .org 0x80012220
 J func_80012220_Hook
+NOP
+
+.org 0x8001EBDC
+J func_8001EBDC_Hook
+NOP
+
+.org 0x80020D4C
+J func_80020D4C_Hook
 NOP
 
 //ROM 0x3ED4

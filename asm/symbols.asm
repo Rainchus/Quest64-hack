@@ -13,3 +13,11 @@
 .definelabel gNextSubmap, 0x80084EE8
 .definelabel D_80053B00, 0x80053B00
 .definelabel bossFlags, 0x8007D19F
+.definelabel gTex_HUD_and_Menu, 0x803A6F40
+.definelabel func_80020D4C, 0x80020D4C
+.definelabel func_800210FC, 0x800210FC
+.definelabel func_80020E2C, 0x80020E2C
+.definelabel func_80020B4C, 0x80020B4C
+.definelabel buttonsHeld, 0x80092874
+.definelabel func_80020F8C, 0x80020F8C
+.definelabel int_to_str_with_flags, 0x80024330

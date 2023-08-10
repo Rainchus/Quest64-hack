@@ -191,76 +191,203 @@ NOP
 
 
 newFireCap:
-LBU a0, 0x0024 (v0)
-LI at, gTotalBossesBeatenCount
-LW at, 0x0000 (at)
-LI t0, elementCapsTable
-SLL at, at, 2 //multiply by sizeof s32
-ADDU at, at, t0
-LW a1, 0x0000 (at)
-J 0x8001F700
-SLT at, a0, a1
+    LBU a0, 0x0024 (v0)
+    LI at, gTotalBossesBeatenCount
+    LW at, 0x0000 (at)
+    LI t0, elementCapsTable
+    SLL at, at, 2 //multiply by sizeof s32
+    ADDU at, at, t0
+    LW a1, 0x0000 (at)
+    J 0x8001F700
+    SLT at, a0, a1
 
 newWaterCap:
-LBU a0, 0x0026 (v0)
-LI at, gTotalBossesBeatenCount
-LW at, 0x0000 (at)
-LI t0, elementCapsTable
-SLL at, at, 2 //multiply by sizeof s32
-ADDU at, at, t0
-LW a1, 0x0000 (at)
-J 0x8001F740
-SLT at, a0, a1
+    LBU a0, 0x0026 (v0)
+    LI at, gTotalBossesBeatenCount
+    LW at, 0x0000 (at)
+    LI t0, elementCapsTable
+    SLL at, at, 2 //multiply by sizeof s32
+    ADDU at, at, t0
+    LW a1, 0x0000 (at)
+    J 0x8001F740
+    SLT at, a0, a1
 
 newWindCap:
-LBU a0, 0x0027 (v0)
-LI at, gTotalBossesBeatenCount
-LW at, 0x0000 (at)
-LI t0, elementCapsTable
-SLL at, at, 2 //multiply by sizeof s32
-ADDU at, at, t0
-LW a1, 0x0000 (at)
-J 0x8001F780
-SLT at, a0, a1
+    LBU a0, 0x0027 (v0)
+    LI at, gTotalBossesBeatenCount
+    LW at, 0x0000 (at)
+    LI t0, elementCapsTable
+    SLL at, at, 2 //multiply by sizeof s32
+    ADDU at, at, t0
+    LW a1, 0x0000 (at)
+    J 0x8001F780
+    SLT at, a0, a1
 
 newEarthCap:
-LBU a0, 0x0025 (v0)
-LI at, gTotalBossesBeatenCount
-LW at, 0x0000 (at)
-LI t0, elementCapsTable
-SLL at, at, 2 //multiply by sizeof s32
-ADDU at, at, t0
-LW a1, 0x0000 (at)
-J 0x8001F7C8
-SLT at, a0, a1
+    LBU a0, 0x0025 (v0)
+    LI at, gTotalBossesBeatenCount
+    LW at, 0x0000 (at)
+    LI t0, elementCapsTable
+    SLL at, at, 2 //multiply by sizeof s32
+    ADDU at, at, t0
+    LW a1, 0x0000 (at)
+    J 0x8001F7C8
+    SLT at, a0, a1
 
 newSpiritCap:
-LI at, gTotalBossesBeatenCount
-LW at, 0x0000 (at)
-LI t4, elementCapsTable
-SLL at, at, 2 //multiply by sizeof s32
-ADDU at, at, t4
-LW a0, 0x0000 (at)
-J 0x800032DC
-ORI t8, v1, 0x0008
+    LI at, gTotalBossesBeatenCount
+    LW at, 0x0000 (at)
+    LI t4, elementCapsTable
+    SLL at, at, 2 //multiply by sizeof s32
+    ADDU at, at, t4
+    LW a0, 0x0000 (at)
+    J 0x800032DC
+    ORI t8, v1, 0x0008
 
 elementLevelUpCap2:
-LBU a0, 0x0034 (v0)
-LI at, gTotalBossesBeatenCount
-LW at, 0x0000 (at)
-LI t4, elementCapsTable
-SLL at, at, 2 //multiply by sizeof s32
-ADDU at, at, t4
-LW at, 0x0000 (at)
-J 0x80007948
-SLT at, a0, at
+    LBU a0, 0x0034 (v0)
+    LI at, gTotalBossesBeatenCount
+    LW at, 0x0000 (at)
+    LI t4, elementCapsTable
+    SLL at, at, 2 //multiply by sizeof s32
+    ADDU at, at, t4
+    LW at, 0x0000 (at)
+    J 0x80007948
+    SLT at, a0, at
 
 elementGrowthLockCap:
-LBU t1, 0x0000 (v1)
-LI at, gTotalBossesBeatenCount
-LW at, 0x0000 (at)
-LI t4, elementCapsTable
-SLL at, at, 2 //multiply by sizeof s32
-ADDU at, at, t4
-J 0x80007964
-LW a0, 0x0000 (at)
+    LBU t1, 0x0000 (v1)
+    LI at, gTotalBossesBeatenCount
+    LW at, 0x0000 (at)
+    LI t4, elementCapsTable
+    SLL at, at, 2 //multiply by sizeof s32
+    ADDU at, at, t4
+    J 0x80007964
+    LW a0, 0x0000 (at)
+
+fireElementLevelUpText:
+    LBU	A3, 0xBAA4 (A3)
+    LI a2, fireElementLevelUpTextXPos
+    SLTI a1, a3, 10
+    BNEZ a1, isLessThan10fire
+    NOP
+    SLTI a1, a3, 100 //if less than 0
+    BNEZ a1, isLessThan100fire
+    NOP
+    //else, is 3 digits
+    LI a0, 2
+    BEQ r0, r0, shiftValueFire
+    NOP
+
+    isLessThan10fire:
+    LI a0, 0 //shift amount
+    BEQ r0, r0, shiftValueFire
+    NOP
+
+    isLessThan100fire:
+    LI a0, 1
+    BEQ r0, r0, shiftValueFire
+    NOP
+
+    shiftValueFire:
+    SLL a0, a0, 2 //multiply by sizeof s32
+    ADDU a2, a2, a0
+    LW a1, 0x0000 (a2)
+    ADDIU a0, r0, 0x0003
+    J 0x8001F68C
+    NOP
+
+
+earthElementLevelUpText:
+    LI a2, earthElementLevelUpTextXPos
+    SLTI a1, a3, 10
+    BNEZ a1, isLessThan10Earth
+    NOP
+    SLTI a1, a3, 100 //if less than 0
+    BNEZ a1, isLessThan100Earth
+    NOP
+    //else, is 3 digits
+    LI a0, 2
+    BEQ r0, r0, shiftValueEarth
+    NOP
+
+    isLessThan10Earth:
+    LI a0, 0 //shift amount
+    BEQ r0, r0, shiftValueEarth
+    NOP
+
+    isLessThan100Earth:
+    LI a0, 1
+    BEQ r0, r0, shiftValueEarth
+    NOP
+
+    shiftValueEarth:
+    SLL a0, a0, 2 //multiply by sizeof s32
+    ADDU a2, a2, a0
+    LW a1, 0x0000 (a2)
+    ADDIU a0, r0, 0x0003
+    J 0x8001F6A4
+    NOP
+
+waterElementLevelUpText:
+    LI a2, waterElementLevelUpTextXPos
+    SLTI a1, a3, 10
+    BNEZ a1, isLessThan10water
+    NOP
+    SLTI a1, a3, 100 //if less than 0
+    BNEZ a1, isLessThan100water
+    NOP
+    //else, is 3 digits
+    LI a0, 2
+    BEQ r0, r0, shiftValuewater
+    NOP
+
+    isLessThan10water:
+    LI a0, 0 //shift amount
+    BEQ r0, r0, shiftValuewater
+    NOP
+
+    isLessThan100water:
+    LI a0, 1
+    BEQ r0, r0, shiftValuewater
+    NOP
+
+    shiftValuewater:
+    SLL a0, a0, 2 //multiply by sizeof s32
+    ADDU a2, a2, a0
+    LW a1, 0x0000 (a2)
+    ADDIU a0, r0, 0x0003
+    J 0x8001F6BC
+    NOP
+
+
+windElementLevelUpText:
+    LI a2, windElementLevelUpTextXPos
+    SLTI a1, a3, 10
+    BNEZ a1, isLessThan10wind
+    NOP
+    SLTI a1, a3, 100 //if less than 0
+    BNEZ a1, isLessThan100wind
+    NOP
+    //else, is 3 digits
+    LI a0, 2
+    BEQ r0, r0, shiftValuewind
+    NOP
+
+    isLessThan10wind:
+    LI a0, 0 //shift amount
+    BEQ r0, r0, shiftValuewind
+    NOP
+
+    isLessThan100wind:
+    LI a0, 1
+    BEQ r0, r0, shiftValuewind
+    NOP
+
+    shiftValuewind:
+    SLL a0, a0, 2 //multiply by sizeof s32
+    ADDU a2, a2, a0
+    LW a1, 0x0000 (a2)
+    ADDIU a0, r0, 0x0003
+    J 0x8001F6D4
+    NOP
