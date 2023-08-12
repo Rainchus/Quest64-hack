@@ -12,7 +12,7 @@
 .definelabel D_80086AC8, 0x80086AC8
 .definelabel gNextSubmap, 0x80084EE8
 .definelabel D_80053B00, 0x80053B00
-.definelabel bossFlags, 0x8007D19F
+.definelabel bossFlags, 0x8007D19C
 .definelabel gTex_HUD_and_Menu, 0x803A6F40
 .definelabel func_80020D4C, 0x80020D4C
 .definelabel func_800210FC, 0x800210FC
@@ -28,10 +28,10 @@
 .definelabel D_8007BC18, 0x8007BC18
 .definelabel D_8007BC1C, 0x8007BC1C
 .definelabel D_8007BA5C, 0x8007BA5C
-.definelabel D_80053D3C, 0x80053D3C
+.definelabel expRequiredPerElementLevel, 0x80053D3C
 .definelabel D_80053ECC, 0x80053ECC
-.definelabel D_8007B2E4, 0x8007B2E4
-.definelabel D_8007BA70, 0x8007BA70
+.definelabel gGameState, 0x8007B2E4
+.definelabel itemReceived, 0x8007BA70
 .definelabel AddItemToInventory, 0x800212A0
 .definelabel func_800120C0, 0x800120C0
 .definelabel func_8002E768, 0x8002E768

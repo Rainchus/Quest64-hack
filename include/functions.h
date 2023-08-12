@@ -60,7 +60,7 @@ typedef struct unkStruct4 {
     u16 unkA;
     u16 unkC;
     u16 unkE;
-    s32 unk10;
+    s32 expGained;
 } unkStruct4;
 
 typedef struct unkStruct3 {
@@ -86,11 +86,11 @@ typedef struct unkStruct2 {
     u8 unk31;
     u8 unk32;
     u8 unk33;
-    u8 unk34;
+    u8 levels;
 } unkStruct2;
 
 typedef struct unkStruct {
-    u16 unk0;
+    u16 movementState;
     char unk_02[6];
     u16 unk8;
     char unk_0A[6];
@@ -119,10 +119,10 @@ extern f32 D_8007BC14;
 extern f32 D_8007BC18;
 extern f32 D_8007BC1C;
 extern f32 D_8007BA5C;
-extern u32 D_80053D3C[];
+extern u32 expRequiredPerElementLevel[];
 extern u16 D_80053ECC[];
-extern s32 D_8007B2E4;
-extern s32 D_8007BA70;
+extern s32 gGameState;
+extern s32 itemReceived;
 void AddItemToInventory(u8);
 void func_800120C0(s32);
 void func_8002E768(s32);
