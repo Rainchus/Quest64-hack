@@ -708,8 +708,9 @@ void func_800074A0_Hook(unkStruct* arg0, unkStruct3* arg1) {
         if ((elementsInstance->fire + elementsInstance->earth + elementsInstance->water + elementsInstance->wind) >= elementCapsTable[gTotalBossesBeatenCount] * 4) {
             arg1->unk64->expGained = 0;
         } else {
-            if (arg0->unk10->levels >= 100) {
-                levelIndex = 100;
+            levelIndex = arg0->unk10->levels;
+            if (arg0->unk10->levels >= 99) {
+                levelIndex = 99;
             }
             if (arg1->unk64->expGained >= expRequiredPerElementLevel[levelIndex]) {
                 arg1->unk64->expGained -= expRequiredPerElementLevel[levelIndex];
