@@ -615,6 +615,7 @@ void func_80020D4C_Hook(u16 arg0, s32 arg1, s32 arg2, s32 arg3) {
 void func_800074A0_Hook(unkStruct* arg0, unkStruct3* arg1) {
     u16 var_a0;
     ElementLevels* elementsInstance;
+    s32 levelIndex;
 
     if (!(gBattleState & 1)) {
         if (gAllowBattles & 1) {
@@ -707,8 +708,11 @@ void func_800074A0_Hook(unkStruct* arg0, unkStruct3* arg1) {
         if ((elementsInstance->fire + elementsInstance->earth + elementsInstance->water + elementsInstance->wind) >= elementCapsTable[gTotalBossesBeatenCount] * 4) {
             arg1->unk64->expGained = 0;
         } else {
-            if (arg1->unk64->expGained >= expRequiredPerElementLevel[arg0->unk10->levels]) {
-                arg1->unk64->expGained -= expRequiredPerElementLevel[arg0->unk10->levels];
+            if (arg0->unk10->levels >= 100) {
+                levelIndex = 100;
+            }
+            if (arg1->unk64->expGained >= expRequiredPerElementLevel[levelIndex]) {
+                arg1->unk64->expGained -= expRequiredPerElementLevel[levelIndex];
                 //remove level up cap check. just level up no matter what
                 arg0->unk10->levels++;
 
