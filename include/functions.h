@@ -75,8 +75,10 @@ typedef struct ElementLevels {
     u8 wind;
 } ElementLevels;
 
-typedef struct unkStruct2 {
-    char unk_00[0x24];
+typedef struct Player {
+    char unk_00[0x10];
+    s32 unk_10;
+    char unk_14[0x10];
     ElementLevels elements;
     u16 unk28;
     u16 unk2A;
@@ -87,14 +89,14 @@ typedef struct unkStruct2 {
     u8 unk32;
     u8 unk33;
     u8 levels;
-} unkStruct2;
+} Player;
 
 typedef struct unkStruct {
     u16 movementState;
     char unk_02[6];
     u16 unk8;
     char unk_0A[6];
-    unkStruct2* unk10;
+    Player* unk10;
 
     //0x34 is a substruct within this struct
     //char unk_14[0x50]; //unk size
@@ -123,6 +125,17 @@ extern u32 expRequiredPerElementLevel[];
 extern u16 D_80053ECC[];
 extern s32 gGameState;
 extern s32 itemReceived;
+extern s8 D_8005F0C0[];
+extern s32 D_8008FD10;
+extern s32 D_80053D3C[];
+extern u16 D_8008FD0C;
+extern s8 D_80092871;
+extern u16 D_80092876;
+extern s32 D_8008FD04;
+extern s32 D_8008FD08;
+void func_8002A0B8(s32, s32);
+void func_8002AB64(s32, s32, s32, s32, s32);
+void func_80029B58(s32, s32, s32, s32, s32);
 void AddItemToInventory(u8);
 void func_800120C0(s32);
 void func_8002E768(s32);
@@ -132,5 +145,6 @@ void func_80020E2C(unk20e2cs* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void func_80020B4C(temp4* arg0, s32 arg1, s32 arg2, u8* arg3);
 void func_80020F8C(s32 ulx, s32 uly, s32 lrx, s32 lry, s32 s, s32 t, s32 dsdx, s32 dtdy);
 s32 int_to_str_with_flags(s32 arg0, u8* arg1, u16 arg2);
+extern Player gPlayerData;
 
 #endif

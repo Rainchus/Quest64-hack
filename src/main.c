@@ -1,495 +1,100 @@
 #include "../include/Quest64.h"
 
+#define MAX_LEVEL 98
+#define MAX_HP 500
+#define MAX_MP 500
+#define MAX_AGI 255
+#define MAX_DEF 255
+
 //0x8007BA74 spawns a speech bubble when set to 0x00000010
 //0x8007BA90 exp gain
 extern void bossSpellsDpadRight(void);
+extern u16 buttonsHeld;
 
 s32 fireElementLevelUpTextXPos[] = {135, 131, 135, 0};
 s32 earthElementLevelUpTextXPos[] = {117, 112, 119, 0};
 s32 waterElementLevelUpTextXPos[] = {135, 131, 135, 0};
 s32 windElementLevelUpTextXPos[] = {153, 150, 153, 0};
 
-s32 elementCapsTable[] = {10, 20, 30, 40, 50, 99, 255};
+s32 elementCapsTable[] = {10, 20, 30, 40, 40, 50, 99, 255, 255};
 s32 gTotalBossesBeatenCount = 0;
 
-#define MAX_LEVEL 98
-#define ARRAY_COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
+void func_80029448_Hook(s32 arg0) {
+    s32 var_s0;
+    s32 temp_s0;
 
-// BGMData originalBgmTable[] = {
-//     {0, 2, 33},
-//     {0, 3, 33},
-//     {0, 4, 33},
-//     {11, 4, 255},
-//     {11, 3, 255},
-//     {11, 5, 255},
-//     {11, 7, 255},
-//     {11, 6, 255},
-//     {0, -1, 2},
-//     {1, -1, 25},
-//     {2, -1, 21},
-//     {3, -1, 21},
-//     {4, -1, 34},
-//     {5, -1, 21},
-//     {6, -1, 37},
-//     {7, -1, 21},
-//     {8, -1, 36},
-//     {9, -1, 22},
-//     {10, -1, 5},
-//     {11, -1, 39},
-//     {12, -1, 26},
-//     {14, 13, 33},
-//     {15, 13, 33},
-//     {22, 24, 33},
-//     {22, 25, 33},
-//     {23, 0, 7},
-//     {23, 1, 7},
-//     {23, 2, 7},
-//     {23, 3, 7},
-//     {23, 4, 7},
-//     {23, 5, 7},
-//     {23, 19, 7},
-//     {23, 20, 7},
-//     {23, 21, 7},
-//     {25, 6, 33},
-//     {25, 7, 33},
-//     {13, -1, 15},
-//     {14, -1, 3},
-//     {15, -1, 7},
-//     {16, -1, 7},
-//     {17, -1, 7},
-//     {18, -1, 7},
-//     {19, -1, 7},
-//     {20, -1, 7},
-//     {21, -1, 8},
-//     {22, -1, 7},
-//     {23, -1, 39},
-//     {24, -1, 5},
-//     {25, -1, 6},
-//     {26, 2, 9},
-//     {26, 3, 11},
-//     {26, 4, 11},
-//     {30, 6, 255},
-//     {31, 1, 35},
-//     {31, 2, 24},
-//     {32, 1, 12},
-//     {32, 2, 12},
-//     {33, 1, 12},
-//     {33, 2, 12},
-//     {34, 1, 38},
-//     {26, -1, 23},
-//     {27, -1, 10},
-//     {28, -1, 1},
-//     {29, -1, 18},
-//     {30, -1, 31},
-//     {31, -1, 12},
-//     {32, -1, 24},
-//     {33, -1, 24},
-//     {34, -1, 33},
-//     {35, -1, 14},
-// };
-BGMData newBgmTable[] = {
-{0, 2, 33},
-{0, 3, 17},
-{0, 4, 17},
-{11, 4, 255},
-{11, 3, 255},
-{11, 5, 255},
-{11, 7, 255},
-{11, 6, 255},
-{0, -1, 16},
-{1, -1, 25},
-{2, -1, 21},
-{3, -1, 21},
-{4, -1, 34},
-{5, -1, 21},
-{6, -1, 37},
-{7, -1, 21},
-{8, -1, 36},
-{9, -1, 22},
-{10, -1, 5},
-{11, -1, 39},
-{12, -1, 26},
-{14, 13, 33},
-{15, 13, 17},
-{22, 24, 33},
-{22, 25, 33},
-{23, 0, 7},
-{23, 1, 7},
-{23, 2, 7},
-{13, 16, 33},
-{13, 13, 33},
-{23, 5, 7},
-{23, 19, 7},
-{23, 20, 7},
-{23, 21, 7},
-{25, 6, 33},
-{25, 7, 33},
-{13, 14, 33},
-{14, -1, 3},
-{15, -1, 7},
-{16, -1, 7},
-{17, -1, 7},
-{18, -1, 7},
-{19, -1, 7},
-{20, -1, 7},
-{21, -1, 8},
-{22, -1, 7},
-{23, -1, 39},
-{24, -1, 5},
-{25, -1, 6},
-{26, 2, 9},
-{26, 3, 11},
-{26, 4, 11},
-{13, -1, 15},
-{31, 1, 35},
-{31, 2, 24},
-{32, 1, 12},
-{32, 2, 12},
-{33, 1, 12},
-{33, 2, 12},
-{34, 1, 38},
-{26, -1, 23},
-{27, -1, 10},
-{28, -1, 1},
-{29, -1, 18},
-{30, -1, 31},
-{31, -1, 12},
-{32, -1, 24},
-{33, -1, 24},
-{34, -1, 33},
-{35, -1, 14},
-};
-
-SpiritData MelrodeTownSpirits[] = {
-    {-188.5f, -503.5f, 0},
-};
-
-SpiritData OutsideMonasterySpirits[] = {
-    {1165.0f, 754.5f, 1},
-};
-
-SpiritData DondoranCastleTownSpirits[] = {
-    {-108.0f, 9.0f, 2},
-};
-
-SpiritData HolyPlainSpirits[] = {
-    {70.0f, -982.5f, 3},
-    {812.5f, 175.0f, 4},
-};
-
-SpiritData DondoranFlatsSpirits[] = {
-    {-472.5f, 882.5f, 5},
-    {157.5f, 7.5f, 6},
-    {2.5f, 1250.0f, 7},
-};
-
-SpiritData DrainedLowerLarapoolSpirits[] = {
-    {243.0f, -133.0f, 8},
-    {16.0f, 366.0f, 9},
-    {597.0f, 199.0f, 10},
-};
-
-SpiritData WestCarmaghSpirits[] = {
-    {705.0f, -55.0f, 11},
-    {55.0f, 515.0f, 12},
-    {-415.0f, -650.0f, 13},
-};
-
-SpiritData NormoonSpirits[] = {
-    {200.0f, 152.5f, 14},
-    {195.0f, 5.0f, 15},
-    {220.0f, -107.5f, 16},
-};
-
-SpiritData EastLimelinSpirits[] = {
-    {1105.0f, -1535.0f, 17},
-    {1180.0f, -720.0f, 18},
-    {-800.0f, -155.0f, 19},
-    {1040.0f, -1760.0f, 20},
-};
-
-SpiritData LimelinCastleTownSpirits[] = {
-    {-768.0f, 462.0f, 21},
-    {-412.0f, -339.0f, 22},
-    {189.0f, -405.0f, 23},
-    {670.0f, 239.0f, 24},
-};
-
-SpiritData LimelinCastleFrontSpirits[] = {
-    {0.0f, 170.0f, 25},
-};
-
-SpiritData DindomDriesSpirits[] = {
-    {-1990.0f, -415.0f, 26},
-    {-1740.0f, -520.0f, 27},
-    {325.0f, -310.0f, 28},
-    {-680.0f, 350.0f, 29},
-    {2700.0f, -2100.0f, 30},
-    {-2010.0f, 200.0f, 31},
-};
-
-SpiritData ShamwoodSpirits[] = {
-    {-120.0f, 460.0f, 32},
-    {-82.5f, -1037.5f, 33},
-};
-
-SpiritData ShamwoodUnkSpirits[] = {
-    {-115.0f, 122.5f, 34},
-    {30.0f, 225.0f, 35},
-};
-
-SpiritData BrannochCastleFrontSpirits[] = {
-    {-2140.0f, 325.0f, 36},
-};
-
-SpiritData BrannochMoorSpirits[] = {
-    {484.5f, 153.0f, 37},
-    {336.0f, 34.0f, 38},
-    {-586.0f, 220.5f, 39},
-    {-325.0f, -324.0f, 40},
-};
-
-SpiritData IsleOfSkyeSpirits[] = {
-    {622.5f, -30.0f, 41},
-    {450.0f, 20.0f, 42},
-    {977.5f, 465.0f, 43},
-    {207.5f, -77.5f, 44},
-};
-
-SpiritData BlueCaveSpirits[] = {
-    {-800.0f, 1920.0f, 45},
-    {-10.0f, 1000.0f, 46},
-    {1260.0f, 1060.0f, 47},
-    {1312.5f, 4992.5f, 48},
-    {2090.0f, 5192.5f, 49},
-    {1797.5f, 5685.0f, 50},
-};
-
-SpiritData BlueCaveBuildingAreaSpirits[] = {
-    {-13.5f, 179.5f, 51},
-};
-
-SpiritData CullHazardSpirits[] = {
-    {1085.0f, 1320.0f, 52},
-    {1422.5f, 1260.0f, 53},
-};
-
-SpiritData BaragoonTunnelSpirits[] = {
-    {-2880.0f, -335.0f, 54},
-    {4725.0f, 1800.0f, 55},
-    {3012.5f, 1620.0f, 56},
-    {2847.0f, 1960.0f, 57},
-    {-197.5f, 972.5f, 58},
-};
-
-SpiritData BoilHoleSpirits[] = {
-    {7174.0f, -1274.0f, 59},
-    {5272.0f, 1038.0f, 60},
-};
-
-SpiritData SecretRoomSpirits[] = {
-    {100.0f, -100.0f, 61},
-};
-
-SpiritData PrinceLeonardoArrivedSpirits[] = {
-    {76.5f, -43.5f, 62},
-};
-
-SpiritData ConnorFortressSpirits[] = {
-    {-142.0f, 304.0f, 63},
-    {1374.0f, -940.0f, 64},
-    {2030.0f, -142.0f, 65},
-    {-582.0f, 310.0f, 66},
-};
-
-SpiritData FortressBuildingSpirits[] = {
-    {5.15f, 2.85f, 67},
-};
-
-SpiritData GlencoeForestSpirits[] = {
-    {452.0f, 439.0f, 68},
-    {-298.0f, 333.0f, 69},
-    {-721.0f, 326.0f, 70},
-    {-873.0f, -722.0f, 71},
-    {-1077.0f, 141.0f, 72},
-    {-1330.0f, 177.0f, 73},
-};
-
-SpiritData WindwardForestSpirits[] = {
-    {301.0f, -159.0f, 74},
-    {-494.0f, 189.0f, 75},
-    {450.0f, 225.0f, 76},
-};
-
-SpiritData CabinSpirits[] = {
-    {-4.0f, 25.0f, 77},
-};
-
-SpiritData SecretRoomSecretSpirits[] = {
-    {16.0f, 0.0f, 78},
-};
-
-SpiritData KingsSecretRoomSpirits[] = {
-    {-22.5f, 31.5f, 79},
-};
-
-SpiritData MarionsSpirits[] = {
-    {-22.0f, -19.0f, 80},
-};
-
-SpiritData LimelinCastleEntranceSpirits[] = {
-    {-5.0f, 80.0f, 81},
-    {5.0f, 80.0f, 82},
-};
-
-SpiritData LibrarySpirits[] = {
-    {-53.0f, 28.0f, 83},
-};
-
-SpiritData JailRoomSpirits[] = {
-    {0.0f, 0.0f, 84},
-};
-
-SpiritData MineCabinSpirits[] = {
-    {-5.0f, 25.0f, 85},
-    {-32.0f, -20.5f, 86},
-};
-
-SpiritData DesertTentSpirits[] = {
-    {27.0f, 27.5f, 87},
-};
-
-SpiritData UpstairsSpirits[] = {
-   {4.5f, 5.5f, 88},
-};
-
-SpiritData LavaarsTreasureChamberSpirits[] = {
-    {-25.0f, 25.0f, 89},
-    {25.0f, 25.0f, 90},
-    {-25.0f, -25.0f, 91},
-    {25.0f, -25.0f, 92},
-};
-
-SpiritData TreasureTombJackpotSpirits[] = {
-    {10.0f, 80.0f, 93},
-    {-10.0f, 80.0f, 94},
-};
-
-SpiritData SkyePortalSpirits[] = {
-    {27.0f, 13.5f, 95},
-};
-
-SpiritData MacrensShipRoomSpirits[] = {
-    {18.0f, -7.0f, 96},
-};
-
-SpiritData InsideDondoranShip[] = {
-    {-34.0f, 25.0f, 97},
-};
-
-SpiritTable newSpiritTable[] = {
-    //mapID, submap, spiritCount, pad, spiritLocations
-    {0, 0,  ARRAY_COUNT(MelrodeTownSpirits),            MelrodeTownSpirits},
-    {0, 1,  ARRAY_COUNT(OutsideMonasterySpirits),       OutsideMonasterySpirits},
-    {1, 0,  ARRAY_COUNT(DondoranCastleTownSpirits),     DondoranCastleTownSpirits},
-    {2, 0,  ARRAY_COUNT(HolyPlainSpirits),              HolyPlainSpirits},
-    {3, 0,  ARRAY_COUNT(DondoranFlatsSpirits),          DondoranFlatsSpirits},
-    {4, 2,  ARRAY_COUNT(DrainedLowerLarapoolSpirits),   DrainedLowerLarapoolSpirits},
-    {5, 0,  ARRAY_COUNT(WestCarmaghSpirits),            WestCarmaghSpirits},
-    {6, 0,  ARRAY_COUNT(NormoonSpirits),                NormoonSpirits},
-    {7, 0,  ARRAY_COUNT(EastLimelinSpirits),            EastLimelinSpirits},
-    {8, 0,  ARRAY_COUNT(LimelinCastleTownSpirits),      LimelinCastleTownSpirits},
-    {8, 1,  ARRAY_COUNT(LimelinCastleFrontSpirits),     LimelinCastleFrontSpirits},
-    {9, 0,  ARRAY_COUNT(DindomDriesSpirits),            DindomDriesSpirits},
-    {0xA, 0, ARRAY_COUNT(ShamwoodSpirits),              ShamwoodSpirits},
-    {0xA, 1, ARRAY_COUNT(ShamwoodUnkSpirits),           ShamwoodUnkSpirits},
-    {0xB, 1, ARRAY_COUNT(BrannochCastleFrontSpirits),   BrannochCastleFrontSpirits},
-    {0xB, 2, ARRAY_COUNT(BrannochMoorSpirits),          BrannochMoorSpirits},
-    {0xC, 0, ARRAY_COUNT(IsleOfSkyeSpirits),            IsleOfSkyeSpirits},
-    {0x1A, 0, ARRAY_COUNT(BlueCaveSpirits),             BlueCaveSpirits},
-    {0x1A, 2, ARRAY_COUNT(BlueCaveBuildingAreaSpirits), BlueCaveBuildingAreaSpirits},
-    {0x1B, 0, ARRAY_COUNT(CullHazardSpirits),           CullHazardSpirits},
-    {0x1C, 0, ARRAY_COUNT(BaragoonTunnelSpirits),       BaragoonTunnelSpirits},
-    {0x1D, 0, ARRAY_COUNT(BoilHoleSpirits),             BoilHoleSpirits},
-    {0x1E, 8, ARRAY_COUNT(SecretRoomSpirits),           SecretRoomSpirits},
-    {0x1E, 0xF, ARRAY_COUNT(PrinceLeonardoArrivedSpirits), PrinceLeonardoArrivedSpirits},
-    {0x1F, 0, ARRAY_COUNT(ConnorFortressSpirits),       ConnorFortressSpirits},
-    {0x1F, 2, ARRAY_COUNT(FortressBuildingSpirits),     FortressBuildingSpirits},
-    {0x20, 0, ARRAY_COUNT(GlencoeForestSpirits),        GlencoeForestSpirits},
-    {0x21, 0, ARRAY_COUNT(WindwardForestSpirits),       WindwardForestSpirits},
-    {0x21, 1, ARRAY_COUNT(CabinSpirits),                CabinSpirits},
-    {0xE, 0xF, ARRAY_COUNT(SecretRoomSecretSpirits),    SecretRoomSecretSpirits},
-    {0xE, 0xC, ARRAY_COUNT(KingsSecretRoomSpirits),     KingsSecretRoomSpirits},
-    {0x10, 0x15, ARRAY_COUNT(MarionsSpirits),           MarionsSpirits},
-    {0x15, 0, ARRAY_COUNT(LimelinCastleEntranceSpirits), LimelinCastleEntranceSpirits},
-    {0x15, 6, ARRAY_COUNT(LibrarySpirits),              LibrarySpirits},
-    {0x16, 1, ARRAY_COUNT(JailRoomSpirits),             JailRoomSpirits},
-    {0x16, 0x17, ARRAY_COUNT(MineCabinSpirits),         MineCabinSpirits},
-    {0x17, 0x13, ARRAY_COUNT(DesertTentSpirits),        DesertTentSpirits},
-    {0x17, 0x17, ARRAY_COUNT(UpstairsSpirits),          UpstairsSpirits},
-    {0x18, 0, ARRAY_COUNT(LavaarsTreasureChamberSpirits), LavaarsTreasureChamberSpirits},
-    {0x18, 2, ARRAY_COUNT(TreasureTombJackpotSpirits),  TreasureTombJackpotSpirits},
-    {0x19, 1, ARRAY_COUNT(SkyePortalSpirits),           SkyePortalSpirits},
-    {0x19, 4, ARRAY_COUNT(MacrensShipRoomSpirits),      MacrensShipRoomSpirits},
-    {0x19, 9, ARRAY_COUNT(InsideDondoranShip),          InsideDondoranShip},
-};
-
-void func_8002684C_Hook(s32 nextMap, s32 nextSubmap, u16 delay) {
-    s32 mapNum;
-    BGMData* bgmData;
-
-    bgmData = newBgmTable;
-    //bgmData = &D_80053B00;
-
-    for (mapNum = ARRAY_COUNT(newBgmTable); mapNum != 0; mapNum--) {
-        if ((nextMap == bgmData->map) && ((nextSubmap == bgmData->subMap) || (bgmData->subMap == -1))) {
-            break;
-        }
-        bgmData++;
-    }
-    if (mapNum != 0) {
-        if (gCurrentBGM != bgmData->BGM_ID) {
-            gCurrentBGM = bgmData->BGM_ID;
-            gPlayBGM |= 1;
-            gBGMDelay = delay;
-        }
-    }
-}
-
-void func_80012220_Hook(void) {
-    s32 var_s2_2;
-    unkStructOriginal* var_s0;
-    SpiritData* var_s1;
-    s32 i;
-
-    for (i = 0; i < ARRAY_COUNT(newSpiritTable); i++) {
-        if ((gCurrentMap != newSpiritTable[i].map) || (gNextSubmap != newSpiritTable[i].subMap)) {
-            continue;
-        } else {
-            break;
-        }
+    func_80029B58(0, arg0 + 0x28, 0x1E, 0xF0, 0x9F);
+    func_80029B58(0x37, arg0 + 0x2B, 0xBE, 0xF0, 3);
+    func_80029B58(0x37, arg0 + 0x119, 0x24, 2, 0x9A);
+    temp_s0 = arg0 + 0x27;
+    func_80029B58(0x37, temp_s0, 0x1D, 0xF2, 1);
+    func_80029B58(0x37, temp_s0, 0xBD, 0xF2, 1);
+    func_80029B58(0x37, temp_s0, 0x1E, 1, 0x9F);
+    func_80029B58(0x37, arg0 + 0x118, 0x1E, 1, 0x9F);
+    temp_s0 = arg0 + 0x29;
+    func_80029B58(0x38, temp_s0, 0x1F, 0xED, 1);
+    func_80029B58(0x38, temp_s0, 0x20, 1, 0x9B);
+    func_80029B58(0x39, temp_s0, 0xBB, 0xEE, 1);
+    func_80029B58(0x39, arg0 + 0x116, 0x1F, 1, 0x9C);
+    func_80029B58(5, arg0 + 0x45, 0x1C, 7, 7);
+    func_80029B58(5, arg0 + 0xF3, 0x1C, 7, 7);
+    temp_s0 = D_8005F0C0[(D_8008FD10 >> 2) & 0xF];
+    func_80029B58(6, arg0 + temp_s0 + 0x36, 0x1A, 0xE, 0xB);
+    func_80029B58(7, (arg0 - temp_s0) + 0xFB, 0x1A, 0xE, 0xB);
+    func_80029B58(0x2D, arg0 + 0x81, 0x19, 0x3A, 0x10);
+    temp_s0 = arg0 + 0xA5;
+    func_80029B58(0x32, temp_s0, 0x35, 0x35, 6);
+    func_80029B58(0x32, arg0 + 0x31, 0x78, 0x35, 6);
+    func_80029B58(0x32, arg0 + 0xD9, 0x78, 0x35, 6);
+    func_80029B58(0x32, temp_s0, 0xAE, 0x35, 6);
+    temp_s0 = arg0 + 0x86;
+    func_80029B58(0x14, temp_s0, 0x34, 8, 0xA);
+    func_80029B58(0x14, arg0 + 0x47, 0x6B, 8, 0xA);
+    func_80029B58(0x14, arg0 + 0xF0, 0x6B, 8, 0xA);
+    func_80029B58(0x14, temp_s0, 0xAD, 8, 0xA);
+    temp_s0 = arg0 + 0x9A;
+    func_80029B58(0x2E, temp_s0, 0x3D, 0xC, 0xC);
+    func_80029B58(0x2F, arg0 + 0x67, 0x6F, 0xC, 0xC);
+    func_80029B58(0x30, arg0 + 0xCC, 0x6F, 0xC, 0xC);
+    func_80029B58(0x31, temp_s0, 0xA1, 0xC, 0xC);
+    func_80029B58(0x15, arg0 + 0xA7, 0x92, 8, 0xA);
+    temp_s0 = arg0 + 0x8D;
+    func_8002AB64(2, temp_s0, 0x34, 0x32U, 0xA);
+    func_8002AB64(2, arg0 + 0x4E, 0x6B, 0x32U, 0xA);
+    func_8002AB64(2, arg0 + 0xF7, 0x6B, 0x32U, 0xA);
+    func_8002AB64(2, temp_s0, 0xAD, 0x32U, 0xA);
+    func_8002AB64(2, arg0 + 0x78, 0x34, gPlayerData.elements.fire, 0xA);
+    func_8002AB64(2, arg0 + 0x39, 0x6B, gPlayerData.elements.earth, 0xA);
+    func_8002AB64(2, arg0 + 0xE2, 0x6B, gPlayerData.elements.wind, 0xA);
+    func_8002AB64(2, arg0 + 0x78, 0xAD, gPlayerData.elements.water, 0xA);
+    //var_s0 = arg0 + 0xA6;
+    func_80029B58(0x33, arg0 + 0xA6, 0x36, (s32) (((f32) gPlayerData.elements.fire / 50.0f) * 50.0f), 3);
+    func_80029B58(0x33, arg0 + 0x32, 0x79, (s32) ((gPlayerData.elements.earth / 50.0f) * 50.0f), 3);
+    func_80029B58(0x33, arg0 + 0xDA, 0x79, (s32) ((gPlayerData.elements.wind / 50.0f) * 50.0f), 3);
+    func_80029B58(0x33, arg0 + 0xA6, 0xAF, (s32) ((gPlayerData.elements.water / 50.0f) * 50.0f), 3);
+    
+    var_s0 = (gPlayerData.unk_10 * 100) / (u32) D_80053D3C[gPlayerData.levels];
+    
+    if (var_s0 > 100) {
+        var_s0 = 100;
     }
     
-    if (i < ARRAY_COUNT(newSpiritTable)) {
-        var_s2_2 = newSpiritTable[i].spiritCount;
-        var_s1 = newSpiritTable[i].spiritData;
-        var_s0 = D_80086A08;
-        D_80086A00 = var_s2_2;
-        for (; var_s2_2 != 0; var_s2_2--) {
-            var_s0->unk_12 = -1;
-            var_s0->unk_10 = func_80012700(var_s1->id);
-            var_s0->pos.x = var_s1->xPos;
-            var_s0->pos.z = -var_s1->zPos;
-            func_8000EE60(var_s0->pos.x, 0.0f, var_s0->pos.z, 0xA00, &D_80086AC8);
-            var_s0->pos.y = D_80086AC8.y;
-            var_s0->pos.w = 0.0f;
-            var_s0->unk_14 = var_s1->id;
-            var_s1++;
-            var_s0++;
-                      
+    func_8002AB64(3, arg0 + 0x91, 0x92, var_s0, 0xA);
+    func_8002A0B8(var_s0, arg0);
+    if (!(D_8008FD0C & 0x2000)) {
+        if ((D_80092871 >= 0x15) || (D_80092876 & 0x10)) {
+            D_8008FD04 = 0x140;
+            D_8008FD08 = 0;
+            D_8008FD0C = D_8008FD0C | 0x2000;
+            func_800268D4(0, 0, 0xFF);
+            return;
         }
-    } else {
-        D_80086A00 = 0;
+        if ((D_80092871 < -0x14) || (D_80092876 & 0x2000)) {
+            D_8008FD04 = 0;
+            D_8008FD08 = -0x140;
+            D_8008FD0C = D_8008FD0C | 0x3000;
+            func_800268D4(0, 0, 0xFF);
+        }
     }
 }
 
@@ -530,8 +135,6 @@ Vec2Int iconPositionsOriginal[] = {
     {50, 6},
     {72, 6},
 };
-
-extern u16 buttonsHeld;
 
 void func_8001EBDC_Hook(unk1ebdcs* arg0) {
     s32 i;
@@ -723,7 +326,7 @@ void func_800074A0_Hook(unkStruct* arg0, unkStruct3* arg1) {
                     (elementsInstance->water != elementCapsTable[gTotalBossesBeatenCount]) ||
                     (elementsInstance->wind != elementCapsTable[gTotalBossesBeatenCount])) {
                     gGameState |= LEVEL_UP_MENU;
-                    arg0->movementState = IDLE;
+                    arg0->movementState = 0; //IDLE = 0
                     func_800268D4(0, 1, 0xFF);
                 }
             }
@@ -862,6 +465,10 @@ void func_800074A0_Hook(unkStruct* arg0, unkStruct3* arg1) {
 
 int cBootMain(void) { //ran once on boot
     return 1;
+}
+
+void capMaxHP(void) {
+    
 }
 
 void mainCFunction(void) { //ran every frame

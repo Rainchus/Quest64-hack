@@ -36,3 +36,15 @@
 .definelabel func_800120C0, 0x800120C0
 .definelabel func_8002E768, 0x8002E768
 .definelabel func_800268d4, 0x800268d4
+.definelabel D_8005F0C0, 0x8005F0C0
+.definelabel gPlayerData, 0x8007BA80
+.definelabel D_80053D3C, 0x80053D3C
+.definelabel D_8008FD0C, 0x8008FD0C
+.definelabel D_80092871, 0x80092871
+.definelabel D_80092876, 0x80092876
+.definelabel D_8008FD04, 0x8008FD04
+.definelabel D_8008FD08, 0x8008FD08
+.definelabel func_80029B58, 0x80029B58
+.definelabel func_8002AB64, 0x8002AB64
+.definelabel func_8002A0B8, 0x8002A0B8
+.definelabel D_8008FD10, 0x8008FD10

@@ -1,5 +1,5 @@
-#ifndef _ENUMS_H
-#define _ENUMS_H
+#ifndef _ENUMS_H_
+#define _ENUMS_H_
 
 enum GameStates {
     NONE = 0,
@@ -9,15 +9,15 @@ enum GameStates {
     LEVEL_UP_MENU = 8,
 };
 
-enum BrainStates {
-    IDLE = 0,
-    WALKING = 1,
-    RUNNING = 2,
-    LOCKED = 3,
-    SLIDING = 4,
-    CASTING = 0xE,
-    VICTORY_ANIMATION = 0xF,
-} BrainStates;
+// enum BrianStates {
+//     IDLE = 0,
+//     WALKING = 1,
+//     RUNNING = 2,
+//     LOCKED = 3,
+//     SLIDING = 4,
+//     CASTING = 0xE,
+//     VICTORY_ANIMATION = 0xF,
+// } BrianStates;
 
 // 0000 = Normal
 // 0001 = Item Menu
