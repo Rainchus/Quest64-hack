@@ -275,9 +275,9 @@ SpiritTable newSpiritTable[] = {
 };
 
 void func_80012220_Hook(void) {
-    s32 var_s2_2;
+    s32 spiritCount;
     unkStructOriginal* var_s0;
-    SpiritData* var_s1;
+    SpiritData* spiritData;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(newSpiritTable); i++) {
@@ -289,22 +289,21 @@ void func_80012220_Hook(void) {
     }
     
     if (i < ARRAY_COUNT(newSpiritTable)) {
-        var_s2_2 = newSpiritTable[i].spiritCount;
-        var_s1 = newSpiritTable[i].spiritData;
+        spiritCount = newSpiritTable[i].spiritCount;
+        spiritData = newSpiritTable[i].spiritData;
         var_s0 = D_80086A08;
-        D_80086A00 = var_s2_2;
-        for (; var_s2_2 != 0; var_s2_2--) {
+        D_80086A00 = spiritCount;
+        for (; spiritCount != 0; spiritCount--) {
             var_s0->unk_12 = -1;
-            var_s0->unk_10 = func_80012700(var_s1->id);
-            var_s0->pos.x = var_s1->xPos;
-            var_s0->pos.z = -var_s1->zPos;
+            var_s0->unk_10 = func_80012700(spiritData->id);
+            var_s0->pos.x = spiritData->xPos;
+            var_s0->pos.z = -spiritData->zPos;
             func_8000EE60(var_s0->pos.x, 0.0f, var_s0->pos.z, 0xA00, &D_80086AC8);
             var_s0->pos.y = D_80086AC8.y;
-            var_s0->pos.w = 0.0f;
-            var_s0->unk_14 = var_s1->id;
-            var_s1++;
-            var_s0++;
-                      
+            var_s0->unk_0C = 0.0f;
+            var_s0->spiritID = spiritData->id;
+            spiritData++;
+            var_s0++;          
         }
     } else {
         D_80086A00 = 0;

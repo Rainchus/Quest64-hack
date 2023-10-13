@@ -215,7 +215,11 @@ void func_80020D4C_Hook(u16 arg0, s32 arg1, s32 arg2, s32 arg3) {
 //     }
 // }
 
-void func_800074A0_Hook(unkStruct* arg0, unkStruct3* arg1) {
+//gPlayerData, 0x8007BA80
+//unkStruct* arg0 is 0x8007BAB8
+//unkStruct3* arg1 is 0x8007BACC
+
+void func_800074A0_Hook(PlayerData* arg0, unkStruct3* arg1) {
     u16 var_a0;
     ElementLevels* elementsInstance;
     s32 levelIndex;
@@ -229,7 +233,7 @@ void func_800074A0_Hook(unkStruct* arg0, unkStruct3* arg1) {
             D_8007BC18 += D_8007BA5C;
             if (1000.0 < D_8007BC18) { //D_800710F8 is 1000.0
                 D_8007BC18 -= 1000.0;
-                arg0->unk10->unk2C++;
+                arg0->playerStats->unk2C++;
             }
         } else {
             D_8007BC14 += D_8007BA5C;
@@ -239,88 +243,88 @@ void func_800074A0_Hook(unkStruct* arg0, unkStruct3* arg1) {
             D_8007BC1C += D_8007BA5C;
             if (2000.0 < D_8007BC1C) { //D_80071100 is 2000.0
                 D_8007BC1C -= 2000.0;
-                arg0->unk10->unk2C++;
+                arg0->playerStats->unk2C++;
             }
         }
     }
     if (arg1->unk64->unk6 < 500) {
-        if (arg0->unk10->unk28 >= D_80053ECC[arg0->unk10->unk30]) {
-            arg0->unk10->unk28 = arg0->unk10->unk28 - D_80053ECC[arg0->unk10->unk30];
+        if (arg0->playerStats->unk28 >= D_80053ECC[arg0->playerStats->unk30]) {
+            arg0->playerStats->unk28 = arg0->playerStats->unk28 - D_80053ECC[arg0->playerStats->unk30];
             var_a0 = 1;
             if ((arg1->unk64->unk6 + 1) > 500) {
                 var_a0 = 500 - arg1->unk64->unk6;
             }
             arg1->unk64->unk6 += var_a0;
             arg1->unk64->unk4 += var_a0;
-            if (arg0->unk10->unk30 < 54) {
-                arg0->unk10->unk30++;
+            if (arg0->playerStats->unk30 < 54) {
+                arg0->playerStats->unk30++;
             }
         }
     } else {
-        arg0->unk10->unk28 = 0;
+        arg0->playerStats->unk28 = 0;
     }
     if (arg1->unk64->unkA < 500) {
-        if (arg0->unk10->unk2A >= D_80053ECC[arg0->unk10->unk31] * 4) {
-            arg0->unk10->unk2A -= D_80053ECC[arg0->unk10->unk31] * 4;
+        if (arg0->playerStats->unk2A >= D_80053ECC[arg0->playerStats->unk31] * 4) {
+            arg0->playerStats->unk2A -= D_80053ECC[arg0->playerStats->unk31] * 4;
             var_a0 = 1;
             if ((arg1->unk64->unkA + 1) > 500) {
                 var_a0 = (500 - arg1->unk64->unkA);
             }
             arg1->unk64->unkA += var_a0;
             arg1->unk64->unk8 += var_a0;
-            if (arg0->unk10->unk31 < 54) {
-                arg0->unk10->unk31++;
+            if (arg0->playerStats->unk31 < 54) {
+                arg0->playerStats->unk31++;
             }
         }
     } else {
-        arg0->unk10->unk2A = 0;
+        arg0->playerStats->unk2A = 0;
     }
     if (arg1->unk64->unkC < 255) {
-        if (arg0->unk10->unk2C >= D_80053ECC[arg0->unk10->unk32]) {
-            arg0->unk10->unk2C -= D_80053ECC[arg0->unk10->unk32];
+        if (arg0->playerStats->unk2C >= D_80053ECC[arg0->playerStats->unk32]) {
+            arg0->playerStats->unk2C -= D_80053ECC[arg0->playerStats->unk32];
             var_a0 = 1;
             if ((arg1->unk64->unkC + 1) > 255) {
                 var_a0 = (255 - arg1->unk64->unkC);
             }
             arg1->unk64->unkC += var_a0;
-            if (arg0->unk10->unk32 < 54) {
-                arg0->unk10->unk32++;
+            if (arg0->playerStats->unk32 < 54) {
+                arg0->playerStats->unk32++;
             }
         }
     } else {
-        arg0->unk10->unk2C = 0;
+        arg0->playerStats->unk2C = 0;
     }
     if (arg1->unk64->unkE < 255) {
-        if (arg0->unk10->unk2E >= D_80053ECC[arg0->unk10->unk33] * 2) {
-            arg0->unk10->unk2E -= D_80053ECC[arg0->unk10->unk33] * 2;
+        if (arg0->playerStats->unk2E >= D_80053ECC[arg0->playerStats->unk33] * 2) {
+            arg0->playerStats->unk2E -= D_80053ECC[arg0->playerStats->unk33] * 2;
             var_a0 = 1;
             if ((arg1->unk64->unkE + 1) > 255) {
                 var_a0 = (255 - arg1->unk64->unkE);
             }
             arg1->unk64->unkE += var_a0;
-            if (arg0->unk10->unk33 < 54) {
-                arg0->unk10->unk33++;
+            if (arg0->playerStats->unk33 < 54) {
+                arg0->playerStats->unk33++;
             }
         }
     } else {
-        arg0->unk10->unk2E = 0;
+        arg0->playerStats->unk2E = 0;
     }
     if (!(gGameState & LEVEL_UP_MENU)) {
         //replace max level capping XP and make it so that it checks element levels instead
-        elementsInstance = &arg0->unk10->elements;
+        elementsInstance = &arg0->playerStats->elements;
         if ((elementsInstance->fire + elementsInstance->earth + elementsInstance->water + elementsInstance->wind) >= elementCapsTable[gTotalBossesBeatenCount] * 4) {
             arg1->unk64->expGained = 0;
         } else {
-            levelIndex = arg0->unk10->levels;
-            if (arg0->unk10->levels >= 99) {
+            levelIndex = arg0->playerStats->levels;
+            if (arg0->playerStats->levels >= 99) {
                 levelIndex = 99;
             }
             if (arg1->unk64->expGained >= expRequiredPerElementLevel[levelIndex]) {
                 arg1->unk64->expGained -= expRequiredPerElementLevel[levelIndex];
                 //remove level up cap check. just level up no matter what
-                arg0->unk10->levels++;
+                arg0->playerStats->levels++;
 
-                elementsInstance = &arg0->unk10->elements;
+                elementsInstance = &arg0->playerStats->elements;
                 if ((elementsInstance->fire != elementCapsTable[gTotalBossesBeatenCount]) ||
                     (elementsInstance->earth != elementCapsTable[gTotalBossesBeatenCount]) ||
                     (elementsInstance->water != elementCapsTable[gTotalBossesBeatenCount]) ||
@@ -343,7 +347,7 @@ void func_800074A0_Hook(unkStruct* arg0, unkStruct3* arg1) {
     }
 }
 
-// void func_800074A0_Hook(unkStruct* arg0, unkStruct3* arg1) {
+// void func_800074A0_Hook(PlayerData* arg0, unkStruct3* arg1) {
 //     u16 var_a0;
 //     ElementLevels* elementsInstance;
 

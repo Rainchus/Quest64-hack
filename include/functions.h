@@ -23,10 +23,11 @@ typedef struct SpiritTable {
 } SpiritTable;
 
 typedef struct unkStructOriginal {
-/* 0x00 */ Vec4f pos;
+/* 0x00 */ Vec3f pos;
+/* 0x0C */ f32 unk_0C;
 /* 0x10 */ u16 unk_10;
 /* 0x12 */ s16 unk_12;
-/* 0x14 */ u8 unk_14;
+/* 0x14 */ u8 spiritID;
 } unkStructOriginal;
 
 typedef struct BGMData {
@@ -75,7 +76,7 @@ typedef struct ElementLevels {
     u8 wind;
 } ElementLevels;
 
-typedef struct Player {
+typedef struct PlayerStats {
     char unk_00[0x10];
     s32 unk_10;
     char unk_14[0x10];
@@ -89,18 +90,15 @@ typedef struct Player {
     u8 unk32;
     u8 unk33;
     u8 levels;
-} Player;
+} PlayerStats;
 
-typedef struct unkStruct {
+typedef struct PlayerData {
     u16 movementState;
     char unk_02[6];
     u16 unk8;
     char unk_0A[6];
-    Player* unk10;
-
-    //0x34 is a substruct within this struct
-    //char unk_14[0x50]; //unk size
-} unkStruct;
+    PlayerStats* playerStats;
+} PlayerData;
 
 void func_800268D4(s32 arg0, s8 arg1, s32 arg2);
 
@@ -145,6 +143,6 @@ void func_80020E2C(unk20e2cs* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void func_80020B4C(temp4* arg0, s32 arg1, s32 arg2, u8* arg3);
 void func_80020F8C(s32 ulx, s32 uly, s32 lrx, s32 lry, s32 s, s32 t, s32 dsdx, s32 dtdy);
 s32 int_to_str_with_flags(s32 arg0, u8* arg1, u16 arg2);
-extern Player gPlayerData;
+extern PlayerStats gPlayerData;
 
 #endif
