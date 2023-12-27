@@ -391,3 +391,72 @@ windElementLevelUpText:
     ADDIU a0, r0, 0x0003
     J 0x8001F6D4
     NOP
+
+elementAttackHook: //just push all cpu regs to the stack
+ADDIU sp, sp, -0x90
+sw $at, 0x0014($sp)
+sw $v0, 0x0018($sp)
+sw $v1, 0x001C($sp)
+sw $a0, 0x0020($sp)
+sw $a1, 0x0024($sp)
+sw $a2, 0x0028($sp)
+sw $a3, 0x002C($sp)
+sw $t0, 0x0030($sp)
+sw $t1, 0x0034($sp)
+sw $t2, 0x0038($sp)
+sw $t3, 0x003C($sp)
+sw $t4, 0x0040($sp)
+sw $t5, 0x0044($sp)
+sw $t6, 0x0048($sp)
+sw $t7, 0x004C($sp)
+sw $s0, 0x0050($sp)
+sw $s1, 0x0054($sp)
+sw $s2, 0x0058($sp)
+sw $s3, 0x005C($sp)
+sw $s4, 0x0060($sp)
+sw $s5, 0x0064($sp)
+sw $s6, 0x0068($sp)
+sw $s7, 0x006C($sp)
+sw $t8, 0x0070($sp)
+sw $t9, 0x0074($sp)
+sw $ra, 0x0080($sp)
+
+JAL ElementAttackHookC
+NOP
+
+ADDIU v1, r0, 0xFFFF
+BEQL v0, v1, exitElementAttackHook
+LHU a0, 0x0020 (a2)
+
+//if result is not -1, we calculated a new
+ADDU a0, v0, r0 //move result from function to attack amount to use instead
+
+exitElementAttackHook:
+lw $ra, 0x0080($sp)
+lw $t9, 0x0074($sp)
+lw $t8, 0x0070($sp)
+lw $s7, 0x006C($sp)
+lw $s6, 0x0068($sp)
+lw $s5, 0x0064($sp)
+lw $s4, 0x0060($sp)
+lw $s3, 0x005C($sp)
+lw $s2, 0x0058($sp)
+lw $s1, 0x0054($sp)
+lw $s0, 0x0050($sp)
+lw $t7, 0x004C($sp)
+lw $t6, 0x0048($sp)
+lw $t5, 0x0044($sp)
+lw $t4, 0x0040($sp)
+lw $t3, 0x003C($sp)
+lw $t2, 0x0038($sp)
+lw $t1, 0x0034($sp)
+lw $t0, 0x0030($sp)
+lw $a3, 0x002C($sp)
+lw $a2, 0x0028($sp)
+lw $a1, 0x0024($sp)
+lw $v1, 0x001C($sp)
+lw $v0, 0x0018($sp)
+lw $at, 0x0014($sp)
+ADDIU sp, sp, 0x90
+J 0x80014B88
+LUI t3, 0x8008

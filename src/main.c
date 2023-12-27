@@ -6,6 +6,8 @@
 #define MAX_AGI 255
 #define MAX_DEF 255
 
+#define BRIAN_TURN 1
+
 //0x8007BA74 spawns a speech bubble when set to 0x00000010
 //0x8007BA90 exp gain
 extern void bossSpellsDpadRight(void);
@@ -146,14 +148,22 @@ void func_8001EBDC_Hook(unk1ebdcs* arg0) {
     func_800210FC(HUDTex, iconPositionsTriangle[2].x - 6 , iconPositionsTriangle[2].y - 6, 0xC, 0xC, 0x38, 0x10, 0x400, 0x400);
     func_800210FC(HUDTex, iconPositionsTriangle[3].x - 6 , iconPositionsTriangle[3].y - 6, 0xC, 0xC, 0x44, 0x10, 0x400, 0x400);
 
-    func_80020E2C(HUDTex, 0x20, 0x1D, 0x80, 0xA);
+    func_80020E2C(HUDTex, 0x20, 0x1D, 0x80, 0xA); //something for setting up font
     
     for (i = 0; i < 4; i++) {
         func_80020D4C(1, iconPositionsTriangle[i].x, iconPositionsTriangle[i].y, arg0->unk24[i]);
     }
 }
 
-void func_80020D4C_Hook(u16 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 strLength(char* str) {
+    s32 i = 0;
+    while (*str != 0) {
+        i++;
+    }
+    return i;
+}
+
+void func_80020D4C_Hook(u16 arg0, s32 xPos, s32 yPos, s32 arg3) {
     u8 *var_s1;
     u8 sp48[0xC];
     s32 var_s2;
@@ -162,11 +172,11 @@ void func_80020D4C_Hook(u16 arg0, s32 arg1, s32 arg2, s32 arg3) {
     var_s2 = int_to_str_with_flags(arg3, sp48, arg0);
     for (;var_s2 != 0; var_s2--, var_s1++) {
         if (*var_s1 != ' ') {
-            func_80020F8C(arg1, arg2, 8, 0xA, (*var_s1 * 8) + ' ', 0x1D, 0x400, 0x400);
-            arg1 += 7;
+            func_80020F8C(xPos, yPos, 8, 0xA, (*var_s1 * 8) + ' ', 0x1D, 0x400, 0x400);
+            xPos += 7;
         } else {
             if (arg0 & 6) {
-                arg1 += 7;
+                xPos += 7;
             }
         }
     }
@@ -477,4 +487,16 @@ void capMaxHP(void) {
 
 void mainCFunction(void) { //ran every frame
     SetCurrentBossesBeaten();
+}
+
+s32 ElementAttackHookC(void) {
+    if (curActorTurn != BRIAN_TURN) {
+        return -1;
+    }
+
+    // if (gPlayerData.elements.wind > 2) {
+    //     return 2;
+    // }
+
+    return -1;
 }

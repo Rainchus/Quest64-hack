@@ -48,3 +48,4 @@
 .definelabel func_8002AB64, 0x8002AB64
 .definelabel func_8002A0B8, 0x8002A0B8
 .definelabel D_8008FD10, 0x8008FD10
+.definelabel curActorTurn, 0x8008C590

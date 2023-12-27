@@ -16,6 +16,10 @@ ADDIU a2, a2, lo(PAYLOAD_SIZE)
 J originalCode
 NOP
 
+.org 0x80014B80
+J elementAttackHook
+NOP
+
 .org 0x8001F684 //fire element level up text
 J fireElementLevelUpText
 NOP
