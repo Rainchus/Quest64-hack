@@ -9,5 +9,6 @@
 .include "asm/symbols.asm"
 .importobj "obj/bgm.o"
 .importobj "obj/main.o"
+.importobj "obj/spells.o"
 .importobj "obj/spirits.o"
 .close //close file

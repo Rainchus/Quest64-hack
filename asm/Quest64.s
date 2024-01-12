@@ -206,6 +206,49 @@ LI a0, 0x80084EE8
     J mainCFunctionWrapper
     SH t6, 0x005C (sp) //restore from hook
 
+
+//spell.c patches
+
+//func_80014A98
+.headersize 0x80014B3C - 0x1573C
+.org 0x80014B3C
+lui $t8, hi(SpellTablePointers)
+
+.org 0x80014B58 //0x15758
+lw $t8, lo(SpellTablePointers) ($t8)
+
+
+//func_800149D0
+.org 0x800149E8
+lui $t0, hi(SpellTablePointers)
+.org 0x800149F8
+lw $t0, lo(SpellTablePointers) ($t0)
+
+//func_80014890
+.org 0x8001494C
+lui $a0, hi(SpellTablePointers)
+addu $a0, $a0, $t7
+lw $a0, lo(SpellTablePointers) ($a0)
+
+
+//func_800072A8
+.headersize 0x800072E0 - 0x7EE0
+.org 0x800072E0
+lui $t4, hi(SpellTablePointers)
+.org 0x80007310
+lw $t4, lo(SpellTablePointers) ($t4)
+
+
+//func_8000B300
+.headersize 0x8000B418 - 0xC018
+.org 0x8000B418
+lui $t5, hi(SpellTablePointers)
+.org 0x8000B45C
+lw $t5, lo(SpellTablePointers) ($t5)
+
+
+//80014A98 spell function, important
+
 .headersize 0x7F374C40
 .org 0x800C0680
 //.word 0x00000000 //(dont actually patch this, just an example)
