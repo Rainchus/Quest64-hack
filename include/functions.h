@@ -8,6 +8,7 @@ void dma_write(void* romAddr, void* ramAddr, int size);
 extern s8 gCurrentBGM;
 extern u16 gPlayBGM;
 extern u16 gBGMDelay;
+<<<<<<< HEAD
 extern s16 curActorTurn;
 
 typedef struct SpiritData {
@@ -140,5 +141,11 @@ void func_80020E2C(unk20e2cs* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void func_80020F8C(s32 ulx, s32 uly, s32 lrx, s32 lry, s32 s, s32 t, s32 dsdx, s32 dtdy);
 s32 int_to_str_with_flags(s32 arg0, u8* arg1, u16 arg2);
 extern PlayerStats gPlayerData;
+=======
+extern s32 gCurrentMap;
+extern s32 gNextSubmap;
+extern u8 bossFlags;
+extern u16 buttonsHeld;
+>>>>>>> 4c687dde4ef0b6b1e55a712e51a0de563eb35953
 
 #endif
