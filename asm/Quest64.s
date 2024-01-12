@@ -206,6 +206,14 @@ LI a0, 0x80084EE8
     J mainCFunctionWrapper
     SH t6, 0x005C (sp) //restore from hook
 
+.org 0x8001E7F4
+    J textDrawingTest
+    NOP
+
+.org 0x80022FD0
+    J getRandomNumberHook
+    NOP
+
 
 //spell.c patches
 

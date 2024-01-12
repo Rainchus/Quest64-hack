@@ -476,3 +476,8 @@ lw $at, 0x0014($sp)
 ADDIU sp, sp, 0x90
 J 0x80014B88
 LUI t3, 0x8008
+
+
+textDrawingTest:
+    J DrawingTestC
+    NOP

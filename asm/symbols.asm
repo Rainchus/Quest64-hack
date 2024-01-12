@@ -49,3 +49,6 @@
 .definelabel func_8002A0B8, 0x8002A0B8
 .definelabel D_8008FD10, 0x8008FD10
 .definelabel curActorTurn, 0x8008C592
+.definelabel rng_seed, 0x8004D748
+.definelabel _sprintf, 0x80036384
+.definelabel drawBoxBehindEnemyName, 0x800210FC
