@@ -1,2 +1,4 @@
 obj/
 rom/
+python_virtual_env/
+asm/!image_bin.s
