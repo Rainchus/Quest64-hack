@@ -424,12 +424,28 @@ sw $ra, 0x0080($sp)
 JAL ElementAttackHookC
 NOP
 
-ADDIU v1, r0, 0xFFFF
-BEQL v0, v1, exitElementAttackHook
+lw $a2, 0x0028($sp)
+BEQZ v0, exitElementAttackHook
 LHU a0, 0x0020 (a2)
 
-//if result is not -1, we calculated a new
-ADDU a0, v0, r0 //move result from function to attack amount to use instead
+//is brian's turn, use different table
+//s0 currently holds spell attack as u16
+SRL $t0, $s0, 8 //move spell upper byte to t0
+ANDI $t1, $s0, 0xFF //get spell lower byte
+LI $t2, SpellTablePointersBrian
+SLL $t3, $t0, 2 //multiply first by sizeof pointer (4 bytes)
+ADDU $t3, $t3, t2 //now points to pointer for spell data
+LW $t4, 0x000 ($t3) //now load pointer to specific spell type
+LI $t5, SpellDataSize
+LW $t5, 0x0000 ($t5)
+MULT t5, t1 //multiply second value by sizeof SpellData array
+NOP
+NOP
+MFLO t6
+NOP
+NOP
+ADDU a2, t6, t4 //now t7 points to correct spell data to read from
+LHU a0, 0x0020 (a2)
 
 exitElementAttackHook:
 lw $ra, 0x0080($sp)
@@ -452,7 +468,7 @@ lw $t2, 0x0038($sp)
 lw $t1, 0x0034($sp)
 lw $t0, 0x0030($sp)
 lw $a3, 0x002C($sp)
-lw $a2, 0x0028($sp)
+//lw $a2, 0x0028($sp)
 lw $a1, 0x0024($sp)
 lw $v1, 0x001C($sp)
 lw $v0, 0x0018($sp)

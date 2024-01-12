@@ -8,7 +8,7 @@ void dma_write(void* romAddr, void* ramAddr, int size);
 extern s8 gCurrentBGM;
 extern u16 gPlayBGM;
 extern u16 gBGMDelay;
-extern s32 curActorTurn;
+extern s16 curActorTurn;
 
 typedef struct SpiritData {
     f32 xPos;

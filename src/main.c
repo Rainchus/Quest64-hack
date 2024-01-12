@@ -490,13 +490,9 @@ void mainCFunction(void) { //ran every frame
 }
 
 s32 ElementAttackHookC(void) {
-    if (curActorTurn != BRIAN_TURN) {
-        return -1;
+    if (curActorTurn == BRIAN_TURN) {
+        return 1;
     }
 
-    // if (gPlayerData.elements.wind > 2) {
-    //     return 2;
-    // }
-
-    return -1;
+    return 0;
 }
