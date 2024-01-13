@@ -31,7 +31,7 @@
 .definelabel func_800268d4, 0x800268d4
 .definelabel D_8005F0C0, 0x8005F0C0
 .definelabel gPlayerData, 0x8007BA80
-.definelabel D_80053D3C, 0x80053D3C
+.definelabel ExpTable, 0x80053D3C
 .definelabel D_8008FD0C, 0x8008FD0C
 .definelabel D_80092871, 0x80092871
 .definelabel D_80092876, 0x80092876

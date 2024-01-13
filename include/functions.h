@@ -74,7 +74,7 @@ typedef struct ElementLevels {
 
 typedef struct PlayerStats {
     char unk_00[0x10];
-    s32 unk_10;
+    s32 curExp;
     char unk_14[0x10];
     ElementLevels elements;
     u16 unk28;
@@ -121,7 +121,7 @@ extern s32 gGameState;
 extern s32 itemReceived;
 extern s8 D_8005F0C0[];
 extern s32 D_8008FD10;
-extern s32 D_80053D3C[];
+extern s32 ExpTable[];
 extern u16 D_8008FD0C;
 extern s8 D_80092871;
 extern u16 D_80092876;

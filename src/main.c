@@ -66,7 +66,7 @@ void func_80029448_Hook(s32 arg0) {
     func_80029B58(0x2F, arg0 + 0x67, 0x6F, 0xC, 0xC);
     func_80029B58(0x30, arg0 + 0xCC, 0x6F, 0xC, 0xC);
     func_80029B58(0x31, temp_s0, 0xA1, 0xC, 0xC);
-    func_80029B58(0x15, arg0 + 0xA7, 0x92, 8, 0xA);
+    func_80029B58(0x20, arg0 + 0xA7, 0x92, 0x14, 0xB);
     temp_s0 = arg0 + 0x8D;
     func_8002AB64(2, temp_s0, 0x34, 99, 0xA);
     func_8002AB64(2, arg0 + 0x4E, 0x6B, 99, 0xA);
@@ -90,14 +90,26 @@ void func_80029448_Hook(s32 arg0) {
         func_80029B58(0x33, arg0 + 0xA6, 0xAF, waterLevel, 3);
     }
 
-    var_s0 = (gPlayerData.unk_10 * 100) / (u32) D_80053D3C[gPlayerData.levels];
     
-    if (var_s0 > 100) {
-        var_s0 = 100;
+
+    {
+        s32 expToNextLevel = ExpTable[gPlayerData.levels];
+        s32 playerExpToNextLevel = expToNextLevel - gPlayerData.curExp;
+
+        var_s0 = (gPlayerData.curExp * 100) / (u32) ExpTable[gPlayerData.levels];
+        if (var_s0 > 100) {
+            var_s0 = 100;
+        }
+
+        func_8002A0B8(var_s0, arg0); //draw exp sphere
+    
+        if (gPlayerData.curExp > ExpTable[gPlayerData.levels]) {
+            func_8002AB64(6, arg0 + 0x7B, 0x92, 0, 0xA); //draw 0 exp
+        } else {
+            func_8002AB64(6, arg0 + 0x7B, 0x92, playerExpToNextLevel, 0xA);          
+        }
     }
-    
-    func_8002AB64(3, arg0 + 0x91, 0x92, var_s0, 0xA);
-    func_8002A0B8(var_s0, arg0);
+
     if (!(D_8008FD0C & 0x2000)) {
         if ((D_80092871 >= 0x15) || (D_80092876 & 0x10)) {
             D_8008FD04 = 0x140;
