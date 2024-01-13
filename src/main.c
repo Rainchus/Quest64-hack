@@ -27,6 +27,7 @@ void ChangeBrianWaterSpells(void);
 void ChangeBrianWindSpells(void);
 void ChangeBrianBossSpells(void);
 
+//element start screen drawing function
 void func_80029448_Hook(s32 arg0) {
     s32 var_s0;
     s32 temp_s0;
@@ -67,20 +68,28 @@ void func_80029448_Hook(s32 arg0) {
     func_80029B58(0x31, temp_s0, 0xA1, 0xC, 0xC);
     func_80029B58(0x15, arg0 + 0xA7, 0x92, 8, 0xA);
     temp_s0 = arg0 + 0x8D;
-    func_8002AB64(2, temp_s0, 0x34, 0x32U, 0xA);
-    func_8002AB64(2, arg0 + 0x4E, 0x6B, 0x32U, 0xA);
-    func_8002AB64(2, arg0 + 0xF7, 0x6B, 0x32U, 0xA);
-    func_8002AB64(2, temp_s0, 0xAD, 0x32U, 0xA);
+    func_8002AB64(2, temp_s0, 0x34, 99, 0xA);
+    func_8002AB64(2, arg0 + 0x4E, 0x6B, 99, 0xA);
+    func_8002AB64(2, arg0 + 0xF7, 0x6B, 99, 0xA);
+    func_8002AB64(2, temp_s0, 0xAD, 99, 0xA);
     func_8002AB64(2, arg0 + 0x78, 0x34, gPlayerData.elements.fire, 0xA);
     func_8002AB64(2, arg0 + 0x39, 0x6B, gPlayerData.elements.earth, 0xA);
     func_8002AB64(2, arg0 + 0xE2, 0x6B, gPlayerData.elements.wind, 0xA);
     func_8002AB64(2, arg0 + 0x78, 0xAD, gPlayerData.elements.water, 0xA);
     //var_s0 = arg0 + 0xA6;
-    func_80029B58(0x33, arg0 + 0xA6, 0x36, (s32) (((f32) gPlayerData.elements.fire / 50.0f) * 50.0f), 3);
-    func_80029B58(0x33, arg0 + 0x32, 0x79, (s32) ((gPlayerData.elements.earth / 50.0f) * 50.0f), 3);
-    func_80029B58(0x33, arg0 + 0xDA, 0x79, (s32) ((gPlayerData.elements.wind / 50.0f) * 50.0f), 3);
-    func_80029B58(0x33, arg0 + 0xA6, 0xAF, (s32) ((gPlayerData.elements.water / 50.0f) * 50.0f), 3);
-    
+    {
+        s32 fireLevel = (gPlayerData.elements.fire / 100.0f + 0.01f) * 50.0f;
+        s32 earthLevel = (gPlayerData.elements.earth / 100.0f + 0.01f) * 50.0f;
+        s32 windLevel = (gPlayerData.elements.wind / 100.0f + 0.01f) * 50.0f;
+        s32 waterLevel = (gPlayerData.elements.water / 100.0f + 0.01f) * 50.0f;
+
+
+        func_80029B58(0x33, arg0 + 0xA6, 0x36, fireLevel, 3);
+        func_80029B58(0x33, arg0 + 0x32, 0x79, earthLevel, 3);
+        func_80029B58(0x33, arg0 + 0xDA, 0x79, windLevel, 3);
+        func_80029B58(0x33, arg0 + 0xA6, 0xAF, waterLevel, 3);
+    }
+
     var_s0 = (gPlayerData.unk_10 * 100) / (u32) D_80053D3C[gPlayerData.levels];
     
     if (var_s0 > 100) {

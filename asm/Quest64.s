@@ -214,6 +214,19 @@ LI a0, 0x80084EE8
     J getRandomNumberHook
     NOP
 
+//pause screen elements screen patches
+.org 0x800297DC
+ADDIU a3, r0, 0x0063
+
+.org 0x800297F8
+ADDIU a3, r0, 0x0063
+
+.org 0x80029814
+ADDIU a3, r0, 0x0063
+
+.org 0x80029830
+ADDIU a3, r0, 0x0063
+
 
 //spell.c patches
 
