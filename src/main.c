@@ -21,6 +21,12 @@ s32 windElementLevelUpTextXPos[] = {153, 150, 153, 0};
 s32 elementCapsTable[] = {10, 20, 30, 40, 40, 50, 99, 255, 255};
 s32 gTotalBossesBeatenCount = 0;
 
+void ChangeBrianFireSpells(void);
+void ChangeBrianEarthSpells(void);
+void ChangeBrianWaterSpells(void);
+void ChangeBrianWindSpells(void);
+void ChangeBrianBossSpells(void);
+
 void func_80029448_Hook(s32 arg0) {
     s32 var_s0;
     s32 temp_s0;
