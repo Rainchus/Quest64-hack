@@ -8,6 +8,7 @@
 .include "asm/boot.asm"
 .include "asm/symbols.asm"
 .importobj "obj/bgm.o"
+.importobj "obj/encounter_map.o"
 .importobj "obj/main.o"
 .importobj "obj/spell_adjustments.o"
 .importobj "obj/spells.o"

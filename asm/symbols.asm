@@ -45,3 +45,8 @@
 .definelabel rng_seed, 0x8004D748
 .definelabel _sprintf, 0x80036384
 .definelabel drawBoxBehindEnemyName, 0x800210FC
+.definelabel D_80086A00, 0x80086A00
+.definelabel D_80086A08, 0x80086A08
+.definelabel D_80086AC8, 0x80086AC8
+.definelabel func_8000EE60, 0x8000EE60
+.definelabel func_80012700, 0x80012700
