@@ -23,7 +23,6 @@ s32 gTotalBossesBeatenCount = 0;
 
 void ChangeBrianFireSpells(void);
 void ChangeBrianEarthSpells(void);
-void ChangeBrianEarthSpells2(void);
 void ChangeBrianWaterSpells(void);
 void ChangeBrianWindSpells(void);
 void ChangeBrianBossSpells(void);
@@ -606,10 +605,15 @@ u32 getRandomNumberHook(u32 arg0) {
     return 0;
 }
 
+#define BOSS_TURN 0x100
+#define IN_BATTLE 0x1
+#define ENEMY_TURN 0x2
+
+
 s32 ElementAttackHookC(void) {
-    if (curActorTurn == BRIAN_TURN) {
+    if ( (curActorTurn & (BOSS_TURN | ENEMY_TURN)) == 0) {
         return 1;
     }
-
+    //else, is boss/enemy turn
     return 0;
 }

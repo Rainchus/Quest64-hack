@@ -426,9 +426,8 @@ sw $ra, 0x0080($sp)
 JAL ElementAttackHookC
 NOP
 
-lw $a2, 0x0028($sp)
 BEQZ v0, exitElementAttackHook
-LHU a0, 0x0020 (a2)
+lw $a2, 0x0028($sp)
 
 //is brian's turn, use different table
 //s0 currently holds spell attack as u16
