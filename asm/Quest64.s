@@ -16,7 +16,46 @@ ADDIU a2, a2, lo(PAYLOAD_SIZE)
 J originalCode
 NOP
 
-.org 0x80014B80
+//patches to environment screen (add 0x30 to each original Y pos)
+.org 0x800278E4
+ADDIU t8, r0, 0x009C
+
+.org 0x80027918
+ADDIU a2, r0, 0x00BB
+
+.org 0x80027938
+ADDIU a2, r0, 0x0054
+
+.org 0x8002797C
+ADDIU a2, r0, 0x00BA
+
+.org 0x80027A14
+ADDIU a2, r0, 0x00B8
+
+.org 0x80027A44
+ADDIU t5, r0, 0x009C
+
+.org 0x80027988
+ADDIU t4, r0, 0x009D
+
+.org 0x800279A8
+ADDIU t9, r0, 0x009D
+
+.org 0x800279E8
+ADDIU t6, r0, 0x0098
+
+.org 0x80027A24
+ADDIU t3, r0, 0x0099
+
+.org 0x8002792C
+ADDIU t7, r0, 0x0098
+
+.org 0x80027938
+ADDIU a2, r0, 0x0024
+
+
+
+.org 0x80014B70
 J elementAttackHook
 NOP
 
@@ -226,6 +265,10 @@ ADDIU a3, r0, 0x0063
 
 .org 0x80029830
 ADDIU a3, r0, 0x0063
+
+.org 0x8002861C
+J environmentEpilogueHook
+LW a0, 0x0000 (sp) //load x offset for menu when moving
 
 
 //spell.c patches

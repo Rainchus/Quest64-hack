@@ -23,9 +23,51 @@ s32 gTotalBossesBeatenCount = 0;
 
 void ChangeBrianFireSpells(void);
 void ChangeBrianEarthSpells(void);
+void ChangeBrianEarthSpells2(void);
 void ChangeBrianWaterSpells(void);
 void ChangeBrianWindSpells(void);
 void ChangeBrianBossSpells(void);
+
+void DrawSliderBar(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x25, xPos, yPos, width, 3); //arg index 0 and 4 are unknown
+}
+
+void DrawSliderBarOutline(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x24, xPos, yPos, width, 7); //arg index 0 and 4 are unknown
+}
+
+void DrawRowHeader(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x22, xPos, yPos, width, 0xC); //arg index 0 and 4 are unknown
+}
+
+void DrawMin(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x2A, xPos, yPos, width, 0xB);
+}
+
+void DrawMax(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x29, xPos, yPos, width, 0x08);
+}
+
+void DrawSlider(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x27, xPos, yPos, width, 0xB);
+}
+
+void DrawLineDivider(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x3D, xPos, yPos, width, 2);
+}
+
+//80028180 sets cursor position for index 0
+//800282CC sets cursor position for index 1
+
+void environmentEpilogueHook(s32 xRootOffset) {
+    DrawSliderBarOutline(0x8D + xRootOffset, 0x9A, 0x54);
+    DrawSliderBar(0x8E + xRootOffset, 0x9B, 0x50);
+    DrawRowHeader(0x31 + xRootOffset, 0x8F, 0x34);
+    DrawMin(0x6C + xRootOffset, 0x95, 0x14);
+    DrawMax(0xEA + xRootOffset, 0x97, 0x18);
+    DrawSlider(0xB3 + xRootOffset, 0x92, 0x8);
+    DrawLineDivider(0x5D + xRootOffset, 0x84, 0xA7);
+}
 
 //element start screen drawing function
 void func_80029448_Hook(s32 arg0) {

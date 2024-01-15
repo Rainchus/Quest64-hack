@@ -393,6 +393,8 @@ windElementLevelUpText:
     NOP
 
 elementAttackHook: //just push all cpu regs to the stack
+OR a3, t9, r0
+ADDU a2, t8, t6
 ADDIU sp, sp, -0x90
 sw $at, 0x0014($sp)
 sw $v0, 0x0018($sp)
@@ -445,7 +447,6 @@ MFLO t6
 NOP
 NOP
 ADDU a2, t6, t4 //now t7 points to correct spell data to read from
-LHU a0, 0x0020 (a2)
 
 exitElementAttackHook:
 lw $ra, 0x0080($sp)
@@ -474,8 +475,8 @@ lw $v1, 0x001C($sp)
 lw $v0, 0x0018($sp)
 lw $at, 0x0014($sp)
 ADDIU sp, sp, 0x90
-J 0x80014B88
-LUI t3, 0x8008
+J 0x80014B78
+NOP
 
 
 textDrawingTest:
