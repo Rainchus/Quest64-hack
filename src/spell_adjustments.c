@@ -184,7 +184,10 @@ void ChangeBrianEarthSpells(void) {
 }
 
 void ChangeBrianWaterSpells(void) {
-    
+    if (gPlayerData.elements.water >= 25) {
+        SpellTablePointersBrian[WATER][2].attackCount = 3;
+        SpellTablePointersBrian[WATER][2].frameDelayBetweenHits = 1;
+    }
 }
 
 void ChangeBrianWindSpells(void) {

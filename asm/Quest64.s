@@ -273,10 +273,10 @@ LW a0, 0x0000 (sp) //load x offset for menu when moving
 
 //spell.c patches
 
-//func_80014A98
-.headersize 0x80014B3C - 0x1573C
-.org 0x80014B3C
-lui $t8, hi(SpellTablePointers)
+//func_80014A98 - ran when enemy or brian attacks
+    .headersize 0x80014B3C - 0x1573C
+    .org 0x80014B3C
+    lui $t8, hi(SpellTablePointers)
 
 .org 0x80014B58 //0x15758
 lw $t8, lo(SpellTablePointers) ($t8)

@@ -611,9 +611,13 @@ u32 getRandomNumberHook(u32 arg0) {
 
 
 s32 ElementAttackHookC(void) {
-    if ( (curActorTurn & (BOSS_TURN | ENEMY_TURN)) == 0) {
-        return 1;
+    if (curActorTurn == (BOSS_TURN | ENEMY_TURN | IN_BATTLE)) {
+        return 0;
     }
-    //else, is boss/enemy turn
-    return 0;
+
+    if (curActorTurn == (ENEMY_TURN | IN_BATTLE)) {
+        return 0;
+    }
+    //else, is brian's turn or out of battle
+    return 1;
 }
