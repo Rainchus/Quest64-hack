@@ -16,6 +16,18 @@ ADDIU a2, a2, lo(PAYLOAD_SIZE)
 J originalCode
 NOP
 
+.org 0x800220DC
+J itemRemovalHook
+NOP
+
+.org 0x80026A7C
+J func_80026A7C_Hook
+NOP
+
+.org 0x800278B0
+J func_800278B0_Hook
+NOP
+
 //patches to environment screen (add 0x30 to each original Y pos)
 .org 0x800278E4
 ADDIU t8, r0, 0x009C
@@ -278,8 +290,8 @@ LW a0, 0x0000 (sp) //load x offset for menu when moving
     .org 0x80014B3C
     lui $t8, hi(SpellTablePointers)
 
-.org 0x80014B58 //0x15758
-lw $t8, lo(SpellTablePointers) ($t8)
+    .org 0x80014B58 //0x15758
+    lw $t8, lo(SpellTablePointers) ($t8)
 
 
 //func_800149D0

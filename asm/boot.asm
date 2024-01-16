@@ -477,6 +477,71 @@ ADDIU sp, sp, 0x90
 J 0x80014B78
 NOP
 
+itemIdsToNotRemove:
+.byte 0xE
+.byte 0xF
+.byte 0x10
+.byte 0x11
+.byte 0x12
+.byte 0x13
+.byte 0x1E
+
+.align 4
+itemRemovalHook: //dont remove item if it is a wing item
+BNEZ v0, itemUseable
+NOP
+//item wasn't useable, follow normal code jump
+J 0x80022214
+LUI t5, 0x8009
+
+itemUseable:
+    lui a0, 0x8009
+    lw a0, 0xC764 (a0) //get current item index
+    lui a1, 0x8009
+    addu a0, a0, a1
+    lbu a0, 0xCF78 (a0) //load item id used
+    addu a1, r0, r0 //loop counter
+    lui a2, hi(itemIdsToNotRemove)
+    addiu a2, a2, lo(itemIdsToNotRemove)
+    itemRemovalLoop:
+        lbu v0, 0x0000 (a2)
+        beq v0, a0, dontRemoveItem
+        addiu a1, a1, 1 //increment loop counter
+        slti v0, a1, 7
+        beqz v0, removeItem
+        addiu a2, a2, 1 //increment item removal pointer
+        beq r0, r0, itemRemovalLoop
+        NOP
+
+removeItem:
+J 0x800220E0
+NOP
+
+dontRemoveItem:
+LUI v0, 0x8009
+LW v0, 0xC764 (v0)
+SUBU t6, r0, t5
+LUI t9, 0x8009
+SUBU t4, t6, v0
+ADDIU t9, t9, 0xCF78
+ADDIU t4, t4, 0x0000 //in original code, 0x0095
+ADDU t7, t5, v0
+addu a3, t7, t9
+LUI v0, 0x8008
+J 0x80022178
+ADDIU v0, v0, 0xB2E4
+
+
+
+//0x80022168
+
+//lui a1, 0x8009
+//lbu a1, 0xCF78 (a1)
+
+
+//BEQZ t4, 0x80022168
+//ADDU a3, t7, t9
+
 
 textDrawingTest:
     J DrawingTestC
