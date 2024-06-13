@@ -387,29 +387,3 @@ void func_80026A7C_Hook(s32 arg0) { //draw_pause_screen_main
         func_80026A40();
     }
 }
-
-extern u8 D_8007C570[];
-extern u8 D_8007C970[];
-
-void customMemCpy(u8* destination, u8* source, s32 size);
-
-//0xD305E0 through 0xD3BE40 is text
-
-void func_80008A00(Unk_D_8007BD30* arg0, s32 arg1) {
-    s32 i;
-
-    //dma_write(((u8*)0x80400000)[arg1], D_8007C570, 1024);
-
-    //this requires 8 byte alignment on both addresses or it will crash console!
-    customMemCpy((u8*)0x80400000, D_8007C570, 1024);
-    
-    //dma_write(&D_D305E0[arg1], D_8007C570, 1024);
-    
-    if (arg0->npcData->npcName != NULL) {
-        for (i = 0; i < 32; i++) {
-            D_8007C970[i] = arg0->npcData->npcName[i];
-        }
-        return;
-    }
-    *D_8007C970 = 0xFF;
-}

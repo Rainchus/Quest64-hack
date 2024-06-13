@@ -41,6 +41,10 @@ NOP
 J func_800278B0_Hook
 NOP
 
+.org 0x80008A00
+J func_80008A00_Hook
+NOP
+
 //patches to environment screen (add 0x30 to each original Y pos)
 .org 0x800278E4
 ADDIU t8, r0, 0x009C

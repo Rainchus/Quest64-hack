@@ -76,3 +76,5 @@
 .definelabel D_8007C570, 0x8007C570
 .definelabel D_8007C970, 0x8007C970
 .definelabel osPiRawStartDma, 0x8003d910
+
+.definelabel customText, 0x80400000

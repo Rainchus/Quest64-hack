@@ -632,3 +632,25 @@ s32 ElementAttackHookC(void) {
     //else, is brian's turn or out of battle
     return 1;
 }
+
+extern u8 D_8007C570[];
+extern u8 D_8007C970[];
+extern u8 customText[];
+void customMemCpy(u8* destination, u8* source, s32 size);
+
+void func_80008A00_Hook(Unk_D_8007BD30* arg0, s32 arg1) {
+    s32 i;
+
+    //this requires 8 byte alignment on both addresses or it will crash console!
+    customMemCpy(D_8007C570, &customText[arg1], 1024);
+    
+    //dma_write(&D_D305E0[arg1], D_8007C570, 1024);
+    
+    if (arg0->npcData->npcName != NULL) {
+        for (i = 0; i < 32; i++) {
+            D_8007C970[i] = arg0->npcData->npcName[i];
+        }
+        return;
+    }
+    *D_8007C970 = 0xFF;
+}
