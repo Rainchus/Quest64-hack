@@ -127,6 +127,7 @@ extern s8 D_80092871;
 extern u16 D_80092876;
 extern s32 D_8008FD04;
 extern s32 D_8008FD08;
+extern PlayerStats gPlayerData;
 void func_8002A0B8(s32, s32);
 void func_8002AB64(s32, s32, s32, s32, s32);
 void func_80029B58(s32, s32, s32, s32, s32);
@@ -139,6 +140,7 @@ void func_800210FC(unk20e2cs* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 
 void func_80020E2C(unk20e2cs* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void func_80020F8C(s32 ulx, s32 uly, s32 lrx, s32 lry, s32 s, s32 t, s32 dsdx, s32 dtdy);
 s32 int_to_str_with_flags(s32 arg0, u8* arg1, u16 arg2);
-extern PlayerStats gPlayerData;
+void *_memcpy(u8* destination, u8* source, s32 length);
+
 
 #endif

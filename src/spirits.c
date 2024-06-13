@@ -148,14 +148,14 @@ SpiritData PrinceLeonardoArrivedSpirits[] = {
 };
 
 SpiritData ConnorFortressSpirits[] = {
-{374.59375f, -176.9609375f, 63},
+{374.59375f, -176.9609375f, 67},
 {426.140625f, -558.546875f, 64},
 {2352.4375f, -370.40625f, 65},
 {-587.515625f, -71.69140625f, 66},
 };
 
 SpiritData FortressBuildingSpirits[] = {
-    {0.0f, 0.0f, 67},
+    {0.0f, 0.0f, 63},
 };
 
 SpiritData GlencoeForestSpirits[] = {
@@ -239,6 +239,14 @@ SpiritData InsideDondoranShip[] = {
     {0.0f, 38.0f, 97},
 };
 
+SpiritData InsideLimelinShip[] = {
+    {0.0f, 38.0f, 97},
+};
+
+SpiritData InsideCarmaghShip[] = {
+    {0.0f, 38.0f, 97},
+};
+
 SpiritData MammonsWorld1[] ={
 	{-100.052902222f, -141.363433838 , 99},
 };
@@ -299,6 +307,9 @@ SpiritData MammonsWorld14[] ={
 SpiritData MammonsWorld15[] ={
 	{-25.9002380371, -356.905639648 , 114},
 };
+SpiritData ClairesHouse[] ={
+	{11.3686495, -105.356514 , 120},
+};
 
 SpiritTable newSpiritTable[] = {
     //mapID, submap, spiritCount, pad, spiritLocations
@@ -347,6 +358,8 @@ SpiritTable newSpiritTable[] = {
     {0x19, 1, ARRAY_COUNT(SkyePortalSpirits),           SkyePortalSpirits},
     {0x19, 4, ARRAY_COUNT(MacrensShipRoomSpirits),      MacrensShipRoomSpirits},
     {0x19, 9, ARRAY_COUNT(InsideDondoranShip),          InsideDondoranShip},
+	{0x19, 8, ARRAY_COUNT(InsideLimelinShip),          InsideLimelinShip},
+	{0x19, 5, ARRAY_COUNT(InsideCarmaghShip),          InsideCarmaghShip},
 	{0x0, 2, ARRAY_COUNT(MammonsWorld1),          MammonsWorld1},
 	{0x22, 0, ARRAY_COUNT(MammonsWorld2),          MammonsWorld2},
 	{0x22, 6, ARRAY_COUNT(MammonsWorld3),          MammonsWorld3},
@@ -362,6 +375,7 @@ SpiritTable newSpiritTable[] = {
 	{0x0, 3, ARRAY_COUNT(MammonsWorld13),          MammonsWorld13},
 	{0x0, 4, ARRAY_COUNT(MammonsWorld14),          MammonsWorld14},
 	{0x22, 8, ARRAY_COUNT(MammonsWorld15),          MammonsWorld15},
+	{0x10, 1, ARRAY_COUNT(ClairesHouse),	ClairesHouse},
 };
 
 void func_80012220_Hook(void) {

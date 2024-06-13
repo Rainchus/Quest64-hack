@@ -569,7 +569,265 @@ void mainCFunction(void) { //ran every frame
     ChangeBrianWaterSpells();
     ChangeBrianWindSpells();
     ChangeBrianBossSpells();
+	
+	//Claire Connor Forest Spirit Side Quest
+	if (gCurrentMap == 16) {
+		if (gNextSubmap == 1) {
+			if ((gSpiritflagforest & 0xF) == 0xF) {
+				if ((gEventflag1 & 1) == 0x0) {
+					gEventflag1 |= 1;
+				}
+			}
+		}
+	}
+	
+	if (gEventflag1 & 1)  {
+		if (gCurrentMap == 16) {
+			if (gNextSubmap == 1) {
+			eClairetext = 0x346E;
+			}
+		}
+	}
+	
+	
+	if (gCurrentMap == 16) {
+		if (gNextSubmap == 1) {
+			if (eTextlookup == 0xc0811882) {
+				if (gEventflag1 & 1) {
+					gEventflag1 |= 2;
+					eClairespirit = 0xC0AB6890;
+					eClairespirit2 = 0x40AB6890;
+				}
+			}
+		}
+	}
+	
+	
+	if (gCurrentMap == 16) {
+		if (gNextSubmap == 1) {
+			if (gEventflag1 & 2) {
+				eClairetext = 0x378B;
+				eClairespirit = 0xC0AB6890;
+				eClairespirit2 = 0x40AB6890;
+			}
+		}
+	}
+	//Claire Side Quest End		
+	
+	//Cockatrice Hunt Side Quest
+	if (gCurrentMap == 16) {
+		if (gNextSubmap == 19) {
+			if (eTextlookup == 0xA0C08108) {
+				gEventflag1 |= 4;
+			}
+		}
+	}
+	
+	if (gCurrentMap == 3) {
+		if (gNextSubmap == 0) {
+			if (gEventflag1 & 4) {
+				if (sCurrentenemy == 0x0E) {
+					if (sEnemyHP == 0x0000) {
+					gEventflag1 |= 8;
+					}
+				}
+			}
+		}
+	}
+	
+		if (gCurrentMap == 16) {
+			if (gNextSubmap == 19) {
+				if (gEventflag1 & 8) {
+					if ((gEventflag1 & 16) == 0x0) {
+						eArkarttext = 0x486C;
+					}
+				}
+			}
+		}
+	
+		if (gCurrentMap == 16) {
+			if (gNextSubmap == 19) {
+				if (gEventflag1 & 8) {
+					if (eTextlookup == 0xc0811382) {
+						if ((gEventflag1 & 16) == 0x0) {
+							gEventflag1 |= 16;
+							sBrianHPEXP = sBrianHPEXP + 50;
+							sBrianMPEXP = sBrianMPEXP + 30;
+							sBrianDEFEXP = sBrianDEFEXP + 16;
+							sBrianAGIEXP = sBrianAGIEXP + 16;
+							sBrianELEEXP = sBrianELEEXP + 450;
+							sBrianItemPickup = 0x1A;
+						}
+					}
+				}
+			}
+		}
+		
+		if (gCurrentMap == 16) {
+			if (gNextSubmap == 19) {
+				if (gEventflag1 & 16) {
+					eArkarttext = 0x486C;
+				}
+			}
+		}
+	//End of Cockatrice Hunt Side Quest
+	
+	//Flamed Mane Hunt Side Quest
+	if (gCurrentMap == 23) {
+		if (gNextSubmap == 15) {
+			if (eTextlookup == 0xA0C08116) {
+				gEventflag1 |= 32;
+			}
+		}
+	}
+	
+	if (gCurrentMap == 29) {
+		if (gNextSubmap == 0) {
+			if (gEventflag1 & 32) {
+				if (sCurrentenemy == 0x09) {
+					if (sEnemyHP == 0x0000) { 
+						gEventflag1 |= 64;
+					}
+				}
+			}
+		}
+	}
+	
+		if (gCurrentMap == 23) {
+			if (gNextSubmap == 15) {
+				if (gEventflag1 & 64) {
+					if ((gEventflag1 & 128) == 0x0) {
+						eHershtext = 0x8C4C;
+					}
+				}
+			}
+		}
+	
+		if (gCurrentMap == 23) {
+			if (gNextSubmap == 15) {
+				if (gEventflag1 & 8) {
+					if (eTextlookup == 0xa0c08118) {
+						if ((gEventflag1 & 128) == 0x0) {
+							gEventflag1 |= 128;
+							sBrianHPEXP = sBrianHPEXP + 100;
+							sBrianMPEXP = sBrianMPEXP + 60;
+							sBrianDEFEXP = sBrianDEFEXP + 50;
+							sBrianAGIEXP = sBrianAGIEXP + 50;
+							sBrianELEEXP = sBrianELEEXP + 45000;
+							sBrianItemPickup = 0x1A;
+						}
+					}
+				}
+			}
+		}
+	
+	
+		if (gCurrentMap == 23) {
+			if (gNextSubmap == 15) {
+				if (gEventflag1 & 128) {
+					eHershtext = 0x8B42;
+				}
+			}
+		}
+		
+	//Secret of the Philosopher's Stone
+		if (gCurrentMap == 20) {
+			if (gNextSubmap == 7) {
+				if (bossFlags & 0x20) {
+					if ((gEventflag13 & 128) == 0x0) {
+					eLeonardotext = 0x6798;
+					}
+				}
+			}
+		}
+		
+		if (gCurrentMap == 20) {
+			if (gNextSubmap == 7) {
+				if (bossFlags & 0x20) {
+					if (eTextlookup == 0xa0c08118) {
+						gEventflag14 |= 1;
+					}
+				}
+			}
+		}
+					
+					
+		if (gCurrentMap == 20) {
+			if (gNextSubmap == 7) {
+				if (gEventflag14 & 1){
+					eLeonardotext = 0x67FA;
+				}
+			}
+		}
+		
+		if (gCurrentMap == 26) {
+			if (gNextSubmap == 3) {
+				if (gEventflag14 & 1){
+					eEponatext = 0xACF6;
+				}
+			}
+		}
+		
+		if (gCurrentMap == 26) {
+			if (gNextSubmap == 3) {
+				if (bossFlags & 0x20) {
+					if (gEventflag14 & 1){
+						if (eTextlookup == 0xa0c08118) {
+						gEventflag13 |= 128;
+						}
+					}
+				}
+			}
+		}
+		
+		if (gCurrentMap == 26) {
+			if (gNextSubmap == 3) {
+				if (gEventflag13 & 128){
+					eEponatext = 0xE330;
+				}
+			}
+		}
+		
+		if (gCurrentMap == 26) {
+			if (gNextSubmap == 3) {
+				if (bossFlags & 0x20) {
+					if (gEventflag14 & 1){
+						if (eTextlookup == 0xa0c08112) {
+						gEventflag14 |= 2;
+						}
+					}
+				}
+			}
+		}
+		
+		
+	//Mammon Empowered after Guilty
+	if (bossFlags & 0x20) {
+		sMammonMHP = 32000;
+		sMammonCHP = 32000;
+		sMammonDEF = 550;
+		sMammonAGI = 666;
+		sMammonATK = 150;
+	}	
+	
+
+
+	//MaxHP/MP Bugfix
+	if (sBrianMAXHP >= 1000) {
+		sBrianMAXHP = 999;
+	}
+	if (sBrianHP >= 1000) {
+		sBrianHP = 999;
+	}
+	if (sBrianMAXMP >= 1000) {
+		sBrianMAXMP = 999;
+	}
+	if (sBrianMP >= 1000) {
+		sBrianMP = 999;
+	}
+
 }
+
 
 extern u32 rng_seed;
 u32 calls = 0;
@@ -636,13 +894,12 @@ s32 ElementAttackHookC(void) {
 extern u8 D_8007C570[];
 extern u8 D_8007C970[];
 extern u8 customText[];
-void customMemCpy(u8* destination, u8* source, s32 size);
 
 void func_80008A00_Hook(Unk_D_8007BD30* arg0, s32 arg1) {
     s32 i;
 
     //this requires 8 byte alignment on both addresses or it will crash console!
-    customMemCpy(D_8007C570, &customText[arg1], 1024);
+    _memcpy(D_8007C570, &customText[arg1], 1024);
     
     //dma_write(&D_D305E0[arg1], D_8007C570, 1024);
     
