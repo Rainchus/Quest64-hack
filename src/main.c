@@ -1,4 +1,5 @@
 #include "../include/Quest64.h"
+#include "../include/PR/gbi.h"
 
 #define MAX_LEVEL 98
 #define MAX_HP 500
@@ -7,6 +8,8 @@
 #define MAX_DEF 255
 
 #define BRIAN_TURN 1
+
+extern Gfx* gMasterGfxPos;
 
 //0x8007BA74 spawns a speech bubble when set to 0x00000010
 //0x8007BA90 exp gain
@@ -21,6 +24,54 @@ s32 windElementLevelUpTextXPos[] = {153, 150, 153, 0};
 s32 elementCapsTable[] = {10, 20, 30, 40, 40, 50, 99, 255, 255};
 s32 gTotalBossesBeatenCount = 0;
 
+void ChangeBrianFireSpells(void);
+void ChangeBrianEarthSpells(void);
+void ChangeBrianWaterSpells(void);
+void ChangeBrianWindSpells(void);
+void ChangeBrianBossSpells(void);
+
+void DrawSliderBar(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x25, xPos, yPos, width, 3); //arg index 0 and 4 are unknown
+}
+
+void DrawSliderBarOutline(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x24, xPos, yPos, width, 7); //arg index 0 and 4 are unknown
+}
+
+void DrawRowHeader(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x22, xPos, yPos, width, 0xC); //arg index 0 and 4 are unknown
+}
+
+void DrawMin(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x2A, xPos, yPos, width, 0xB);
+}
+
+void DrawMax(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x29, xPos, yPos, width, 0x08);
+}
+
+void DrawSlider(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x27, xPos, yPos, width, 0xB);
+}
+
+void DrawLineDivider(s32 xPos, s32 yPos, s32 width) {
+    func_80029B58(0x3D, xPos, yPos, width, 2);
+}
+
+//80028180 sets cursor position for index 0
+//800282CC sets cursor position for index 1
+
+void environmentEpilogueHook(s32 xRootOffset) {
+    DrawSliderBarOutline(0x8D + xRootOffset, 0x9A, 0x54);
+    DrawSliderBar(0x8E + xRootOffset, 0x9B, 0x50);
+    DrawRowHeader(0x31 + xRootOffset, 0x8F, 0x34);
+    DrawMin(0x6C + xRootOffset, 0x95, 0x14);
+    DrawMax(0xEA + xRootOffset, 0x97, 0x18);
+    DrawSlider(0xB3 + xRootOffset, 0x92, 0x8);
+    DrawLineDivider(0x5D + xRootOffset, 0x84, 0xA7);
+}
+
+//element start screen drawing function
 void func_80029448_Hook(s32 arg0) {
     s32 var_s0;
     s32 temp_s0;
@@ -40,7 +91,7 @@ void func_80029448_Hook(s32 arg0) {
     func_80029B58(0x39, arg0 + 0x116, 0x1F, 1, 0x9C);
     func_80029B58(5, arg0 + 0x45, 0x1C, 7, 7);
     func_80029B58(5, arg0 + 0xF3, 0x1C, 7, 7);
-    temp_s0 = D_8005F0C0[(D_8008FD10 >> 2) & 0xF];
+    temp_s0 = AnimationXOffsets[(FramesInMenu / 4) % 16];
     func_80029B58(6, arg0 + temp_s0 + 0x36, 0x1A, 0xE, 0xB);
     func_80029B58(7, (arg0 - temp_s0) + 0xFB, 0x1A, 0xE, 0xB);
     func_80029B58(0x2D, arg0 + 0x81, 0x19, 0x3A, 0x10);
@@ -59,30 +110,50 @@ void func_80029448_Hook(s32 arg0) {
     func_80029B58(0x2F, arg0 + 0x67, 0x6F, 0xC, 0xC);
     func_80029B58(0x30, arg0 + 0xCC, 0x6F, 0xC, 0xC);
     func_80029B58(0x31, temp_s0, 0xA1, 0xC, 0xC);
-    func_80029B58(0x15, arg0 + 0xA7, 0x92, 8, 0xA);
+    func_80029B58(0x20, arg0 + 0xA7, 0x92, 0x14, 0xB);
     temp_s0 = arg0 + 0x8D;
-    func_8002AB64(2, temp_s0, 0x34, 0x32U, 0xA);
-    func_8002AB64(2, arg0 + 0x4E, 0x6B, 0x32U, 0xA);
-    func_8002AB64(2, arg0 + 0xF7, 0x6B, 0x32U, 0xA);
-    func_8002AB64(2, temp_s0, 0xAD, 0x32U, 0xA);
+    func_8002AB64(2, temp_s0, 0x34, 99, 0xA);
+    func_8002AB64(2, arg0 + 0x4E, 0x6B, 99, 0xA);
+    func_8002AB64(2, arg0 + 0xF7, 0x6B, 99, 0xA);
+    func_8002AB64(2, temp_s0, 0xAD, 99, 0xA);
     func_8002AB64(2, arg0 + 0x78, 0x34, gPlayerData.elements.fire, 0xA);
     func_8002AB64(2, arg0 + 0x39, 0x6B, gPlayerData.elements.earth, 0xA);
     func_8002AB64(2, arg0 + 0xE2, 0x6B, gPlayerData.elements.wind, 0xA);
     func_8002AB64(2, arg0 + 0x78, 0xAD, gPlayerData.elements.water, 0xA);
     //var_s0 = arg0 + 0xA6;
-    func_80029B58(0x33, arg0 + 0xA6, 0x36, (s32) (((f32) gPlayerData.elements.fire / 50.0f) * 50.0f), 3);
-    func_80029B58(0x33, arg0 + 0x32, 0x79, (s32) ((gPlayerData.elements.earth / 50.0f) * 50.0f), 3);
-    func_80029B58(0x33, arg0 + 0xDA, 0x79, (s32) ((gPlayerData.elements.wind / 50.0f) * 50.0f), 3);
-    func_80029B58(0x33, arg0 + 0xA6, 0xAF, (s32) ((gPlayerData.elements.water / 50.0f) * 50.0f), 3);
-    
-    var_s0 = (gPlayerData.unk_10 * 100) / (u32) D_80053D3C[gPlayerData.levels];
-    
-    if (var_s0 > 100) {
-        var_s0 = 100;
+    {
+        s32 fireLevel = (gPlayerData.elements.fire / 100.0f + 0.01f) * 50.0f;
+        s32 earthLevel = (gPlayerData.elements.earth / 100.0f + 0.01f) * 50.0f;
+        s32 windLevel = (gPlayerData.elements.wind / 100.0f + 0.01f) * 50.0f;
+        s32 waterLevel = (gPlayerData.elements.water / 100.0f + 0.01f) * 50.0f;
+
+
+        func_80029B58(0x33, arg0 + 0xA6, 0x36, fireLevel, 3);
+        func_80029B58(0x33, arg0 + 0x32, 0x79, earthLevel, 3);
+        func_80029B58(0x33, arg0 + 0xDA, 0x79, windLevel, 3);
+        func_80029B58(0x33, arg0 + 0xA6, 0xAF, waterLevel, 3);
     }
+
     
-    func_8002AB64(3, arg0 + 0x91, 0x92, var_s0, 0xA);
-    func_8002A0B8(var_s0, arg0);
+
+    {
+        s32 expToNextLevel = ExpTable[gPlayerData.levels];
+        s32 playerExpToNextLevel = expToNextLevel - gPlayerData.curExp;
+
+        var_s0 = (gPlayerData.curExp * 100) / (u32) ExpTable[gPlayerData.levels];
+        if (var_s0 > 100) {
+            var_s0 = 100;
+        }
+
+        func_8002A0B8(var_s0, arg0); //draw exp sphere
+    
+        if (gPlayerData.curExp > ExpTable[gPlayerData.levels]) {
+            func_8002AB64(6, arg0 + 0x7B, 0x92, 0, 0xA); //draw 0 exp
+        } else {
+            func_8002AB64(6, arg0 + 0x7B, 0x92, playerExpToNextLevel, 0xA);          
+        }
+    }
+
     if (!(D_8008FD0C & 0x2000)) {
         if ((D_80092871 >= 0x15) || (D_80092876 & 0x10)) {
             D_8008FD04 = 0x140;
@@ -138,6 +209,16 @@ Vec2Int iconPositionsOriginal[] = {
     {72, 6},
 };
 
+// void graphics_func(s32 s, s32 t, s32 lrx, s32 lry) {
+//     gDPSetTextureImage(gMasterGfxPos++, G_IM_FMT_CI, G_IM_SIZ_8b, 0xB0, (pointerToImgDataHere));
+//     gDPSetTile(gMasterGfxPos++, G_IM_FMT_CI, G_IM_SIZ_8b, ((((s + lrx) - s) + 8)) >> 3, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+//     gDPLoadSync(gMasterGfxPos++);
+//     gDPLoadTile(gMasterGfxPos++, G_TX_LOADTILE, s * 4, t * 4, (s + lrx) * 4, (t + lry) * 4);
+//     gDPPipeSync(gMasterGfxPos++);
+//     gDPSetTile(gMasterGfxPos++, G_IM_FMT_CI, G_IM_SIZ_8b, ((((s + lrx) - s) + 8)) >> 3, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+//     gDPSetTileSize(gMasterGfxPos++, G_TX_RENDERTILE, s * 4, t * 4, (s + lrx) * 4, (t + lry) * 4);
+// }
+
 void func_8001EBDC_Hook(unk1ebdcs* arg0) {
     s32 i;
     void* HUDTex;
@@ -149,6 +230,9 @@ void func_8001EBDC_Hook(unk1ebdcs* arg0) {
     func_800210FC(HUDTex, iconPositionsTriangle[3].x - 6 , iconPositionsTriangle[3].y - 6, 0xC, 0xC, 0x44, 0x10, 0x400, 0x400);
 
     func_80020E2C(HUDTex, 0x20, 0x1D, 0x80, 0xA); //something for setting up font
+    //graphics_func(0x20, 0x1D, 0x80, 0xA);
+
+
     
     for (i = 0; i < 4; i++) {
         func_80020D4C(1, iconPositionsTriangle[i].x, iconPositionsTriangle[i].y, arg0->unk24[i]);
@@ -476,11 +560,6 @@ void func_800074A0_Hook(PlayerData* arg0, unkStruct3* arg1) {
 //     }
 // }
 
-
-int cBootMain(void) { //ran once on boot
-    return 1;
-}
-
 void mainCFunction(void) { //ran every frame
     SetCurrentBossesBeaten();
 
@@ -537,10 +616,41 @@ u32 getRandomNumberHook(u32 arg0) {
     return 0;
 }
 
+#define BOSS_TURN 0x100
+#define IN_BATTLE 0x1
+#define ENEMY_TURN 0x2
+
+
 s32 ElementAttackHookC(void) {
-    if (curActorTurn == BRIAN_TURN) {
-        return 1;
+    if (curActorTurn == (BOSS_TURN | ENEMY_TURN | IN_BATTLE)) {
+        return 0;
     }
 
-    return 0;
+    if (curActorTurn == (ENEMY_TURN | IN_BATTLE)) {
+        return 0;
+    }
+    //else, is brian's turn or out of battle
+    return 1;
+}
+
+extern u8 D_8007C570[];
+extern u8 D_8007C970[];
+extern u8 customText[];
+void customMemCpy(u8* destination, u8* source, s32 size);
+
+void func_80008A00_Hook(Unk_D_8007BD30* arg0, s32 arg1) {
+    s32 i;
+
+    //this requires 8 byte alignment on both addresses or it will crash console!
+    customMemCpy(D_8007C570, &customText[arg1], 1024);
+    
+    //dma_write(&D_D305E0[arg1], D_8007C570, 1024);
+    
+    if (arg0->npcData->npcName != NULL) {
+        for (i = 0; i < 32; i++) {
+            D_8007C970[i] = arg0->npcData->npcName[i];
+        }
+        return;
+    }
+    *D_8007C970 = 0xFF;
 }

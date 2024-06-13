@@ -1,18 +1,18 @@
 .headersize (PAYLOAD_START_RAM - PAYLOAD_START_ROM)
-originalCode:
-    JAL cBootMain
-    NOP
-    LUI t6, 0x8009
-    LW t6, 0xF610 (t6)
-    LUI at, 0x3F80
-    MTC1 at, f8
-    MTC1 t6, f4
-    LUI at, 0x4270
-    MTC1 at, f16
-    CVT.S.W f6, f4
-    SW r0, 0x0128 (sp)
-    J 0x80024C40
-    NOP
+
+//
+ClearBSS:
+LUI t0, 0x8007
+LUI t1, 0x0002
+ADDIU t0, t0, 0x2E90
+ORI t1, t1, 0x39C0
+bss_clear_loop:
+ADDI t1, t1, 0xFFF8
+SD r0, 0x0000 (t0)
+BNEZ t1, bss_clear_loop
+ADDI t0, t0, 0x0008
+JR RA
+NOP
 
 mainCFunctionWrapper:
     JAL mainCFunction
@@ -393,6 +393,8 @@ windElementLevelUpText:
     NOP
 
 elementAttackHook: //just push all cpu regs to the stack
+OR a3, t9, r0
+ADDU a2, t8, t6
 ADDIU sp, sp, -0x90
 sw $at, 0x0014($sp)
 sw $v0, 0x0018($sp)
@@ -424,9 +426,8 @@ sw $ra, 0x0080($sp)
 JAL ElementAttackHookC
 NOP
 
-lw $a2, 0x0028($sp)
 BEQZ v0, exitElementAttackHook
-LHU a0, 0x0020 (a2)
+lw $a2, 0x0028($sp)
 
 //is brian's turn, use different table
 //s0 currently holds spell attack as u16
@@ -445,7 +446,6 @@ MFLO t6
 NOP
 NOP
 ADDU a2, t6, t4 //now t7 points to correct spell data to read from
-LHU a0, 0x0020 (a2)
 
 exitElementAttackHook:
 lw $ra, 0x0080($sp)
@@ -474,8 +474,73 @@ lw $v1, 0x001C($sp)
 lw $v0, 0x0018($sp)
 lw $at, 0x0014($sp)
 ADDIU sp, sp, 0x90
-J 0x80014B88
-LUI t3, 0x8008
+J 0x80014B78
+NOP
+
+itemIdsToNotRemove:
+.byte 0xE
+.byte 0xF
+.byte 0x10
+.byte 0x11
+.byte 0x12
+.byte 0x13
+.byte 0x1E
+
+.align 4
+itemRemovalHook: //dont remove item if it is a wing item
+BNEZ v0, itemUseable
+NOP
+//item wasn't useable, follow normal code jump
+J 0x80022214
+LUI t5, 0x8009
+
+itemUseable:
+    lui a0, 0x8009
+    lw a0, 0xC764 (a0) //get current item index
+    lui a1, 0x8009
+    addu a0, a0, a1
+    lbu a0, 0xCF78 (a0) //load item id used
+    addu a1, r0, r0 //loop counter
+    lui a2, hi(itemIdsToNotRemove)
+    addiu a2, a2, lo(itemIdsToNotRemove)
+    itemRemovalLoop:
+        lbu v0, 0x0000 (a2)
+        beq v0, a0, dontRemoveItem
+        addiu a1, a1, 1 //increment loop counter
+        slti v0, a1, 7
+        beqz v0, removeItem
+        addiu a2, a2, 1 //increment item removal pointer
+        beq r0, r0, itemRemovalLoop
+        NOP
+
+removeItem:
+J 0x800220E0
+NOP
+
+dontRemoveItem:
+LUI v0, 0x8009
+LW v0, 0xC764 (v0)
+SUBU t6, r0, t5
+LUI t9, 0x8009
+SUBU t4, t6, v0
+ADDIU t9, t9, 0xCF78
+ADDIU t4, t4, 0x0000 //in original code, 0x0095
+ADDU t7, t5, v0
+addu a3, t7, t9
+LUI v0, 0x8008
+J 0x80022178
+ADDIU v0, v0, 0xB2E4
+
+
+
+//0x80022168
+
+//lui a1, 0x8009
+//lbu a1, 0xCF78 (a1)
+
+
+//BEQZ t4, 0x80022168
+//ADDU a3, t7, t9
 
 
 textDrawingTest:

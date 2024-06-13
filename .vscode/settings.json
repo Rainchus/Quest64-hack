@@ -2,6 +2,7 @@
     "files.associations": {
         "functions.h": "c",
         "quest64.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "gbi.h": "c"
     }
 }

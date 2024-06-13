@@ -1,22 +1,90 @@
 //Payload related information
 .definelabel PAYLOAD_START_ROM, 0x1000000
-.definelabel PAYLOAD_START_RAM, 0x80400000
-.definelabel PAYLOAD_SIZE, 0x3F0000
 
-PAYLOAD_START:
+//hook game entry to dma our stuff from ROM to RAM
 .headersize 0x7FFFF400 //ran once on boot
-.org 0x80024C1C
-LUI a0, hi(PAYLOAD_START_ROM)
-ADDIU a0, a0, lo(PAYLOAD_START_ROM)
-LUI a1, hi(PAYLOAD_START_RAM)
-ADDIU a1, a1, lo(PAYLOAD_START_RAM)
-LUI a2, hi(PAYLOAD_SIZE)
-JAL dma_write
-ADDIU a2, a2, lo(PAYLOAD_SIZE)
-J originalCode
+.org 0x80000400
+//load our custom code/data into ram
+LUI sp, 0x8007
+ADDIU sp, sp, 0x4E90
+ADDU a0, r0, r0
+LI a1, PAYLOAD_START_ROM
+//these ram symbols are defined in main.asm
+LI a2, PAYLOAD_START_RAM
+LI a3, PAYLOAD_END_RAM - PAYLOAD_START_RAM
+JAL osPiRawStartDma
 NOP
 
-.org 0x80014B80
+dmaBusyLoop:
+LUI t0, 0xA460
+LW t1, 0x0010 (t0)
+ANDI t1, t1, 0x0001
+BNEZ t1, dmaBusyLoop
+NOP
+
+JAL ClearBSS
+NOP
+//jump where the game normally goes after clearing bss
+J 0x80000450
+NOP
+
+
+.org 0x800220DC
+J itemRemovalHook
+NOP
+
+.org 0x80026A7C
+J func_80026A7C_Hook
+NOP
+
+.org 0x800278B0
+J func_800278B0_Hook
+NOP
+
+.org 0x80008A00
+J func_80008A00_Hook
+NOP
+
+//patches to environment screen (add 0x30 to each original Y pos)
+.org 0x800278E4
+ADDIU t8, r0, 0x009C
+
+.org 0x80027918
+ADDIU a2, r0, 0x00BB
+
+.org 0x80027938
+ADDIU a2, r0, 0x0054
+
+.org 0x8002797C
+ADDIU a2, r0, 0x00BA
+
+.org 0x80027A14
+ADDIU a2, r0, 0x00B8
+
+.org 0x80027A44
+ADDIU t5, r0, 0x009C
+
+.org 0x80027988
+ADDIU t4, r0, 0x009D
+
+.org 0x800279A8
+ADDIU t9, r0, 0x009D
+
+.org 0x800279E8
+ADDIU t6, r0, 0x0098
+
+.org 0x80027A24
+ADDIU t3, r0, 0x0099
+
+.org 0x8002792C
+ADDIU t7, r0, 0x0098
+
+.org 0x80027938
+ADDIU a2, r0, 0x0024
+
+
+
+.org 0x80014B70
 J elementAttackHook
 NOP
 
@@ -214,16 +282,33 @@ LI a0, 0x80084EE8
     J getRandomNumberHook
     NOP
 
+//pause screen elements screen patches
+.org 0x800297DC
+ADDIU a3, r0, 0x0063
+
+.org 0x800297F8
+ADDIU a3, r0, 0x0063
+
+.org 0x80029814
+ADDIU a3, r0, 0x0063
+
+.org 0x80029830
+ADDIU a3, r0, 0x0063
+
+.org 0x8002861C
+J environmentEpilogueHook
+LW a0, 0x0000 (sp) //load x offset for menu when moving
+
 
 //spell.c patches
 
-//func_80014A98
-.headersize 0x80014B3C - 0x1573C
-.org 0x80014B3C
-lui $t8, hi(SpellTablePointers)
+//func_80014A98 - ran when enemy or brian attacks
+    .headersize 0x80014B3C - 0x1573C
+    .org 0x80014B3C
+    lui $t8, hi(SpellTablePointers)
 
-.org 0x80014B58 //0x15758
-lw $t8, lo(SpellTablePointers) ($t8)
+    .org 0x80014B58 //0x15758
+    lw $t8, lo(SpellTablePointers) ($t8)
 
 
 //func_800149D0
