@@ -48,4 +48,29 @@ typedef struct SpellData {
 /* 0x42 */ u16 unkInvalidity;
 } SpellData;
 
+typedef struct NpcData {
+/* 0x00 */ u16 unk_00;
+/* 0x02 */ u16 unk_02;
+/* 0x04 */ u8 unk_04;
+/* 0x05 */ u8 unk_05;
+/* 0x06 */ u8 unk06; ///
+/* 0x06 */ u8 unk07; ///
+/* 0x08 */ u16 textOffset1;
+/* 0x0A */ u16 textOffset2;
+/* 0x0C */ s32 unkC; //unknown type (unused?)
+/* 0x10 */ u8* modelData;
+/* 0x14 */ u8* npcName;
+/* 0x18 */ s32 unk18; //unknown type (unused?)
+/* 0x1C */ Vec2f pos; //x,y position
+/* 0x24 */ f32 rotation;
+/* 0x28 */ f32 sizeScaler;
+} NpcData; //sizeof 0x2C
+
+typedef struct Unk_D_8007BD30 {
+    char unk0[0x80];
+    NpcData* npcData;
+} Unk_D_8007BD30;
+
+extern Unk_D_8007BD30 D_8007BD30;
+
 #endif

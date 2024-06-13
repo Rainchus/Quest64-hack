@@ -43,9 +43,9 @@ typedef struct unk1ebdcs {
 } unk1ebdcs;
 
 typedef struct unk20e2cs {
-    void* unk0;
+    void* img; //pointer to image data
     s32 unk4;
-    s32 unk8;
+    s32 width;
     s32 unkC;
 } unk20e2cs;
 
@@ -96,7 +96,7 @@ typedef struct PlayerData {
     PlayerStats* playerStats;
 } PlayerData;
 
-void func_800268D4(s32 arg0, s8 arg1, s32 arg2);
+void func_800268D4(s32 arg0, s32 arg1, s32 arg2);
 
 void func_8000EE60(f32, f32, f32, s32, Vec3f*);
 s16 func_80012700(u8);
@@ -119,8 +119,8 @@ extern u32 expRequiredPerElementLevel[];
 extern u16 D_80053ECC[];
 extern s32 gGameState;
 extern s32 itemReceived;
-extern s8 D_8005F0C0[];
-extern s32 D_8008FD10;
+extern s8 AnimationXOffsets[];
+extern s32 FramesInMenu;
 extern s32 ExpTable[];
 extern u16 D_8008FD0C;
 extern s8 D_80092871;

@@ -1,20 +1,33 @@
 //Payload related information
 .definelabel PAYLOAD_START_ROM, 0x1000000
-.definelabel PAYLOAD_START_RAM, 0x80400000
-.definelabel PAYLOAD_SIZE, 0x3F0000
 
-PAYLOAD_START:
+//hook game entry to dma our stuff from ROM to RAM
 .headersize 0x7FFFF400 //ran once on boot
-.org 0x80024C1C
-LUI a0, hi(PAYLOAD_START_ROM)
-ADDIU a0, a0, lo(PAYLOAD_START_ROM)
-LUI a1, hi(PAYLOAD_START_RAM)
-ADDIU a1, a1, lo(PAYLOAD_START_RAM)
-LUI a2, hi(PAYLOAD_SIZE)
-JAL dma_write
-ADDIU a2, a2, lo(PAYLOAD_SIZE)
-J originalCode
+.org 0x80000400
+//load our custom code/data into ram
+LUI sp, 0x8007
+ADDIU sp, sp, 0x4E90
+ADDU a0, r0, r0
+LI a1, PAYLOAD_START_ROM
+//these ram symbols are defined in main.asm
+LI a2, PAYLOAD_START_RAM
+LI a3, PAYLOAD_END_RAM - PAYLOAD_START_RAM
+JAL osPiRawStartDma
 NOP
+
+dmaBusyLoop:
+LUI t0, 0xA460
+LW t1, 0x0010 (t0)
+ANDI t1, t1, 0x0001
+BNEZ t1, dmaBusyLoop
+NOP
+
+JAL ClearBSS
+NOP
+//jump where the game normally goes after clearing bss
+J 0x80000450
+NOP
+
 
 .org 0x800220DC
 J itemRemovalHook

@@ -72,3 +72,7 @@
 .definelabel func_800278B0, 0x800278b0
 .definelabel func_80029448, 0x80029448
 .definelabel func_80028624, 0x80028624
+.definelabel D_8007BD30, 0x8007BD30
+.definelabel D_8007C570, 0x8007C570
+.definelabel D_8007C970, 0x8007C970
+.definelabel osPiRawStartDma, 0x8003d910

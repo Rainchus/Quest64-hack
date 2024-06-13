@@ -1,4 +1,5 @@
 #include "../include/Quest64.h"
+#include "../include/PR/gbi.h"
 
 #define MAX_LEVEL 98
 #define MAX_HP 500
@@ -7,6 +8,8 @@
 #define MAX_DEF 255
 
 #define BRIAN_TURN 1
+
+extern Gfx* gMasterGfxPos;
 
 //0x8007BA74 spawns a speech bubble when set to 0x00000010
 //0x8007BA90 exp gain
@@ -88,7 +91,7 @@ void func_80029448_Hook(s32 arg0) {
     func_80029B58(0x39, arg0 + 0x116, 0x1F, 1, 0x9C);
     func_80029B58(5, arg0 + 0x45, 0x1C, 7, 7);
     func_80029B58(5, arg0 + 0xF3, 0x1C, 7, 7);
-    temp_s0 = D_8005F0C0[(D_8008FD10 >> 2) & 0xF];
+    temp_s0 = AnimationXOffsets[(FramesInMenu / 4) % 16];
     func_80029B58(6, arg0 + temp_s0 + 0x36, 0x1A, 0xE, 0xB);
     func_80029B58(7, (arg0 - temp_s0) + 0xFB, 0x1A, 0xE, 0xB);
     func_80029B58(0x2D, arg0 + 0x81, 0x19, 0x3A, 0x10);
@@ -206,6 +209,16 @@ Vec2Int iconPositionsOriginal[] = {
     {72, 6},
 };
 
+// void graphics_func(s32 s, s32 t, s32 lrx, s32 lry) {
+//     gDPSetTextureImage(gMasterGfxPos++, G_IM_FMT_CI, G_IM_SIZ_8b, 0xB0, (pointerToImgDataHere));
+//     gDPSetTile(gMasterGfxPos++, G_IM_FMT_CI, G_IM_SIZ_8b, ((((s + lrx) - s) + 8)) >> 3, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+//     gDPLoadSync(gMasterGfxPos++);
+//     gDPLoadTile(gMasterGfxPos++, G_TX_LOADTILE, s * 4, t * 4, (s + lrx) * 4, (t + lry) * 4);
+//     gDPPipeSync(gMasterGfxPos++);
+//     gDPSetTile(gMasterGfxPos++, G_IM_FMT_CI, G_IM_SIZ_8b, ((((s + lrx) - s) + 8)) >> 3, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+//     gDPSetTileSize(gMasterGfxPos++, G_TX_RENDERTILE, s * 4, t * 4, (s + lrx) * 4, (t + lry) * 4);
+// }
+
 void func_8001EBDC_Hook(unk1ebdcs* arg0) {
     s32 i;
     void* HUDTex;
@@ -217,6 +230,9 @@ void func_8001EBDC_Hook(unk1ebdcs* arg0) {
     func_800210FC(HUDTex, iconPositionsTriangle[3].x - 6 , iconPositionsTriangle[3].y - 6, 0xC, 0xC, 0x44, 0x10, 0x400, 0x400);
 
     func_80020E2C(HUDTex, 0x20, 0x1D, 0x80, 0xA); //something for setting up font
+    //graphics_func(0x20, 0x1D, 0x80, 0xA);
+
+
     
     for (i = 0; i < 4; i++) {
         func_80020D4C(1, iconPositionsTriangle[i].x, iconPositionsTriangle[i].y, arg0->unk24[i]);
@@ -543,11 +559,6 @@ void func_800074A0_Hook(PlayerData* arg0, unkStruct3* arg1) {
 //         func_800268D4(0, 0x3B, 255);
 //     }
 // }
-
-
-int cBootMain(void) { //ran once on boot
-    return 1;
-}
 
 void mainCFunction(void) { //ran every frame
     SetCurrentBossesBeaten();
