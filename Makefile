@@ -71,8 +71,8 @@ clean:
 # Rule to verify data before generating main.asm
 verify_data:
 	@$(PRINT)$(GREEN)Verifying data before generating main.asm...$(ENDCOLOR)$(ENDLINE)
-	@python3 tools/import_text_changes_from_quest_edit.py
+	@python tools/import_text_changes_from_quest_edit.py
 
 make_images:
-	@python3 ./tools/convert_images.py
+	@python tools/convert_images.py
 

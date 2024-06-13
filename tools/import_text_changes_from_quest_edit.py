@@ -13,16 +13,17 @@ def read_data_and_write_file():
     # Number of bytes to read (0x10000 in hexadecimal)
     bytes_to_read = 0x10000
     
+    # Check if input file exists
+    if not os.path.exists(input_file_path):
+        print(f"File '{input_file_path}' not found.")
+        return
+    
+    # Check if output file exists
+    if not os.path.exists(output_file_path):
+        print(f"File '{output_file_path}' not found.")
+        return
+
     try:
-        # Check if input file exists
-        if not os.path.exists(input_file_path):
-            print(f"File '{input_file_path}' not found.")
-            return
-        
-        # Check if output file exists
-        if not os.path.exists(output_file_path):
-            print(f"File '{output_file_path}' not found.")
-        
         # Open the input file in binary read mode
         with open(input_file_path, 'rb') as input_file:
             # Seek to the starting address
