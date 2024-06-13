@@ -28,7 +28,7 @@ STANDARDFLAGS := -O2 -Wall -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-poi
 SPEEDFLAGS := -Os -Wall -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0
 
 # Default target
-all: $(OBJECTS) genMain assemble
+all: verify_data $(OBJECTS) genMain assemble
 
 # Rule for building object files from source files
 obj/%.o: src/%.c | obj
@@ -67,3 +67,8 @@ obj:
 # Rule for cleaning up the project
 clean:
 	@rm -f $(OBJECTS)
+
+# Rule to verify data before generating main.asm
+verify_data:
+	@$(PRINT)$(GREEN)Verifying data before generating main.asm...$(ENDCOLOR)$(ENDLINE)
+	@python3 tools/import_text_changes_from_quest_edit.py
