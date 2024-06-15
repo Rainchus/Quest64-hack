@@ -11,6 +11,14 @@
 
 extern Gfx* gMasterGfxPos;
 
+f32 hpNightMultiplier = 1.0f;
+f32 defNightMultiplier = 1.0f;
+f32 agiNightMultiplier = 1.0f;
+f32 atkNightMultiplier = 1.0f;
+f32 powNightMultiplier = 1.0f;
+
+u8 itemIdsToNotRemove[] = {0xE, 0xF, 0x10, 0x11, 0x12, 0x13, 0x1E};
+
 //0x8007BA74 spawns a speech bubble when set to 0x00000010
 //0x8007BA90 exp gain
 extern void bossSpellsDpadRight(void);

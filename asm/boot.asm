@@ -477,15 +477,6 @@ ADDIU sp, sp, 0x90
 J 0x80014B78
 NOP
 
-itemIdsToNotRemove:
-.byte 0xE
-.byte 0xF
-.byte 0x10
-.byte 0x11
-.byte 0x12
-.byte 0x13
-.byte 0x1E
-
 .align 4
 itemRemovalHook: //dont remove item if it is a wing item
 BNEZ v0, itemUseable
@@ -513,6 +504,25 @@ itemUseable:
         beq r0, r0, itemRemovalLoop
         NOP
 
+removeItem:
+    J 0x800220E4
+    LUI	T5, 0x8009
+
+dontRemoveItem:
+    LUI v0, 0x8009
+    LW v0, 0xC764 (v0)
+    SUBU t6, r0, t5
+    LUI t9, 0x8009
+    SUBU t4, t6, v0
+    ADDIU t9, t9, 0xCF78
+    ADDIU t4, t4, 0x0000 //in original code, 0x0095
+    ADDU t7, t5, v0
+    addu a3, t7, t9
+    
+    LUI v0, 0x8008
+    J 0x80022178
+    ADDIU v0, v0, 0xB2E4
+
 checkIfNight:
     LI at, gTimeOfDay
     LW at, 0x0000 (at)
@@ -535,9 +545,14 @@ enemyHPSetHook:
     NOP
     BEQZ v0, isNotNightHPSet
     NOP
-    //multiply the stored health by 1.5
-    SRL t5, t4, 1 //divide by 2
-    ADDU t4, t4, t5
+    //set new pow by hpNightMultiplier
+    LI t5, hpNightMultiplier
+    LWC1 f6, 0x0000 (t5)
+    MTC1 t4, f8
+    CVT.S.W f8, f8
+    MUL.S f8, f8, f6
+    CVT.W.S f8, f8
+    MFC1 t4, f8
     isNotNightHPSet:
     SH t4, 0x000A (a0)
     J 0x80009094
@@ -555,18 +570,43 @@ enemySetOtherStatsHook:
     BEQZ v0, isNotNightOtherStatsSet
     NOP
 
-    //multiply all stats by 1.5
-    SRL v0, t1, 1 //divide by 2
-    ADDU t1, t1, v0 //calc 1.5 of original stat
+    //set new pow by defNightMultiplier
+    LI t5, defNightMultiplier
+    LWC1 f6, 0x0000 (t5)
+    MTC1 t1, f8
+    CVT.S.W f8, f8
+    MUL.S f8, f8, f6
+    CVT.W.S f8, f8
+    MFC1 t1, f8
 
-    SRL v0, t8, 1 //divide by 2
-    ADDU t8, t8, v0 //calc 1.5 of original stat
 
-    SRL v0, t6, 1 //divide by 2
-    ADDU t6, t6, v0 //calc 1.5 of original stat
+    //set new pow by powNightMultiplier
+    LI t5, powNightMultiplier
+    LWC1 f6, 0x0000 (t5)
+    MTC1 t8, f8
+    CVT.S.W f8, f8
+    MUL.S f8, f8, f6
+    CVT.W.S f8, f8
+    MFC1 t8, f8
 
-    SRL v0, t9, 1 //divide by 2
-    ADDU t9, t9, v0 //calc 1.5 of original stat
+
+    //set new atk by atkNightMultiplier
+    LI t5, atkNightMultiplier
+    LWC1 f6, 0x0000 (t5)
+    MTC1 t6, f8
+    CVT.S.W f8, f8
+    MUL.S f8, f8, f6
+    CVT.W.S f8, f8
+    MFC1 t6, f8
+
+    //multiply agi by agiNightMultiplier at night
+    LI t5, agiNightMultiplier
+    LWC1 f6, 0x0000 (t5)
+    MTC1 t9, f8
+    CVT.S.W f8, f8
+    MUL.S f8, f8, f6
+    CVT.W.S f8, f8
+    MFC1 t9, f8
 
     isNotNightOtherStatsSet:
     SH t1, 0x0118 (a0) //set new DEF
@@ -576,25 +616,6 @@ enemySetOtherStatsHook:
     J 0x80009248
     NOP
 
-
-
-removeItem:
-    J 0x800220E0
-    NOP
-
-dontRemoveItem:
-LUI v0, 0x8009
-LW v0, 0xC764 (v0)
-SUBU t6, r0, t5
-LUI t9, 0x8009
-SUBU t4, t6, v0
-ADDIU t9, t9, 0xCF78
-ADDIU t4, t4, 0x0000 //in original code, 0x0095
-ADDU t7, t5, v0
-addu a3, t7, t9
-LUI v0, 0x8008
-J 0x80022178
-ADDIU v0, v0, 0xB2E4
 
 
 

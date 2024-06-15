@@ -34,6 +34,14 @@ NOP
 
 .org 0x80009224
 J enemySetOtherStatsHook
+//NOPs for clarity
+NOP
+NOP
+NOP
+NOP
+NOP
+NOP
+NOP
 NOP
 
 .org 0x800220DC
