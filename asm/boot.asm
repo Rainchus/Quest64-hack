@@ -498,7 +498,7 @@ itemUseable:
         lbu v0, 0x0000 (a2)
         beq v0, a0, dontRemoveItem
         addiu a1, a1, 1 //increment loop counter
-        slti v0, a1, 7
+        slti v0, a1, 151 //max item count
         beqz v0, removeItem
         addiu a2, a2, 1 //increment item removal pointer
         beq r0, r0, itemRemovalLoop
