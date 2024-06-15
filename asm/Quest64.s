@@ -28,6 +28,13 @@ NOP
 J 0x80000450
 NOP
 
+.org 0x8000908C
+J enemyHPSetHook
+NOP
+
+.org 0x80009224
+J enemySetOtherStatsHook
+NOP
 
 .org 0x800220DC
 J itemRemovalHook

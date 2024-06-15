@@ -73,6 +73,7 @@ typedef struct Unk_D_8007BD30 {
 
 extern Unk_D_8007BD30 D_8007BD30;
 
+extern s32 gTimeOfDay;
 extern s32 gCurrentMap;
 extern s32 gNextSubmap;
 extern s8 gEventflag1;

@@ -513,9 +513,74 @@ itemUseable:
         beq r0, r0, itemRemovalLoop
         NOP
 
+checkIfNight:
+    LI at, gTimeOfDay
+    LW at, 0x0000 (at)
+    LI v0, 0x005400
+    SLTI v0, at, 0x5400
+    BEQZL v0, isNight
+    ORI v0, r0, 1
+    SLTI v0, at, 0x1600
+    BNEZL v0, isNight
+    ORI v0, r0, 1
+    //otherwise, is day
+    ORI v0, r0, 0
+    isNight:
+    JR RA
+    NOP
+
+
+enemyHPSetHook:
+    JAL checkIfNight
+    NOP
+    BEQZ v0, isNotNightHPSet
+    NOP
+    //multiply the stored health by 1.5
+    SRL t5, t4, 1 //divide by 2
+    ADDU t4, t4, t5
+    isNotNightHPSet:
+    SH t4, 0x000A (a0)
+    J 0x80009094
+    LHU t5, 0x0006 (v1)
+
+enemySetOtherStatsHook:
+    LW t7, 0x0064 (s0)
+    LHU t9, 0x000C (t7)
+    LW t0, 0x0064 (s0)
+    LHU t1, 0x000E (t0)
+    SWC1 f4, 0x0120 (a0)
+
+    JAL checkIfNight
+    NOP
+    BEQZ v0, isNotNightOtherStatsSet
+    NOP
+
+    //multiply all stats by 1.5
+    SRL v0, t1, 1 //divide by 2
+    ADDU t1, t1, v0 //calc 1.5 of original stat
+
+    SRL v0, t8, 1 //divide by 2
+    ADDU t8, t8, v0 //calc 1.5 of original stat
+
+    SRL v0, t6, 1 //divide by 2
+    ADDU t6, t6, v0 //calc 1.5 of original stat
+
+    SRL v0, t9, 1 //divide by 2
+    ADDU t9, t9, v0 //calc 1.5 of original stat
+
+    isNotNightOtherStatsSet:
+    SH t1, 0x0118 (a0) //set new DEF
+    SH t8, 0x011A (a0) //set new POW
+    SH t6, 0x0114 (a0) //set new ATK
+    SH t9, 0x0116 (a0) //set new AGI
+    J 0x80009248
+    NOP
+
+
+
 removeItem:
-J 0x800220E0
-NOP
+    J 0x800220E0
+    NOP
 
 dontRemoveItem:
 LUI v0, 0x8009

@@ -171,5 +171,7 @@
 .definelabel sCurrentenemy, 0x8007CA0D
 .definelabel sEnemyHP, 0x8007C9A2
 
+.definelabel gTimeOfDay, 0x800859d0
+
 
 .definelabel customText, 0x80400000
