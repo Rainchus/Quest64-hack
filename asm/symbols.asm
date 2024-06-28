@@ -12,6 +12,7 @@
 .definelabel func_80020E2C, 0x80020E2C
 .definelabel func_80020B4C, 0x80020B4C
 .definelabel buttonsHeld, 0x80092874
+.definelabel buttonsPressed, 0x80092876
 .definelabel func_80020F8C, 0x80020F8C
 .definelabel int_to_str_with_flags, 0x80024330
 .definelabel gBattleState, 0x8008C592
@@ -100,16 +101,12 @@
 .definelabel gEventflag19, 0x800869F6
 .definelabel gEventflag20, 0x800869F7
 .definelabel gSpiritflagforest, 0x80086AF0
-.definelabel gametime, 0x800859E0
-.definelabel gameday, 0x800859E2
-.definelabel eClairetext, 0x80183336
-.definelabel eArkarttext, 0x80183468
-.definelabel eHershtext, 0x8018CDB0
-.definelabel eLeonardotext, 0x8016E016
-.definelabel eEponatext, 0x8016db4a
-.definelabel eTextlookup, 0x8009067C
-.definelabel eClairespirit, 0x8040564C
-.definelabel eClairespirit2, 0x80086A10
+.definelabel gGametime, 0x800859E0
+.definelabel gGameday, 0x800859E2
+
+.definelabel gObjectInteract, 0x8007BA78 //used for spirit check
+
+
 .definelabel sBrianMAXHP, 0x8007BA86
 .definelabel sBrianHP, 0x8007BA84
 .definelabel sBrianMAXMP, 0x8007BA8A
@@ -120,58 +117,16 @@
 .definelabel sBrianAGIEXP, 0x8007BAAC
 .definelabel sBrianELEEXP, 0x8007BA90
 .definelabel sBrianItemPickup, 0x8007BA73
-.definelabel sSolvaMHP, 0x803A9F24
-.definelabel sSolvaCHP, 0x803A9F26
-.definelabel sSolvaDEF, 0x803A9F2E
-.definelabel sSolvaAGI, 0x803A9F2C
-.definelabel sSolvaATK, 0x803A9F48
-.definelabel sSolvaELE, 0x803A9F44
-.definelabel sZelseMHP, 0x803A9F5C
-.definelabel sZelseCHP, 0x803A9F5E
-.definelabel sZelseDEF, 0x803A9F66
-.definelabel sZelseAGI, 0x803A9F64
-.definelabel sZelseATK, 0x803A9F80
-.definelabel sZelseELE, 0x803A9F7C
-.definelabel sNeptyMHP, 0x803A9F94
-.definelabel sNeptyCHP, 0x803A9F96
-.definelabel sNeptyDEF, 0x803A9F9E
-.definelabel sNeptyAGI, 0x803A9F9C
-.definelabel sNeptyATK, 0x803A9FB8
-.definelabel sNeptyELE, 0x803A9FB4
-.definelabel sShilfMHP, 0x803A9FCC
-.definelabel sShilfCHP, 0x803A9FCE
-.definelabel sShilfDEF, 0x803A9FD6
-.definelabel sShilfAGI, 0x803A9FD4
-.definelabel sShilfATK, 0x803A9FE0
-.definelabel sShilfELE, 0x803A9FDC
-.definelabel sFargoMHP, 0x803AA004
-.definelabel sFargoCHP, 0x803AA006
-.definelabel sFargoDEF, 0x803AA00E
-.definelabel sFargoAGI, 0x803AA00C
-.definelabel sFargoATK, 0x803AA028
-.definelabel sFargoELE, 0x803AA024
-.definelabel sGuiltyMHP, 0x803AA03C
-.definelabel sGuiltyCHP, 0x803AA03E
-.definelabel sGuiltyDEF, 0x803AA046
-.definelabel sGuiltyAGI, 0x803AA044
-.definelabel sGuiltyATK, 0x803AA060
-.definelabel sGuiltyELE, 0x803AA05C
-.definelabel sBeigisMHP, 0x803AA074
-.definelabel sBeigisCHP, 0x803AA076
-.definelabel sBeigisDEF, 0x803AA07E
-.definelabel sBeigisAGI, 0x803AA07C
-.definelabel sBeigisATK, 0x803AA098
-.definelabel sBeigisELE, 0x803AA094
-.definelabel sMammonMHP, 0x803AA0AC
-.definelabel sMammonCHP, 0x803AA0AE
-.definelabel sMammonDEF, 0x803AA0B4
-.definelabel sMammonAGI, 0x803AA0B6
-.definelabel sMammonATK, 0x803AA0D2
-.definelabel sMammonELE, 0x803AA0CC
 .definelabel sCurrentenemy, 0x8007CA0D
 .definelabel sEnemyHP, 0x8007C9A2
-
+.definelabel gPlayerXpos, 0x8007BACC
+.definelabel gPlayerYpos, 0x8007BAD0
+.definelabel gPlayerZpos, 0x8007BAD4
+.definelabel gStepCounter, 0x8008C574
+.definelabel gStepUnk, 0x8008C578
 .definelabel gTimeOfDay, 0x800859d0
+
+.definelabel strlen, 0x8003FB4C
 
 
 .definelabel customText, 0x80400000

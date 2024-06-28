@@ -6,6 +6,9 @@
 #include "enums.h"
 #include "macros.h"
 
+#define FUNCS_PER_PAGE 7
+#define X_COORD_PER_LETTER 4.5
+
 typedef struct SpellData {
 /* 0x00 */ u16 levelRequirement;
 /* 0x02 */ u16 ifAttackDisappearOnHit;
@@ -76,94 +79,51 @@ extern Unk_D_8007BD30 D_8007BD30;
 extern s32 gTimeOfDay;
 extern s32 gCurrentMap;
 extern s32 gNextSubmap;
-extern s8 gEventflag1;
-extern s8 gEventflag2;
-extern s8 gEventflag3;
-extern s8 gEventflag4;
-extern s8 gEventflag5;
-extern s8 gEventflag6;
-extern s8 gEventflag7;
-extern s8 gEventflag8;
-extern s8 gEventflag9;
-extern s8 gEventflag10;
-extern s8 gEventflag11;
-extern s8 gEventflag12;
-extern s8 gEventflag13;
-extern s8 gEventflag14;
-extern s8 gEventflag15;
-extern s8 gEventflag16;
-extern s8 gEventflag17;
-extern s8 gEventflag18;
-extern s8 gEventflag19;
-extern s8 gEventflag20;
-extern s8 gSpiritflagforest;
-extern s32 eTextlookup;
-extern s16 eClairetext;
-extern s16 eArkarttext;
-extern s16 eHershtext;
-extern s16 eLeonardotext;
-extern s16 eEponatext;
-extern s32 eClairespirit;
-extern s32 eClairespirit2;
-extern s16 sBrianMAXHP;
-extern s16 sBrianHP;
-extern s16 sBrianMAXMP;
-extern s16 sBrianMP;
-extern s16 sBrianHPEXP;
-extern s16 sBrianMPEXP;
-extern s16 sBrianDEFEXP;
-extern s16 sBrianAGIEXP;
-extern s32 sBrianELEEXP;
-extern s8 sBrianItemPickup;
-extern s16 sSolvaMHP;
-extern s16 sSolvaCHP;
-extern s16 sSolvaDEF;
-extern s16 sSolvaAGI;
-extern s16 sSolvaATK;
-extern s16 sSolvaELE;
-extern s16 sZelseMHP;
-extern s16 sZelseCHP;
-extern s16 sZelseDEF;
-extern s16 sZelseAGI;
-extern s16 sZelseATK;
-extern s16 sZelseELE;
-extern s16 sNeptyMHP;
-extern s16 sNeptyCHP;
-extern s16 sNeptyDEF;
-extern s16 sNeptyAGI;
-extern s16 sNeptyATK;
-extern s16 sNeptyELE;
-extern s16 sShilfMHP;
-extern s16 sShilfCHP;
-extern s16 sShilfDEF;
-extern s16 sShilfAGI;
-extern s16 sShilfATK;
-extern s16 sShilfELE;
-extern s16 sFargoMHP;
-extern s16 sFargoCHP;
-extern s16 sFargoDEF;
-extern s16 sFargoAGI;
-extern s16 sFargoATK;
-extern s16 sFargoELE;
-extern s16 sGuiltyMHP;
-extern s16 sGuiltyCHP;
-extern s16 sGuiltyDEF;
-extern s16 sGuiltyAGI;
-extern s16 sGuiltyATK;
-extern s16 sGuiltyELE;
-extern s16 sBeigisMHP;
-extern s16 sBeigisCHP;
-extern s16 sBeigisDEF;
-extern s16 sBeigisAGI;
-extern s16 sBeigisATK;
-extern s16 sBeigisELE;
-extern s16 sMammonMHP;
-extern s16 sMammonCHP;
-extern s16 sMammonDEF;
-extern s16 sMammonAGI;
-extern s16 sMammonATK;
-extern s16 sMammonELE;
-extern s8 sCurrentenemy;
-extern s16 sEnemyHP;
+extern u16 buttonsHeld;
+extern u16 buttonsPressed;
+extern u32 rng_seed;
+extern s32 menuRootXPos;
+extern s32 menuRootYPos;
+extern char** page0Strings[];
+
+enum TextColor {
+    BLACK = 0,
+    RED = 1,
+    GRAY = 2,
+    GREEN = 3,
+    //custom colors beyond this point
+    LIGHT_BLUE = 4,
+};
+
+typedef struct menuPage {
+    /* 0x00 */ s32 optionCount;
+    /* 0x04 */ s32 pageIndex;
+    /* 0x08 */ char* options[FUNCS_PER_PAGE];
+    /* 0x28 */ s32 (*menuProc[FUNCS_PER_PAGE]) (void);
+    /* 0x48 */ s8 flags[FUNCS_PER_PAGE];
+    /* 0x50 */ char*** selectionText;
+} menuPage;
+
+enum Toggles {
+    NO_TOGGLE = 0,
+    //page 0
+    TOGGLE_HIDE_SAVESTATE_TEXT,
+    TOGGLE_HIDE_LOADSTATE_TEXT,
+};
+
+#define CONT_A      0x8000
+#define CONT_B      0x4000
+#define CONT_G	    0x2000
+#define CONT_START  0x1000
+#define CONT_UP     0x0800
+#define CONT_DOWN   0x0400
+#define CONT_LEFT   0x0200
+#define CONT_RIGHT  0x0100
+#define CONT_L      0x0020
+#define CONT_R      0x0010
+#define CONT_E      0x0008
+#define CONT_D      0x0004
+#define CONT_C      0x0002
+#define CONT_F      0x0001
 
 #endif

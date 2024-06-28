@@ -3,6 +3,7 @@
         "functions.h": "c",
         "quest64.h": "c",
         "types.h": "c",
-        "gbi.h": "c"
+        "gbi.h": "c",
+        "enums.h": "c"
     }
 }
