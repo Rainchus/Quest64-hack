@@ -4,6 +4,7 @@
         "quest64.h": "c",
         "types.h": "c",
         "gbi.h": "c",
-        "enums.h": "c"
+        "enums.h": "c",
+        "ultra64.h": "c"
     }
 }

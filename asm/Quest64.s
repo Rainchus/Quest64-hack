@@ -58,3 +58,7 @@ NOP
 
 .org 0x80020BBC
     LW t6, lo(ExtendedColorPalettes) (t6)
+
+.org 0x8000173C
+    J DrawImagesAsm
+    NOP

@@ -9,6 +9,7 @@ PAYLOAD_START_RAM:
 .include "asm/boot.asm"
 .include "asm/hooks.asm"
 .include "asm/symbols.asm"
+.importobj "obj/draw_image.o"
 .importobj "obj/main.o"
 .importobj "obj/menu.o"
 .importobj "obj/rng_manip.o"

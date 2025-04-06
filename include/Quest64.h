@@ -1,13 +1,20 @@
 #ifndef _QUEST64_H_
 #define _QUEST64_H_
 
+#include "ultra64.h"
 #include "types.h"
 #include "functions.h"
 #include "enums.h"
 #include "macros.h"
 
+#define IMG_PTR u8*
+#define PAL_PTR u16*
+
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
+
 #define FUNCS_PER_PAGE 7
-#define X_COORD_PER_LETTER 4.5
+#define X_COORD_PER_LETTER 7
 
 typedef struct SpellData {
 /* 0x00 */ u16 levelRequirement;
@@ -85,6 +92,7 @@ extern u32 rng_seed;
 extern s32 menuRootXPos;
 extern s32 menuRootYPos;
 extern char** page0Strings[];
+extern Gfx* gMasterGfxPos;
 
 enum TextColor {
     BLACK = 0,
@@ -110,6 +118,13 @@ enum Toggles {
     TOGGLE_HIDE_SAVESTATE_TEXT,
     TOGGLE_HIDE_LOADSTATE_TEXT,
 };
+
+s32 draw_image_with_clipping(IMG_PTR raster, u32 width, u32 height, s32 fmt, s32 bitDepth,
+    s16 posX, s16 posY,
+    u16 clipX, u16 clipY,
+    u16 clipWidth, u16 clipHeight);
+s32 draw_ci_image_with_clipping(IMG_PTR raster, s32 width, s32 height, s32 fmt, s32 bitDepth, PAL_PTR palette, s16 posX,
+    s16 posY, u16 clipULx, u16 clipULy, u16 clipLRx, u16 clipRLy, u8 opacity);
 
 #define CONT_A      0x8000
 #define CONT_B      0x4000

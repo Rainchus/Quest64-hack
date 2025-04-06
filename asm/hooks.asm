@@ -51,6 +51,14 @@ itemCheck:
     LUI v0, 0x8009  //restore from hook
 
 
+DrawImagesAsm:
+    JAL DrawImages
+    NOP
+    LUI t6, 0xE900
+    LW v1, 0x0000 (s0)
+    J 0x80001744
+    LUI a0, 0x0200
+
 
 itemToNotRemoveFromInventory:
     .byte 0x0E

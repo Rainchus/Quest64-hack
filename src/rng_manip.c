@@ -19,7 +19,7 @@ extern int _sprintf(char *s, const char *fmt, ...);
 void drawBoxBehindEnemyName(void*, s32, s32, s32, s32, s32, s32, s32, s32);
 void pageMainDisplay(s32, s32);
 void updateMenuInput(void);
-void DrawBoxBackgroundForText(void);
+// void DrawBoxBackgroundForText(void);
 
 u32 getRandomNumberHook(u32 arg0) {
     if (arg0 != 0) {
@@ -88,8 +88,15 @@ void DrawMenuText(void) {
     // }
 }
 
+void CheckFlipMenuActiveBool(void) {
+    if ((buttonsHeld & CONT_R) && (buttonsPressed & CONT_UP)) {
+        isMenuActive ^= 1;
+    }
+}
+
 void DrawTextHook(void) {
     CheckIfChangeDisplayBool();
+    CheckFlipMenuActiveBool();
 
     if (displayBool == 0) {
         return;
@@ -98,7 +105,6 @@ void DrawTextHook(void) {
     //DrawMenuText();
     updateMenuInput();
     if (isMenuActive == 1) {
-        DrawBoxBackgroundForText();
         pageMainDisplay(currPageNo, currOptionNo);
     }
 }

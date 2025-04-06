@@ -1,0 +1,18 @@
+{
+    "version": 4,
+    "configurations": [
+        {
+            "name": "quest64",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/PR",
+            ],
+            "defines": [
+                "_LANGUAGE_C"
+            ],
+            "cStandard": "gnu89",
+            "cppStandard": "c++17",
+            "compilerPath": "gcc"
+        }
+    ]
+}

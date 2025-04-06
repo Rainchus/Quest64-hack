@@ -23,7 +23,7 @@ OBJECTS = $(SOURCES:src/%.c=obj/%.o)
 
 OUTPUT_FILE = main.asm
 
-INCLUDEFLAGS := -Iinclude
+INCLUDEFLAGS := -Iinclude -Iinclude/PR
 CC := mips64-elf-gcc
 STANDARDFLAGS := -O2 -Wall -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0 $(INCLUDEFLAGS)
 SPEEDFLAGS := -Os -Wall -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0
