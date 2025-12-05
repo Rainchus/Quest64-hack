@@ -23,6 +23,18 @@ OBJECTS = $(SOURCES:src/%.c=obj/%.o)
 
 OUTPUT_FILE = main.asm
 
+ifeq ($(OS),Windows_NT)
+  N64_CRC :=./n64crc.exe
+else
+  UNAME_S := $(shell uname -s)
+  ifeq ($(UNAME_S),Linux)
+    N64_CRC :=./n64crc
+  endif
+  ifeq ($(UNAME_S),Darwin)
+    N64_CRC :=./n64crc.exe
+  endif
+endif
+
 CC := mips64-elf-gcc
 STANDARDFLAGS := -O2 -Wall -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0
 SPEEDFLAGS := -Os -Wall -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0
@@ -39,7 +51,7 @@ assemble: $(OBJECTS)
 	@$(PRINT)$(GREEN)Assembling with armips: $(ENDGREEN)$(BLUE)main.asm$(ENDBLUE)$(ENDCOLOR)$(ENDLINE)
 	@armips main.asm
 	@$(PRINT)$(GREEN)n64crc $(ENDGREEN)$(BLUE)"rom/Quest64.mod.z64"$(ENDBLUE)$(ENDCOLOR)$(ENDLINE)
-	@./n64crc.exe "rom/Quest64.mod.z64"
+	@$(N64_CRC) "rom/Quest64.mod.z64"
 
 #max size of asm files total is 0x80400000 - 0x80500000 (1MB)
 #max size of C files total is 0x80500000 - 0x80800000 (3MB)
