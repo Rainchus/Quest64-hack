@@ -53,7 +53,8 @@ assemble: $(OBJECTS)
 	@$(PRINT)$(GREEN)n64crc $(ENDGREEN)$(BLUE)"rom/Quest64.mod.z64"$(ENDBLUE)$(ENDCOLOR)$(ENDLINE)
 	@$(N64_CRC) "rom/Quest64.mod.z64"
 
-#max size of asm files total is 0x80400000 - 0x80500000 (1MB)
+# PAYLOAD_ROM_START = 0xD4B3C0
+#max size of asm files total is 0x800c0000 - ? (? size)
 #max size of C files total is 0x80500000 - 0x80800000 (3MB)
 genMain:
 	@$(PRINT)$(GREEN)Generating: $(ENDGREEN)$(BLUE)main.asm$(ENDBLUE)$(ENDCOLOR)$(ENDLINE)
@@ -61,8 +62,8 @@ genMain:
 	$(file >> $(OUTPUT_FILE),.n64 // Let armips know we're coding for the N64 architecture)
 	$(file >> $(OUTPUT_FILE),.open "rom/Quest64.z64", "rom/Quest64.mod.z64", 0 // Open the ROM file)
 	$(foreach obj_file,$(SOURCES_ASM_BEFORE_HEADERSIZE),$(file >> $(OUTPUT_FILE),.include "$(obj_file)"))
-	$(file >> $(OUTPUT_FILE),.headersize 0x7F400000)
-	$(file >> $(OUTPUT_FILE),.org 0x80400000)
+	$(file >> $(OUTPUT_FILE),.headersize 0x800c0000 - 0xD4B3C0)
+	$(file >> $(OUTPUT_FILE),.org 0x800c0000)
 	$(foreach obj_file,$(SOURCES_ASM),$(file >> $(OUTPUT_FILE),.include "$(obj_file)"))
 	$(foreach obj_file,$(OBJECTS),$(file >> $(OUTPUT_FILE),.importobj "$(obj_file)"))
 	$(file >> $(OUTPUT_FILE),.close //close file)
