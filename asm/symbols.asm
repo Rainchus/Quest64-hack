@@ -13,6 +13,7 @@
 .definelabel gPlayerData, 0x8007BA80
 .definelabel curActorTurn, 0x8008C592
 .definelabel rng_seed, 0x8004D748
+.definelabel gInventory, 0x8008CF78
 
 //functions
 .definelabel func_80020B4C, 0x80020B4C

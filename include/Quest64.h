@@ -48,4 +48,6 @@ typedef struct SpellData {
 /* 0x42 */ u16 unkInvalidity;
 } SpellData;
 
+extern u8 gInventory[150];
+
 #endif
