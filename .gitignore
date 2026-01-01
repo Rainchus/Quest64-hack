@@ -1,5 +1,6 @@
 obj/
-rom/
+rom/*.z64
+rom/*.bps
 python_virtual_env/
 asm/!image_bin.s
 syms.out

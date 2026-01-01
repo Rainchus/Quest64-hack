@@ -1,16 +1,48 @@
-PRINT := printf '
-ENDCOLOR := \033[0m
-WHITE     := \033[0m
-ENDWHITE  := $(ENDCOLOR)
-GREEN     := \033[0;32m
-ENDGREEN  := $(ENDCOLOR)
-BLUE      := \033[0;34m
-ENDBLUE   := $(ENDCOLOR)
-YELLOW    := \033[0;33m
-ENDYELLOW := $(ENDCOLOR)
-PURPLE    := \033[0;35m
-ENDPURPLE := $(ENDCOLOR)
-ENDLINE := \n'
+# =============================
+# Toggle printing style
+# =============================
+# Set to 1 to use printf (Unix style with colors), 0 to use echo (Windows compatible)
+USE_PRINTF := 0
+
+ifeq ($(OS),Windows_NT)
+  ifeq ($(USE_PRINTF),1)
+    SHELL := bash
+  endif
+  # Windows-specific commands
+  RM := del /Q
+  MKDIR := if not exist
+  MKDIR_END := mkdir
+else
+  # Unix commands
+  RM := rm -f
+  MKDIR := mkdir -p
+  MKDIR_END :=
+endif
+
+ifeq ($(USE_PRINTF),1)
+  PRINT := printf '
+  ENDCOLOR := \033[0m
+  WHITE     := \033[0m
+  ENDWHITE  := $(ENDCOLOR)
+  GREEN     := \033[0;32m
+  ENDGREEN  := $(ENDCOLOR)
+  BLUE      := \033[0;34m
+  ENDBLUE   := $(ENDCOLOR)
+  YELLOW    := \033[0;33m
+  ENDYELLOW := $(ENDCOLOR)
+  PURPLE    := \033[0;35m
+  ENDPURPLE := $(ENDCOLOR)
+  ENDLINE := \n'
+else
+  # Windows echo fallback
+  PRINT := echo 
+  GREEN :=
+  ENDGREEN :=
+  BLUE :=
+  ENDBLUE :=
+  ENDCOLOR :=
+  ENDLINE :=
+endif
 
 # List of source files
 SOURCES = $(wildcard src/*.c)
@@ -60,10 +92,10 @@ genMain:
 
 # Rule for creating the obj folder
 obj:
-	@mkdir -p obj
+	@$(MKDIR) obj $(MKDIR_END)
 
 # Rule for cleaning up the project
 clean:
-	@rm -f $(OBJECTS)
+	-@$(RM) $(subst /,\,$(OBJECTS))
 
 

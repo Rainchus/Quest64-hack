@@ -20,28 +20,155 @@ u8* ExtendedColorPalettes[] = {
     LightBlueTextPal,
 };
 
-void SetTextColorIfRngFrozen(void) {
-    if (gCurrentMap == 0x0000000F && gNextSubmap == 0x00000005) {
-        rng_seed = 0x09951388;
-        calls = 72;
-        color = LIGHT_BLUE;
+void mainCFunction(void) { //ran every frame
+    
+}
+
+extern unsigned char dpadImage[];
+extern unsigned short dpadPalette[];
+
+#define IMG_PTR u8*
+#define PAL_PTR u16*
+
+Gfx* drawCi4ImageScaled(Gfx* gfx, int x, int y, int width, int height, 
+                        u8* texture, u16* palette, float scaleX, float scaleY);
+
+Gfx* drawRgba16ImageScaled(Gfx* gfx, int x, int y, int width, int height, 
+                           u16* texture, float scaleX, float scaleY);
+
+Gfx* drawRgba16Image(Gfx* gfx, int x, int y, int width, int height, u16* texture);
+
+Gfx* gfx_draw_textured_rectangle_rgba16(Gfx* gfx, int x, int y, int width, int height, u8* texture);
+
+void func_80022B08(s32, s32, s32*);
+extern s32 D_8004D544[];
+
+u8 itemWhiteList[] = {0xE, 0xF, 0x10, 0x11, 0x12, 0x13};
+u8 priorityItems[] = {0xE, 0xF, 0x10, 0x11, 0x12, 0x13};
+
+extern u16 D_8008C592;
+
+typedef struct unk_213d8_s{
+    u16 unk0;
+    u16 unk2;
+    s16 unk4;
+    s16 unk6;
+    s16 unk8;
+    s16 unkA;
+} unk213d8s;
+
+extern unk213d8s D_803A91F0[];
+
+typedef s32 (*testFuncPtr)(void*, void*);
+
+extern testFuncPtr D_8004D480[];
+// extern BrianData2 D_8007BACC;
+extern s32 D_8007BACC; //fake type, is actually a struct
+void func_8000669C(u8);
+extern s32 warpCooldown;
+extern u8 wingItemList[];
+
+//when using an item, set warpCooldown if it's a wing item
+s32 func_800212E4_Hook(u8 itemID) {
+    s32 i;
+    s32 ret = 0;
+    s32 temp_t6 = D_8008C592 & 1;
+    
+    if ((temp_t6 != 0) && (D_803A91F0[itemID].unk0 & 2)) {
+        ret = 1;
+    } else if ((temp_t6 == 0) && (D_803A91F0[itemID].unk0 & 1)) {
+        ret = 1;
+    }
+    
+    if (ret != 0) {
+        ret = D_8004D480[D_803A91F0[itemID].unk2](&D_8007BACC, &D_803A91F0[itemID]);
+    }
+
+    if (ret != 0) {
+        func_8000669C(itemID);
+    }
+
+    //if ret is 0, item isn't going to be used
+    if (ret != 0) {
+        for (i = 0; i < 6; i++) {
+            if (itemID == wingItemList[i]) {
+                warpCooldown = 56;
+                break;
+            }
+        }
+    }
+    
+    return ret;
+}
+
+//prevents wings from being consumed when used in the item menu
+s32 PreventWingsConsumption(u8 itemID) {
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNT(itemWhiteList); i++) {
+        if (itemID == itemWhiteList[i]) {
+            gGameState &= ~1;
+            func_80022B08(6, 4,  D_8004D544); //undim the screen
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+//added functionality to sort wing items to the front of the inventory
+void newAddItemToInventory(u8 arg0) {
+    s32 i;
+    s32 insertPos = -1;
+    s32 priorityIndex = -1;
+    
+    // Check if this item is a priority item
+    for (i = 0; i < ARRAY_COUNT(priorityItems); i++) {
+        if (priorityItems[i] == arg0) {
+            priorityIndex = i;
+            break;
+        }
+    }
+    
+    if (priorityIndex != -1) {
+        // This is a priority item - find the correct position
+        insertPos = 0;
+        
+        // Find where to insert based on priority order
+        for (i = 0; i < 150 && gInventory[i] != 0xFF; i++) {
+            s32 j;
+            s32 currentPriority = -1;
+            
+            // Check if current slot has a priority item
+            for (j = 0; j < ARRAY_COUNT(priorityItems); j++) {
+                if (priorityItems[j] == gInventory[i]) {
+                    currentPriority = j;
+                    break;
+                }
+            }
+            
+            // If current item has lower priority (higher index) or isn't priority, insert here
+            if (currentPriority == -1 || currentPriority > priorityIndex) {
+                insertPos = i;
+                break;
+            }
+            insertPos = i + 1;
+        }
+        
+        // Shift items to make room
+        for (i = 149; i > insertPos; i--) {
+            gInventory[i] = gInventory[i - 1];
+        }
+        
+        gInventory[insertPos] = arg0;
     } else {
-        color = BLACK;
+        // Not a priority item - add at the end as before
+        for (i = 0; i < 150; i++) {
+            if (gInventory[i] == 0xFF) {
+                break;
+            }
+        }
+        gInventory[i] = arg0;
     }
 }
 
-void mainCFunction(void) { //ran every frame
-    SetTextColorIfRngFrozen();
-}
-
-//star point from paper mario
-u8 imgRaster[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0xBB, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x0D, 0xBB, 0x55, 0xBB, 0xD0, 0x00, 0x00, 0x00, 0xDB, 0xBC, 0x33, 0xCC, 0xBD, 0x00, 0x00, 0x00, 0xBB, 0xB4, 0x11, 0x4D, 0xCB, 0x00, 0x00, 0x0C, 0x44, 0x42, 0x11, 0x24, 0x44, 0xC0, 0x00, 0x0B, 0x52, 0x22, 0x22, 0x22, 0x35, 0xB0, 0x00, 0x0B, 0xC6, 0x33, 0x23, 0x33, 0x6C, 0xB0, 0x00, 0x0C, 0xBC, 0x33, 0x33, 0x33, 0xCB, 0xC0, 0x00, 0x00, 0xB5, 0x33, 0x55, 0x33, 0x5B, 0x00, 0x00, 0x00, 0xD3, 0x46, 0xDD, 0x64, 0x3D, 0x00, 0x00, 0x00, 0x06, 0xBB, 0xCC, 0xBB, 0x60, 0x00, 0x00, 0x00, 0x00, 0x0C, 0xBB, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-u16 imgPalette[] = {0x318C, 0xE739, 0xFF9B, 0xFED1, 0xE5CD, 0xDD09, 0xA48D, 0x7C4D, 0xD7BD, 0xA7BB, 0x76EF, 0x3DE1, 0x355F, 0x2D1F, 0x5E69, 0x0001};
-
-void DrawImages(void) {
-    draw_ci_image_with_clipping(imgRaster, 16, 16, G_IM_FMT_CI, G_IM_SIZ_4b, imgPalette, 20,
-        28, 10, 10, 310, 230, 255);
-
-    //example of non palette image
-    //draw_image_with_clipping(ui_point_right_png, 16, 16, G_IM_FMT_CI, G_IM_SIZ_4b, posX + 2, posY + 2, 10, 10, 300, 220);
-}

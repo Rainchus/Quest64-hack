@@ -49,6 +49,9 @@
 .definelabel D_80086AC8, 0x80086AC8
 .definelabel func_8000EE60, 0x8000EE60
 .definelabel func_80012700, 0x80012700
+.definelabel gMainGfxPos, 0x8007B2FC
+.definelabel func_800212E4, 0x800212E4
+.definelabel func_8000669C, 0x8000669C
 
 .definelabel AnimationXOffsets, 0x8005F0C0
 .definelabel D_8005F8F0, 0x8005F8F0
@@ -103,9 +106,13 @@
 .definelabel gSpiritflagforest, 0x80086AF0
 .definelabel gGametime, 0x800859E0
 .definelabel gGameday, 0x800859E2
-
+.definelabel gInventory, 0x8008CF78
 .definelabel gObjectInteract, 0x8007BA78 //used for spirit check
-
+.definelabel HUD_XOffset, 0x8008C660
+.definelabel D_8008C592, 0x8008C592
+.definelabel D_803A91F0, 0x803A91F0
+.definelabel D_8004D480, 0x8004D480
+.definelabel D_8007BACC, 0x8007BACC
 
 .definelabel sBrianMAXHP, 0x8007BA86
 .definelabel sBrianHP, 0x8007BA84
@@ -125,8 +132,8 @@
 .definelabel gStepCounter, 0x8008C574
 .definelabel gStepUnk, 0x8008C578
 .definelabel gTimeOfDay, 0x800859d0
-
+.definelabel D_8004D544, 0x8004D544
 .definelabel strlen, 0x8003FB4C
-
+.definelabel func_80022B08, 0x80022B08
 
 .definelabel customText, 0x80400000

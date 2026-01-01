@@ -7,6 +7,9 @@
 #include "enums.h"
 #include "macros.h"
 
+extern Gfx* gMainGfxPos;
+extern u8 gInventory[150];
+
 #define IMG_PTR u8*
 #define PAL_PTR u16*
 
