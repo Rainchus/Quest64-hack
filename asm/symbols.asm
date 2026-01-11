@@ -52,8 +52,21 @@
 .definelabel gMainGfxPos, 0x8007B2FC
 .definelabel func_800212E4, 0x800212E4
 .definelabel func_8000669C, 0x8000669C
-
+.definelabel memcpy, 0x8003FB20
+.definelabel __osActiveQueue, 0x800709FC
+.definelabel osGetTime, 0x80034ed0
+.definelabel osWritebackDCacheAll, 0x80034350
+.definelabel osViBlack, 0x800346e0
+.definelabel osViSwapBuffer, 0x80034750
+.definelabel osSetEventMesg, 0x80033FB0
+.definelabel osRecvMesg, 0x80034020
+.definelabel osStopThread, 0x80047A30
+.definelabel osCreateMesgQueue, 0x80033F10
+.definelabel osCreateThread, 0x80033AE0
+.definelabel osStartThread, 0x80033C30
+.definelabel _Printf, 0x8003F4D0
 .definelabel AnimationXOffsets, 0x8005F0C0
+.definelabel __osCurrentTime, 0x80095620
 .definelabel D_8005F8F0, 0x8005F8F0
 .definelabel D_8005F8F4, 0x8005F8F4
 .definelabel D_8005F914, 0x8005F914
@@ -113,7 +126,7 @@
 .definelabel D_803A91F0, 0x803A91F0
 .definelabel D_8004D480, 0x8004D480
 .definelabel D_8007BACC, 0x8007BACC
-
+.definelabel osMemSize, 0x80000318
 .definelabel sBrianMAXHP, 0x8007BA86
 .definelabel sBrianHP, 0x8007BA84
 .definelabel sBrianMAXMP, 0x8007BA8A
@@ -137,3 +150,11 @@
 .definelabel func_80022B08, 0x80022B08
 
 .definelabel customText, 0x80400000
+
+.definelabel __osViCurr, 0x80070A80
+.definelabel __osViNext, 0x80070A84
+.definelabel __osBaseCounter, 0x80095628
+.definelabel __osViIntrCount, 0x8009562C
+.definelabel __osTimerCounter, 0x80095630
+.definelabel __osDisableInt, 0x8003D4D0
+.definelabel __osRestoreInt, 0x8003D4F0

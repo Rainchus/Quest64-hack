@@ -10,9 +10,11 @@ PAYLOAD_START_RAM:
 .include "asm/hooks.asm"
 .include "asm/symbols.asm"
 .importobj "obj/assets.o"
+.importobj "obj/crash.o"
 .importobj "obj/graphics_api.o"
 .importobj "obj/hud_changes.o"
 .importobj "obj/main.o"
 .importobj "obj/menu.o"
+.importobj "obj/udivmoddi4.inc.o"
 PAYLOAD_END_RAM:
 .close //close file

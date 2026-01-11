@@ -44,9 +44,6 @@ Gfx* gfx_draw_rectangle(Gfx* gfx, int x, int y, int width, int height, u32 color
     return gfx;
 }
 
-extern u8 ciImage[];
-extern u16 palette[];
-
 Gfx* drawCi8Image(Gfx* gfx, int x, int y, int width, int height, u8* texture, u16* palette) {
     gDPSetTextureLUT(gfx++, G_TT_RGBA16);
     gSPTexture(gfx++, 0xFFFF, 0xFFFF, 0, 0, G_ON);

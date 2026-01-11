@@ -37,3 +37,24 @@ dontRemoveWings:
     noItemConsumption:
     J 0x80022214
     LUI t5, 0x8009 //restore from hook
+
+//so emulator wont close the game upon infinite loop
+infiniteLoop:
+    NOP
+    J infiniteLoop
+    NOP
+
+
+zeroCheck:
+    MFC1 t0, f0
+    BNEZ t0, exitZeroCheck
+    NOP
+    //was zero, set to 0.9999 (game has this value a lot so...)
+    LI t0, 0x3f7ff972
+    MTC1 t0, f0
+    
+    exitZeroCheck:
+    LWC1 f10, 0x0034 (sp)
+    MTC1 r0, f2
+    J 0x80023AC8
+    NOP

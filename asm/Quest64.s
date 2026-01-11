@@ -64,3 +64,7 @@
 .org 0x800212E4
     J func_800212E4_Hook
     NOP
+
+.org 0x80023AC0
+    J zeroCheck
+    NOP

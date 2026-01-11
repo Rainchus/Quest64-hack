@@ -57,8 +57,8 @@ OUTPUT_FILE = main.asm
 
 INCLUDEFLAGS := -Iinclude -Iinclude/PR
 CC := mips64-elf-gcc
-STANDARDFLAGS := -O2 -Wall -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0 $(INCLUDEFLAGS)
-SPEEDFLAGS := -Os -Wall -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0
+STANDARDFLAGS := -O2 -Wall -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0 -DF3DEX_GBI $(INCLUDEFLAGS)
+SPEEDFLAGS := -Os -Wall -mtune=vr4300 -march=vr4300 -mabi=32 -fomit-frame-pointer -mno-abicalls -fno-pic -G0 -DF3DEX_GBI
 
 # Default target
 all: $(OBJECTS) genMain assemble
